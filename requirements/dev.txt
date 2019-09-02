@@ -1,0 +1,6 @@
+black==19.3b0
+flake8==3.7.7
+pytest-cov == 2.5.1
+pytest-mock == 1.7.1
+hypothesis==4.34.0
+
