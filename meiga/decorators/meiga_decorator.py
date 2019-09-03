@@ -6,6 +6,6 @@ def meiga(func):
         try:
             return func(*args, **kwargs)
         except ReturnErrorOnFailure as exc:
-            return exc.resurlt
+            return exc.result
 
     return _meiga
