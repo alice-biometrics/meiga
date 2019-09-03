@@ -8,7 +8,7 @@ def assert_failure(
 ):
     assert (
         result.is_failure
-    ), f"result is failure as expected. Given failure value is {result.value}"
+    ), f"result is not failure as expected. Given failure value is {result.value}"
     if value_is_instance_of:
         assert isinstance(result.value, value_is_instance_of), (
             f"Value is not instance of {value_is_instance_of}. "
