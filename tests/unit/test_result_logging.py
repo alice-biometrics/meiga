@@ -3,13 +3,7 @@ import logging
 import pytest
 
 from meiga import Result, Error
-from meiga.decorators import (
-    log_on_start,
-    log_on_end,
-    return_on_failure,
-    log_on_error,
-    meiga,
-)
+from meiga.decorators import log_on_start, log_on_end, log_on_error, meiga
 
 
 @pytest.mark.unit
@@ -34,11 +28,8 @@ def test_should_sum_two_positive_values_with_log_on_start_and_end():
     )
     def sum_positive_values(first_value: int, second_value: int) -> Result[int, Error]:
 
-        result_first_value = is_positive(first_value)
-        return_on_failure(result_first_value)
-
-        result_second_value = is_positive(second_value)
-        return_on_failure(result_second_value)
+        is_positive(first_value).handle()
+        is_positive(second_value).handle()
 
         return Result(success=first_value + second_value)
 
@@ -64,11 +55,8 @@ def test_should_sum_two_positive_values_with_log_on_error():
     )
     def sum_positive_values(first_value: int, second_value: int) -> Result[int, Error]:
 
-        result_first_value = is_positive(first_value)
-        return_on_failure(result_first_value)
-
-        result_second_value = is_positive(second_value)
-        return_on_failure(result_second_value)
+        is_positive(first_value).handle()
+        is_positive(second_value).handle()
 
         return Result(success=first_value + second_value)
 

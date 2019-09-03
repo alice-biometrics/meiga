@@ -1,7 +1,7 @@
 import pytest
 
 from meiga import Result, Error
-from meiga.decorators import meiga, return_on_failure, get_value_or_return_on_failure
+from meiga.decorators import meiga
 
 
 @pytest.mark.unit
@@ -53,7 +53,7 @@ def test_should_sum_two_positive_values():
 
 
 @pytest.mark.unit
-def test_should_sum_two_positive_values_with_decorator_and_return_on_failure():
+def test_should_sum_two_positive_values_with_meiga_decorator_and_handle():
     class IsNegativeError(Error):
         pass
 
@@ -66,43 +66,8 @@ def test_should_sum_two_positive_values_with_decorator_and_return_on_failure():
     @meiga
     def sum_positive_values(first_value: int, second_value: int) -> Result[int, Error]:
 
-        result_first_value = is_positive(first_value)
-        return_on_failure(result_first_value)
-
-        result_second_value = is_positive(second_value)
-        return_on_failure(result_second_value)
-
-        return Result(success=first_value + second_value)
-
-    result = sum_positive_values(first_value=2, second_value=2)
-    assert result.is_success and result.value == 4
-
-    result = sum_positive_values(first_value=-1, second_value=2)
-    assert result.is_failure and isinstance(result.value, IsNegativeError)
-
-    result = sum_positive_values(first_value=2, second_value=-1)
-    assert result.is_failure and isinstance(result.value, IsNegativeError)
-
-
-@pytest.mark.unit
-def test_should_sum_two_positive_values_with_decorator_and_get_value_or_return_on_failure():
-    class IsNegativeError(Error):
-        pass
-
-    def is_positive(value: int) -> Result[bool, Error]:
-        if value >= 0:
-            return Result(success=True)
-        else:
-            return Result(failure=IsNegativeError())
-
-    @meiga
-    def sum_positive_values(first_value: int, second_value: int) -> Result[int, Error]:
-
-        result_first_value = is_positive(first_value)
-        _ = get_value_or_return_on_failure(result_first_value)
-
-        result_second_value = is_positive(second_value)
-        _ = get_value_or_return_on_failure(result_second_value)
+        is_positive(first_value).handle()
+        is_positive(second_value).handle()
 
         return Result(success=first_value + second_value)
 

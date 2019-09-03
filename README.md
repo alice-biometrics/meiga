@@ -92,8 +92,6 @@ class CreateUser(UseCase):
 
     @meiga 
     def execute(self, email: str) -> Result[bool, Error]:
-        result = self.user_repository.save(user=User(email=email))
-        return_on_failure(result)
-
+        self.user_repository.save(user=User(email=email)).handle()
         return Result(success=True)
 ~~~

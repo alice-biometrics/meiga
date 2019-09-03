@@ -1,6 +1,7 @@
-from typing import TypeVar, Generic
+from typing import TypeVar, Generic, Any
 
 from meiga.no_given_value import NoGivenValue, NoGivenValueClass
+from meiga.return_error_on_failure import ReturnErrorOnFailure
 
 TS = TypeVar("TS")  # Success Type
 TF = TypeVar("TF")  # Failure Type
@@ -59,6 +60,12 @@ class Result(Generic[TS, TF]):
 
     def is_failure(self):
         return not self._is_success
+
+    def handle(self) -> Any:
+        if not self._is_success:
+            raise ReturnErrorOnFailure(self)
+        else:
+            return self._value_success
 
     value = property(get_value)
     is_success = property(is_success)
