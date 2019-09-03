@@ -2,12 +2,9 @@ import os
 
 from setuptools import setup
 
-from update_version import get_version, update_version
-
 CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
 PACKAGE_NAME = "meiga"
-VERSION = get_version(CURRENT_DIR)
-update_version(VERSION, PACKAGE_NAME)
+VERSION = "0.0.2"
 
 # The text of the README file
 with open(os.path.join(CURRENT_DIR, "README.md")) as fid:
