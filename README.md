@@ -1,7 +1,7 @@
-meiga
-=====
+meiga (beta)
+============
 
-A simple, typed and monadic-based Result type for Python.
+A simple, typed and monad-based Result type for Python.
 
 #### Installation 
 

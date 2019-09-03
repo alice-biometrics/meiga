@@ -5,8 +5,9 @@ VERSION = "0.0.1"
 setup(
     name="meiga",
     version=VERSION,
-    description="Alice Onboarding Python SDK",
-    url="https://github.com/alicebiometrics/meiga",
+    description="A simple, typed and monad-based Result type for Python",
+    keywords=["Result", "Monad", "Typed", "Typing"],
+    url="https://github.com/alice-biometrics/meiga",
     author="ALiCE Biometrics",
     author_email="support@alicebiometrics.com",
     license="ALiCE Copyright",
