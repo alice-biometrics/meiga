@@ -1,7 +1,12 @@
-meiga (beta)
-============
+meiga
+=====
 
 A simple, typed and monad-based Result type for Python.
+
+This package provides a new type for your Python applications, the Result[Type, Type].
+This Result type allows to define two subtypes, giving us the option to create useful return types.
+
+This package is based in another solutions from another modern languages as the swift-based [Result](https://github.com/antitypical/Result) implementation.
 
 #### Installation 
 
@@ -11,87 +16,117 @@ pip install meiga
 
 #### Getting Started
 
-**meiga** is a framework that give us a simpler, clearer way of handling errors in Python. 
+**meiga** is a framework that give us a simpler, clearer way of handling errors in Python. Use it whenever a class method or a function has the possibility of failure. 
 
-~~~
-from meiga import Result
-
-def is_positive(num: int) -> Result[bool, Error]:
-    if num < 0:
-        return Result(failure=Error())    
-    return Result(success=True)
-~~~
-
-Result object can be initialized as a success or failure. Additionally, it can be typed.
-
-Let's present it within a real use case to show how useful can be:
-
-Imagine you have a Repository of your Domain Entity User, and it allow you to save an instance of an User.
-
-You can use a standard way raising Exceptions
-~~~
-class UserRepository:
-
-    def save(user: User) -> bool:
-        try:
-            orm.save(user)
-        except OrmConnectionException, OrmBusyException as e:
-            raise e
-~~~
-
-Or, you can model the problem in a different way using a Result
+Consider the following example of a function that tries to extract a String (str) for a given key from a Dict.
 
 ~~~
 from meiga import Result, Error
 
-class DatabaseConnectionError(Error):
+
+class NoSuchKey(Error):
     pass
 
-class DatabaseBusyError(Error):
+
+class TypeMismatch(Error):
     pass
 
-class UserRepository:
 
-    def save(user: User) -> Result[bool, Error]:
-        try:
-            orm.save(user)
-        except OrmConnectionException:
-            return Result(failure=DatabaseConnectionError())
-        except OrmBusyException:
-            return Result(failure=DatabaseBusyError())
+def string_from_key(dictionary: dict, key: str) -> Result[str, Error]:
+    if key not in dictionary.keys():
+        return Result(failure=NoSuchKey())
+
+    value = dictionary[key]
+    if not isinstance(value, str):
+        return Result(failure=TypeMismatch())
+
+    return Result(success=value)
 ~~~
 
-Until now, both strategies seams quite similar. However, how do we deal with these options?
-Imagine, we are developing the CreateUser Use Case. 
+Result meiga type provides a robust wrapper around the functions.
+Rather than throw an exception, it returns a Result that either contains the String value for the given key, or an ErrorClass detailing what went wrong.
 
+#### Result Type
 
-*Standard way*
+Let's image we have a dictionary that represent a user info data
+
 ~~~
-class CreateUser(UseCase):
-
-    def __init__(self, user_repository: UserRepository):
-        self.user_repository = user_repository
-
-    def execute(self, email: str):
-        try:
-            user = User(email=email)
-            self.user_repository.save()
-        except Exception as e:
-            raise e
+>>> user_info = {"first_name": "Rosalia", "last_name": "De Castro", "age": 60}
 ~~~
 
-*meiga way*
+And we try to obtain **first_name** 
+
+~~~
+>>> result = string_from_key(dictionary=user_info, key="first_name")
+Result[status: success | value: Rosalia]
+~~~
+
+You can check the status of the result
+
+~~~
+>>> result.is_success
+True
+>>> result.is_failure
+False
+~~~
+
+If the result is a success you can get the expected value
+
+~~~
+>>> result.value
+Rosalia 
+~~~
+
+Otherwise, if we try to access an invalid key or a non string value, returned result will be a failure.
+
+~~~
+>>> result = string_from_key(dictionary=user_info, key="invalid_key")
+Result[status: failure | value: NoSuchKey]
+>>> result.is_failure
+True
+>>> result.value
+NoSuchKey() // Error 
+~~~
+
+Or
+
+~~~
+>>> result = string_from_key(dictionary=user_info, key="age")
+Result[status: failure | value: TypeMismatch]
+>>> result.is_failure
+True
+>>> result.value
+TypeMismatch() // Error 
+~~~
+
+# Handle Result
+
+This framework also allows a method for handling Result type
+
+When the operations is executed with its happy path, handle function returns the success value, as with result.value.
+
+~~~
+>>> result = string_from_key(dictionary=user_info, key="first_name")
+Result[status: success | value: Rosalia]
+>>> first_name = result.handle()
+Rosalia
+~~~
+
+On the other hand, if something wrong happens handle function will raise an Exception (ReturnErrorOnFailure)
+
+Additionally, handle a Result with the meiga decorator allows to return a typed error when a sub-function fails.
+
 ~~~
 from meiga import Result, Error
-from meiga.decorators import meiga, return_on_failure
+from meiga.decorators import meiga
 
-class CreateUser(UseCase):
-
-    def __init__(self, user_repository: UserRepository):
-        self.user_repository = user_repository
-
-    @meiga 
-    def execute(self, email: str) -> Result[bool, Error]:
-        self.user_repository.save(user=User(email=email)).handle()
-        return Result(success=True)
+@meiga
+def handling_result(key: str) -> Result:
+    user_info = {"first_name": "Rosalia", "last_name": "De Castro", "age": 60}
+    first_name = string_from_key(dictionary=user_info, key=key).handle() 
+    # Do whatever with the name
+    name = first_name.lower()
+    return Result(success=name)
 ~~~
+
+If key is valid success value would be returned. Otherwise, an Error would be returned.
