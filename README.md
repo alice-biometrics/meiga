@@ -20,7 +20,7 @@ pip install meiga
 
 Consider the following example of a function that tries to extract a String (str) for a given key from a Dict.
 
-~~~
+```python
 from meiga import Result, Error
 
 
@@ -41,7 +41,7 @@ def string_from_key(dictionary: dict, key: str) -> Result[str, Error]:
         return Result(failure=TypeMismatch())
 
     return Result(success=value)
-~~~
+```
 
 Result meiga type provides a robust wrapper around the functions.
 Rather than throw an exception, it returns a Result that either contains the String value for the given key, or an ErrorClass detailing what went wrong.
@@ -116,7 +116,7 @@ On the other hand, if something wrong happens handle function will raise an Exce
 
 Additionally, handle a Result with the meiga decorator allows to return a typed error when a sub-function fails.
 
-~~~
+```python
 from meiga import Result, Error
 from meiga.decorators import meiga
 
@@ -127,6 +127,6 @@ def handling_result(key: str) -> Result:
     # Do whatever with the name
     name = first_name.lower()
     return Result(success=name)
-~~~
+```
 
 If key is valid success value would be returned. Otherwise, an Error would be returned.
