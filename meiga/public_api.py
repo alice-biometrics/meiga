@@ -18,4 +18,9 @@ from .error import Error
 
 errors = ["Error"]
 
-__all__ = modules + classes + errors
+# Alias
+from .alias import Success, isSuccess, Failure, isFailure, NotImplementedMethodError
+
+alias = ["Success", "isSuccess", "Failure", "isFailure", "NotImplementedMethodError"]
+
+__all__ = modules + classes + errors + alias

@@ -130,3 +130,26 @@ def handling_result(key: str) -> Result:
 ~~~
 
 If key is valid success value would be returned. Otherwise, an Error would be returned.
+
+
+## Developers
+
+##### Install requirements
+
+~~~
+pip install -r requirements/dev.txt
+~~~
+
+##### Test
+
+~~~
+pip install -e . && pytest
+~~~
+
+##### Upload to PyPi 
+
+~~~
+python setup.py sdist bdist_wheel
+twine check dist/*
+twine upload --repository-url https://upload.pypi.org/legacy/ dist/*
+~~
