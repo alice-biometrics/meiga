@@ -131,6 +131,32 @@ class UserNotFound(Error):
 result = Failure(UserNotFound())
 ```
 
+Bringing previous example back.. that is the way you can use the alias:
+
+```python
+from meiga import Result, Error, Success, Failure,
+
+
+class NoSuchKey(Error):
+    pass
+
+
+class TypeMismatch(Error):
+    pass
+
+
+def string_from_key(dictionary: dict, key: str) -> Result[str, Error]:
+    if key not in dictionary.keys():
+        return Failure(NoSuchKey())
+
+    value = dictionary[key]
+    if not isinstance(value, str):
+        return Failure(TypeMismatch())
+
+    return Success(value)
+```
+
+
 Furthermore, there is a available a useful alias: ```NotImplementedMethodError```
 
 Use it when define abstract method that returns Result type
