@@ -106,32 +106,37 @@ Use meiga aliases to improve the semantics of your code.
 For success result you can use:
 
 ```python
-result = Result(success=True)
+result = Result(success="Rosalia")
+result = Success("Rosalia") # bool value
+```
+
+If return value is a bool you can use:
+
+```python
 result = Success()
 result = Success(True)
-result = isSuccess // Only valid for a success result with a True boolean value
-```
+result = isSuccess
+``` 
 
 For failure results:
 
 ```python
-result = Result(failure=Error())
-result = Failure()
-result = Failure(Error())
-result = isFailure // Only valid for a failure result with a Error() value
-```
+class NoSuchKey(Error):
+    pass
 
-You can use this alias with any type
+result = Result(failure=NoSuchKey())
+result = Failure(NoSuchKey())
+``` 
+
+If you don't want to specify the error, you can use default value with:
 
 ```python
-result = Success("user_id")
-
-class UserNotFound(Error):
-    pass
-result = Failure(UserNotFound())
+result = Failure()
+result = Failure(Error())
+result = isFailure # Only valid for a failure result with a Error() value
 ```
 
-Bringing previous example back.. that is the way you can use the alias:
+Bringing previous example back. that is the way you can use the alias:
 
 ```python
 from meiga import Result, Error, Success, Failure,
