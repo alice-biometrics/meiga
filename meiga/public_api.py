@@ -1,7 +1,7 @@
 # coding=utf-8
 # Copyright (C) 2019+ Alice, Vigo, Spain
 
-"""Public API of ALiCE Onboarding Python SDK"""
+"""Public API of ALiCE meiga package"""
 
 # Modules
 from . import decorators
