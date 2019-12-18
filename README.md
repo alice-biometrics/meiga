@@ -1,4 +1,4 @@
-meiga 
+meiga 🧙
 =====
 
 A simple, typed and monad-based Result type for Python.
