@@ -1,4 +1,4 @@
-meiga
+meiga 
 =====
 
 A simple, typed and monad-based Result type for Python.
@@ -232,20 +232,6 @@ def handling_result(key: str) -> Result:
 ```
 
 If key is valid success value would be returned. Otherwise, an Error would be returned.
-
-
-```python
-from meiga import Result, Error
-from meiga.decorators import meiga
-
-@meiga
-def handling_result(key: str) -> Result:
-    user_info = {"first_name": "Rosalia", "last_name": "De Castro", "age": 60}
-    first_name = string_from_key(dictionary=user_info, key=key).handle() 
-    # Do whatever with the name
-    name = first_name.lower()
-    return Result(success=name)
-```
 
 
 ### Assertions
