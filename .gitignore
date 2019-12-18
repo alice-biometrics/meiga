@@ -79,3 +79,4 @@ target/
 
 *.idea
 .pytest_cache
+upload_to_pypi.sh

@@ -5,4 +5,8 @@ class Error(Exception):
         return False
 
     def __repr__(self):
-        return f"Error: {self.__class__.__name__}"
+        suffix = ""
+        if hasattr(self, "message"):
+            suffix = f": {self.message}"
+
+        return f"{self.__class__.__name__}{suffix}"
