@@ -259,26 +259,3 @@ If key is valid success value would be returned. Otherwise, an Error would be re
 To help us on testing functions that returns Result, meiga provide us two functions: **assert_success** and **access_failure**.
 
 Check the following pytest-based test: [tests/unit/test_result_assertions.py](https://github.com/alice-biometrics/meiga/blob/master/tests/unit/test_result_assertions.py)
-
-
-## Developers
-
-##### Install requirements
-
-```console
-pip install -r requirements/dev.txt
-```
-
-##### Test
-
-```console
-pip install -e . && pytest
-```
-
-##### Upload to PyPi 
-
-```console
-python setup.py sdist bdist_wheel
-twine check dist/*
-twine upload --repository-url https://upload.pypi.org/legacy/ dist/*
-
