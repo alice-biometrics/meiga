@@ -1,5 +1,6 @@
-meiga 🧙 ![build passing](https://github.com/alice-biometrics/meiga/workflows/ci/badge.svg)
+meiga 🧙 [![ci](https://github.com/alice-biometrics/meiga/workflows/ci/badge.svg)](https://github.com/alice-biometrics/meiga/actions) [![pypi](https://img.shields.io/pypi/dm/meiga)](https://pypi.org/project/meiga/)
 =====
+
 
 A simple, typed and monad-based Result type for Python.
 
