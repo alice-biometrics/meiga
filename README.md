@@ -199,7 +199,7 @@ Result[status: success | value: Rosalia]
 Rosalia
 ```
 
-In addition, you can call another function depending on the result with the optional parameters **success_handler** and **failure_handler**.
+In addition, you can call another function after evaluate the result. Use optional parameters **success_handler** and **failure_handler** (Callable functions).
 
 ```python
 def success_handler():
@@ -212,6 +212,25 @@ def failure_handler():
 result = string_from_key(dictionary=user_info, key="first_name")
 
 result.handle(success_handler=success_handler, failure_handler=failure_handler)
+```
+
+If you need to add some arguments as a parameters, use **success_args** and **failure_args**:
+
+```python
+def success_handler(param_1):
+    print(f"param_1: {param_1}")
+
+def failure_handler(param_1, param_2):
+    print(f"param_1: {param_1}")
+    print(f"param_2: {param_2}")
+
+
+result = string_from_key(dictionary=user_info, key="first_name")
+
+result.handle(success_handler=success_handler, 
+              failure_handler=failure_handler,
+              success_args=1,
+              failure_args=(1, 2))
 ```
 
 
