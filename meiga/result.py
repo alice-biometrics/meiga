@@ -62,15 +62,23 @@ class Result(Generic[TS, TF]):
         return not self._is_success
 
     def handle(
-        self, success_handler: Callable = None, failure_handler: Callable = None
+        self,
+        success_handler: Callable = None,
+        failure_handler: Callable = None,
+        success_args=None,
+        failure_args=None,
     ) -> Any:
         if not self._is_success:
             if failure_handler:
-                failure_handler()
+                failure_handler(
+                    *failure_args
+                ) if failure_handler.__code__.co_argcount > 0 else failure_handler()
             raise ReturnErrorOnFailure(self)
         else:
             if success_handler:
-                success_handler()
+                success_handler(
+                    *success_args
+                ) if success_handler.__code__.co_argcount > 0 else success_handler()
             return self._value_success
 
     value = property(get_value)
