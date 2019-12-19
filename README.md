@@ -1,4 +1,4 @@
-meiga 🧙
+meiga 🧙 ![build passing](https://github.com/alice-biometrics/meiga/workflows/ci/badge.svg)
 =====
 
 A simple, typed and monad-based Result type for Python.
