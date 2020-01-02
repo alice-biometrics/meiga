@@ -5,3 +5,4 @@ pytest-mock == 1.7.1
 hypothesis==4.34.0
 pre-commit==1.18.3
 twine==1.13.0
+pytest-clarity==0.2.0a1
