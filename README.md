@@ -1,11 +1,10 @@
 meiga 🧙 [![ci](https://github.com/alice-biometrics/meiga/workflows/ci/badge.svg)](https://github.com/alice-biometrics/meiga/actions)  [![ci](https://github.com/alice-biometrics/meiga/workflows/pypi/badge.svg)](https://github.com/alice-biometrics/meiga/actions) [![pypi](https://img.shields.io/pypi/dm/meiga)](https://pypi.org/project/meiga/)
 =====
 
-
 A simple, typed and monad-based Result type for Python.
 
-This package provides a new type for your Python applications, the Result[Type, Type].
-This Result type allows to define two subtypes, giving us the option to create useful return types.
+This package provides a new type for your Python applications, the **Result[Type, Type]**.
+This Result type allows to simplify a wide range of problems, like handling potential undefined values, or reduce complexity handling exceptions. Additionally, code can be simplified following a semantic pipeline reducing the visual noise of checking data types, controlling the flow and the side-effects.
 
 This package is based in another solutions from another modern languages as the swift-based [Result](https://github.com/antitypical/Result) implementation.
 
@@ -108,7 +107,7 @@ For success result you can use:
 
 ```python
 result = Result(success="Rosalia")
-result = Success("Rosalia") # bool value
+result = Success("Rosalia") # it is equivalent
 ```
 
 If return value is a bool you can use:
@@ -134,7 +133,7 @@ If you don't want to specify the error, you can use default value with:
 ```python
 result = Failure()
 result = Failure(Error())
-result = isFailure # Only valid for a failure result with a Error() value
+result = isFailure # Only valid for a failure result with non-specific Error() value
 ```
 
 Bringing previous example back. that is the way you can use the alias:
