@@ -4,7 +4,7 @@ from setuptools import setup
 
 CURRENT_DIR = os.path.abspath(os.path.dirname(__file__))
 PACKAGE_NAME = "meiga"
-VERSION = "0.1.3"
+VERSION = "0.1.4"
 
 # The text of the README file
 with open(os.path.join(CURRENT_DIR, "README.md")) as fid:
