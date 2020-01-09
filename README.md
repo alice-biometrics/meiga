@@ -184,6 +184,20 @@ class AuthService:
         return NotImplementedMethodError
 ```
 
+### Unwrap Result
+
+If you *wrap* a Result object, its will return a valid value if it is success. Otherwise, it will return None.
+
+```python
+result = Result(success="Hi!")
+value = result.unwrap()
+assert value == "Hi!"
+
+result = Failure(Error())
+value = result.unwrap()
+
+assert value is None
+```
 
 ### Handle Result
 

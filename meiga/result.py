@@ -61,6 +61,12 @@ class Result(Generic[TS, TF]):
     def is_failure(self):
         return not self._is_success
 
+    def unwrap(self):
+        if not self._is_success:
+            return None
+        else:
+            return self._value_success
+
     def handle(
         self,
         success_handler: Callable = None,
