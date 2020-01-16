@@ -10,13 +10,13 @@ This Result type allows to simplify a wide range of problems, like handling pote
 
 This package is based in another solutions from another modern languages as the swift-based [Result](https://github.com/antitypical/Result) implementation.
 
-#### Installation 
+## Installation :computer:
 
 ~~~
 pip install meiga
 ~~~
 
-#### Getting Started
+## Getting Started :chart_with_upwards_trend:	
 
 **meiga** is a framework that give us a simpler, clearer way of handling errors in Python. Use it whenever a class method or a function has the possibility of failure. 
 
