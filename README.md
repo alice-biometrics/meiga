@@ -1,10 +1,12 @@
-meiga 🧙 [![ci](https://github.com/alice-biometrics/meiga/workflows/ci/badge.svg)](https://github.com/alice-biometrics/meiga/actions)  [![ci](https://github.com/alice-biometrics/meiga/workflows/pypi/badge.svg)](https://github.com/alice-biometrics/meiga/actions) [![pypi](https://img.shields.io/pypi/dm/meiga)](https://pypi.org/project/meiga/)
+meiga 🧙 [![ci](https://github.com/alice-biometrics/meiga/workflows/ci/badge.svg)](https://github.com/alice-biometrics/meiga/actions) [![pypi](https://img.shields.io/pypi/dm/meiga)](https://pypi.org/project/meiga/)
 =====
 
-A simple, typed and monad-based Result type for Python.
+A simple, typed and monad-based Result type for Python. 
+
+Beyond the exceptions :bangbang: ... another way of handling errors!
 
 This package provides a new type for your Python applications, the **Result[Type, Type]**.
-This Result type allows to simplify a wide range of problems, like handling potential undefined values, or reduce complexity handling exceptions. Additionally, code can be simplified following a semantic pipeline reducing the visual noise of checking data types, controlling the flow and the side-effects.
+This Result type allows to simplify a wide range of problems, like handling potential undefined values, or reduce complexity handling exceptions. Additionally, code can be simplified following a semantic pipeline reducing the visual noise of checking data types, controlling runtime flow and side-effects.
 
 This package is based in another solutions from another modern languages as the swift-based [Result](https://github.com/antitypical/Result) implementation.
 
