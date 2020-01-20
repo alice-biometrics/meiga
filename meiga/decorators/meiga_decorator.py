@@ -1,11 +1,11 @@
-from meiga.return_error_on_failure import ReturnErrorOnFailure
+from meiga.on_failure_exception import OnFailureException
 
 
 def meiga(func):
     def _meiga(*args, **kwargs):
         try:
             return func(*args, **kwargs)
-        except ReturnErrorOnFailure as exc:
+        except OnFailureException as exc:
             return exc.result
 
     return _meiga

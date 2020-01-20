@@ -1,7 +1,7 @@
 from typing import TypeVar, Generic, Any, Callable
 
 from meiga.no_given_value import NoGivenValue, NoGivenValueClass
-from meiga.return_error_on_failure import ReturnErrorOnFailure
+from meiga.on_failure_exception import OnFailureException
 
 TS = TypeVar("TS")  # Success Type
 TF = TypeVar("TF")  # Failure Type
@@ -55,6 +55,12 @@ class Result(Generic[TS, TF]):
         else:
             return self._value_failure
 
+    def set_value(self, value):
+        if self._is_success:
+            self._value_success = value
+        else:
+            self._value_failure = value
+
     def is_success(self):
         return self._is_success
 
@@ -65,27 +71,57 @@ class Result(Generic[TS, TF]):
         if not self._is_success:
             return None
         else:
-            return self._value_success
+            return self.value
+
+    def unwrap_or(self, failure_value: Any):
+        if not self._is_success:
+            return failure_value
+        else:
+            return self.value
+
+    def unwrap_or_throw(self):
+        if not self._is_success:
+            raise OnFailureException(self)
+        else:
+            return self.value
+
+    def unwrap_or_else(self, on_failure: Callable):
+        if not self._is_success:
+            on_failure(self.value)
+        else:
+            return self.value
 
     def handle(
         self,
-        success_handler: Callable = None,
-        failure_handler: Callable = None,
+        on_success: Callable = None,
+        on_failure: Callable = None,
         success_args=None,
         failure_args=None,
     ) -> Any:
         if not self._is_success:
-            if failure_handler:
-                failure_handler(
-                    *failure_args
-                ) if failure_handler.__code__.co_argcount > 0 else failure_handler()
-            raise ReturnErrorOnFailure(self)
+            if on_failure:
+                if failure_args:
+                    on_failure(*failure_args)
+                else:
+                    if on_failure.__code__.co_argcount == 0:
+                        on_failure()
+                    else:
+                        on_failure(self.value)
+            raise OnFailureException(self)
         else:
-            if success_handler:
-                success_handler(
-                    *success_args
-                ) if success_handler.__code__.co_argcount > 0 else success_handler()
-            return self._value_success
+            if on_success:
+                if success_args:
+                    on_success(*success_args)
+                else:
+                    if on_success.__code__.co_argcount == 0:
+                        on_success()
+                    else:
+                        on_success(self.value)
+            return self.value
+
+    def map(self, transform: Callable):
+        new_value = transform(self.value)
+        self.set_value(new_value)
 
     value = property(get_value)
     is_success = property(is_success)

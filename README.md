@@ -48,7 +48,29 @@ def string_from_key(dictionary: dict, key: str) -> Result[str, Error]:
 Result meiga type provides a robust wrapper around the functions.
 Rather than throw an exception, it returns a Result that either contains the String value for the given key, or an ErrorClass detailing what went wrong.
 
-#### Result Type
+## Result[T, Error]
+
+A discriminated union that encapsulates successful outcome with a value of type T or a failure with an arbitrary Error exception.
+
+#### Properties
+
+| Properties      | Definition                                                     | 
+| --------------- |:--------------------------------------------------------------| 
+| `value`         | Returns the encapsulated value whether it's success or failure | 
+| `is_success`    | Returns true if this instance represents successful outcome. In this case is_failure returns false.|   
+| `is_failure`    | Returns true if this instance represents failed outcome. In this case is_success returns false     | 
+
+#### Functions
+
+| Functions                       | Definition                                                                                   | 
+| --------------------------------|:-------------------------------------------------------------------------------------------- | 
+| `unwrap()`                      | Returns the encapsulated value if this instance represents success or None if it is failure. | 
+| `unwrap_or(failure_value)`      | Returns the encapsulated value if this instance represents success or the selected `failure_value` if it is failure. |  
+| `unwrap_or_throw()`             | Returns the encapsulated value if this instance represents success or throws the encapsulated exception if it is failure. |  
+| `unwrap_or_else(on_failure)`    | Returns the encapsulated value if this instance represents success or execute the `on_failure` function when it is failure. |   
+| `handle(on_success,on_failure)` | Returns itself and execute the `on_success`function when the instance represemts success and the `on_failure` function when it is failure. |  
+| `map(transform)`                | Returns a transformed result applying `transform` function applied to encapsulated value if this instance represents success or failure | 
+
 
 Let's image we have a dictionary that represent a user info data
 
@@ -226,7 +248,7 @@ def failure_handler():
 
 result = string_from_key(dictionary=user_info, key="first_name")
 
-result.handle(success_handler=success_handler, failure_handler=failure_handler)
+result.handle(on_success=success_handler, on_failure=failure_handler)
 ```
 
 If you need to add some arguments as a parameters, use **success_args** and **failure_args**:
@@ -242,8 +264,8 @@ def failure_handler(param_1, param_2):
 
 result = string_from_key(dictionary=user_info, key="first_name")
 
-result.handle(success_handler=success_handler, 
-              failure_handler=failure_handler,
+result.handle(on_success=success_handler, 
+              on_failure=failure_handler,
               success_args=1,
               failure_args=(1, 2))
 ```
