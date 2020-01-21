@@ -64,6 +64,7 @@ A discriminated union that encapsulates successful outcome with a value of type 
 
 | Functions                       | Definition                                                                                   | 
 | --------------------------------|:-------------------------------------------------------------------------------------------- | 
+| `throw()`                       | Throws the encapsulated failure value if this instance derive from Error or BaseException.    | 
 | `unwrap()`                      | Returns the encapsulated value if this instance represents success or None if it is failure. | 
 | `unwrap_or(failure_value)`      | Returns the encapsulated value if this instance represents success or the selected `failure_value` if it is failure. |  
 | `unwrap_or_throw()`             | Returns the encapsulated value if this instance represents success or throws the encapsulated exception if it is failure. |  

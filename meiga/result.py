@@ -67,6 +67,10 @@ class Result(Generic[TS, TF]):
     def is_failure(self):
         return not self._is_success
 
+    def throw(self):
+        if not self._is_success:
+            raise self.value
+
     def unwrap(self):
         if not self._is_success:
             return None
