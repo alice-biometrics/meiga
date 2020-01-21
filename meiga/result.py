@@ -85,19 +85,9 @@ class Result(Generic[TS, TF]):
         else:
             return self.value
 
-    def unwrap_or_else(self, on_failure: Callable):
-        if not self._is_success:
-            on_failure(self.value)
-        else:
-            return self.value
-
-    def handle(
-        self,
-        on_success: Callable = None,
-        on_failure: Callable = None,
-        success_args=None,
-        failure_args=None,
-    ) -> Any:
+    def unwrap_or_else(
+        self, on_failure: Callable, failure_args=None, failure_value: Any = None
+    ):
         if not self._is_success:
             if on_failure:
                 if failure_args:
@@ -107,8 +97,12 @@ class Result(Generic[TS, TF]):
                         on_failure()
                     else:
                         on_failure(self.value)
-            raise OnFailureException(self)
+            return failure_value
         else:
+            return self.value
+
+    def unwrap_and(self, on_success: Callable, success_args=None):
+        if self._is_success:
             if on_success:
                 if success_args:
                     on_success(*success_args)
@@ -118,6 +112,19 @@ class Result(Generic[TS, TF]):
                     else:
                         on_success(self.value)
             return self.value
+        else:
+            return None
+
+    def handle(
+        self,
+        on_success: Callable = None,
+        on_failure: Callable = None,
+        success_args=None,
+        failure_args=None,
+    ):
+        self.unwrap_or_else(on_failure, failure_args)
+        self.unwrap_and(on_success, success_args)
+        return self
 
     def map(self, transform: Callable):
         new_value = transform(self.value)

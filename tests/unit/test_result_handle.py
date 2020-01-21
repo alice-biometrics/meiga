@@ -2,7 +2,6 @@ import pytest
 
 from meiga import Result, Error, isFailure, isSuccess
 from meiga.decorators import meiga
-from meiga.on_failure_exception import OnFailureException
 
 
 @pytest.mark.unit
@@ -24,8 +23,9 @@ def test_should_execute_success_handler():
         assert isinstance(failure_value, Error)
 
     result = Result(success="Hi!")
-    result.handle(on_success=on_success, on_failure=on_failure)
+    new_result = result.handle(on_success=on_success, on_failure=on_failure)
 
+    assert new_result == result
     assert called_on_success is True
     assert called_on_failure is False
 
@@ -48,9 +48,9 @@ def test_should_execute_failure_handler():
 
     result = Result(failure=Error())
 
-    with pytest.raises(OnFailureException):
-        result.handle(on_success=on_success, on_failure=on_failure)
+    new_result = result.handle(on_success=on_success, on_failure=on_failure)
 
+    assert new_result == result
     assert called_on_success is False
     assert called_on_failure is True
 

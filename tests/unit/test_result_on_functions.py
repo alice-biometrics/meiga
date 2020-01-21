@@ -66,8 +66,8 @@ def test_should_sum_two_positive_values_with_meiga_decorator_and_handle():
     @meiga
     def sum_positive_values(first_value: int, second_value: int) -> Result[int, Error]:
 
-        is_positive(first_value).handle()
-        is_positive(second_value).handle()
+        is_positive(first_value).unwrap_or_throw()
+        is_positive(second_value).unwrap_or_throw()
 
         return Result(success=first_value + second_value)
 
