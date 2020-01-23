@@ -55,8 +55,8 @@ def test_should_sum_two_positive_values_with_log_on_error():
     )
     def sum_positive_values(first_value: int, second_value: int) -> Result[int, Error]:
 
-        is_positive(first_value).unwrap_or_throw()
-        is_positive(second_value).unwrap_or_throw()
+        is_positive(first_value).unwrap_or_return()
+        is_positive(second_value).unwrap_or_return()
 
         return Result(success=first_value + second_value)
 

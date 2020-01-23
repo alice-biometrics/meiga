@@ -83,11 +83,17 @@ class Result(Generic[TS, TF]):
         else:
             return self.value
 
-    def unwrap_or_throw(self):
+    def unwrap_or_return(self):
         if not self._is_success:
             raise OnFailureException(self)
         else:
             return self.value
+
+    def unwrap_or_throw(self):
+        if self._is_success:
+            return self.value
+        else:
+            self.throw()
 
     def unwrap_or_else(
         self, on_failure: Callable, failure_args=None, failure_value: Any = None

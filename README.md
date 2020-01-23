@@ -66,8 +66,9 @@ A discriminated union that encapsulates successful outcome with a value of type 
 | --------------------------------|:-------------------------------------------------------------------------------------------- | 
 | `throw()`                       | Throws the encapsulated failure value if this instance derive from Error or BaseException.    | 
 | `unwrap()`                      | Returns the encapsulated value if this instance represents success or None if it is failure. | 
-| `unwrap_or(failure_value)`      | Returns the encapsulated value if this instance represents success or the selected `failure_value` if it is failure. |  
 | `unwrap_or_throw()`             | Returns the encapsulated value if this instance represents success or throws the encapsulated exception if it is failure. |  
+| `unwrap_or_return()`            | Returns the encapsulated value if this instance represents success or return Result as long as `@meiga` decorator wraps the function |  
+| `unwrap_or(failure_value)`      | Returns the encapsulated value if this instance represents success or the selected `failure_value` if it is failure. |  
 | `unwrap_or_else(on_failure)`    | Returns the encapsulated value if this instance represents success or execute the `on_failure` function when it is failure. |   
 | `unwrap_and(on_success)`        | Returns the encapsulated value if this instance represents success and execute the `on_success` function when it is success. |   
 | `handle(on_success,on_failure)` | Returns itself and execute the `on_success`function when the instance represemts success and the `on_failure` function when it is failure. |  

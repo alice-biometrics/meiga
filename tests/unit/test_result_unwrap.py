@@ -1,7 +1,6 @@
 import pytest
 
 from meiga import Result, Error, Failure, Success
-from meiga.on_failure_exception import OnFailureException
 
 
 @pytest.mark.unit
@@ -36,7 +35,7 @@ def test_should_raise_an_exception_when_unwrap_or_throw_with_a_failure_result():
 
     result = Failure(Error())
 
-    with pytest.raises(OnFailureException):
+    with pytest.raises(Error):
         _ = result.unwrap_or_throw()
 
 
