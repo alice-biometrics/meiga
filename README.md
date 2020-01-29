@@ -3,7 +3,7 @@ meiga 🧙 [![version](https://img.shields.io/github/release/alice-biometrics/me
 
 A simple, typed and monad-based Result type for Python. 
 
-Beyond the exceptions :bangbang: ... another way of handling errors!
+**meiga 🧙** give us a simpler and clearer way of handling errors in Python. Use it whenever a class method or a function has the possibility of failure. 
 
 This package provides a new type for your Python applications, the **Result[Type, Type]**.
 This Result type allows to simplify a wide range of problems, like handling potential undefined values, or reduce complexity handling exceptions. Additionally, code can be simplified following a semantic pipeline reducing the visual noise of checking data types, controlling runtime flow and side-effects.
@@ -18,7 +18,9 @@ pip install meiga
 
 ## Getting Started :chart_with_upwards_trend:	
 
-**meiga** is a framework that give us a simpler, clearer way of handling errors in Python. Use it whenever a class method or a function has the possibility of failure. 
+The best way to illustrate how **meiga 🧙** can help you is with an example.
+
+
 
 Consider the following example of a function that tries to extract a String (str) for a given key from a Dict.
 
@@ -59,20 +61,6 @@ A discriminated union that encapsulates successful outcome with a value of type 
 | `value`         | Returns the encapsulated value whether it's success or failure | 
 | `is_success`    | Returns true if this instance represents successful outcome. In this case is_failure returns false.|   
 | `is_failure`    | Returns true if this instance represents failed outcome. In this case is_success returns false     | 
-
-#### Functions
-
-| Functions                       | Definition                                                                                   | 
-| --------------------------------|:-------------------------------------------------------------------------------------------- | 
-| `throw()`                       | Throws the encapsulated failure value if this instance derive from Error or BaseException.    | 
-| `unwrap()`                      | Returns the encapsulated value if this instance represents success or None if it is failure. | 
-| `unwrap_or_throw()`             | Returns the encapsulated value if this instance represents success or throws the encapsulated exception if it is failure. |  
-| `unwrap_or_return()`            | Returns the encapsulated value if this instance represents success or return Result as long as `@meiga` decorator wraps the function |  
-| `unwrap_or(failure_value)`      | Returns the encapsulated value if this instance represents success or the selected `failure_value` if it is failure. |  
-| `unwrap_or_else(on_failure)`    | Returns the encapsulated value if this instance represents success or execute the `on_failure` function when it is failure. |   
-| `unwrap_and(on_success)`        | Returns the encapsulated value if this instance represents success and execute the `on_success` function when it is success. |   
-| `handle(on_success,on_failure)` | Returns itself and execute the `on_success`function when the instance represemts success and the `on_failure` function when it is failure. |  
-| `map(transform)`                | Returns a transformed result applying `transform` function applied to encapsulated value if this instance represents success or failure | 
 
 
 Let's image we have a dictionary that represent a user info data
