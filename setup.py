@@ -27,5 +27,6 @@ setup(
         "Programming Language :: Python :: 3",
     ],
     packages=["meiga", "meiga/assertions", "meiga/decorators"],
+    include_package_data=True,
     zip_safe=False,
 )
