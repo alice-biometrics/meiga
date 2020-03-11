@@ -1,14 +1,24 @@
-meiga 🧙 [![version](https://img.shields.io/github/release/alice-biometrics/meiga/all.svg)](https://github.com/alice-biometrics/meiga/releases) [![ci](https://github.com/alice-biometrics/meiga/workflows/ci/badge.svg)](https://github.com/alice-biometrics/meiga/actions) [![pypi](https://img.shields.io/pypi/dm/meiga)](https://pypi.org/project/meiga/)
-=====
+# meiga 🧙 [![version](https://img.shields.io/github/release/alice-biometrics/meiga/all.svg)](https://github.com/alice-biometrics/meiga/releases) [![ci](https://github.com/alice-biometrics/meiga/workflows/ci/badge.svg)](https://github.com/alice-biometrics/meiga/actions) [![pypi](https://img.shields.io/pypi/dm/meiga)](https://pypi.org/project/meiga/)
+
+<img src="https://github.com/alice-biometrics/custom-emojis/blob/master/images/alice_header.png" width=auto>
 
 A simple, typed and monad-based Result type for Python. 
 
-**meiga 🧙** give us a simpler and clearer way of handling errors in Python. Use it whenever a class method or a function has the possibility of failure. 
+## Table of Contents
+- [Installation :computer:](#installation-computer)
+- [Getting Started :chart_with_upwards_trend:](#getting-started-chart_with_upwards_trend)
+  * [Example](#example)
+  * [Features](#features)
+    - [Result](#result)
+    - [Functions](#functions)
+    - [Properties](#properties)
+    - [Alias](#alias)
+- [Advance Usage :rocket:](#advance-usage-rocket)
+  * [Unwrap Result](#unwrap-result)
+  * [Handle Result](#handle-result)
+  * [Test Assertions](#test-assertions)
+- [Contact :mailbox_with_mail:](#contact-mailbox_with_mail)
 
-This package provides a new type for your Python applications, the **Result[Type, Type]**.
-This Result type allows to simplify a wide range of problems, like handling potential undefined values, or reduce complexity handling exceptions. Additionally, code can be simplified following a semantic pipeline reducing the visual noise of checking data types, controlling runtime flow and side-effects.
-
-This package is based in another solutions from another modern languages as the swift-based [Result](https://github.com/antitypical/Result) implementation.
 
 ## Installation :computer:
 
@@ -18,9 +28,16 @@ pip install meiga
 
 ## Getting Started :chart_with_upwards_trend:	
 
+**Meiga** give us a simpler and clearer way of handling errors in Python. Use it whenever a class method or a function has the possibility of failure. 
+
+This package provides a new type for your Python applications, the **Result[Type, Type]**.
+This Result type allows to simplify a wide range of problems, like handling potential undefined values, or reduce complexity handling exceptions. Additionally, code can be simplified following a semantic pipeline reducing the visual noise of checking data types, controlling runtime flow and side-effects.
+
+This package is based in another solutions from another modern languages as the swift-based [Result](https://github.com/antitypical/Result) implementation.
+
+#### Example
+
 The best way to illustrate how **meiga 🧙** can help you is with an example.
-
-
 
 Consider the following example of a function that tries to extract a String (str) for a given key from a Dict.
 
@@ -50,13 +67,13 @@ def string_from_key(dictionary: dict, key: str) -> Result[str, Error]:
 Result meiga type provides a robust wrapper around the functions.
 Rather than throw an exception, it returns a Result that either contains the String value for the given key, or an ErrorClass detailing what went wrong.
 
-## Features
+#### Features
 
-#### Result[T, Error]
+##### Result
 
-A discriminated union that encapsulates successful outcome with a value of type T or a failure with an arbitrary Error exception.
+`Result[T, Error]` 👉 A discriminated union that encapsulates successful outcome with a value of type T or a failure with an arbitrary Error exception.
 
-#### Functions
+##### Functions
 
 | Functions                       | Definition                                                                                   | 
 | --------------------------------|:-------------------------------------------------------------------------------------------- | 
@@ -71,7 +88,7 @@ A discriminated union that encapsulates successful outcome with a value of type 
 | `map(transform)`                | Returns a transformed result applying `transform` function applied to encapsulated value if this instance represents success or failure | 
 
 
-#### Properties
+##### Properties
 
 | Properties      | Definition                                                     | 
 | --------------- |:--------------------------------------------------------------| 
@@ -131,7 +148,7 @@ True
 TypeMismatch() // Error 
 ```
 
-### Alias
+#### Alias
 
 Use meiga aliases to improve the semantics of your code.
 
@@ -216,7 +233,9 @@ class AuthService:
         return NotImplementedMethodError
 ```
 
-### Unwrap Result
+## Advance Usage :rocket:
+
+#### Unwrap Result
 
 If you *wrap* a Result object, its will return a valid value if it is success. Otherwise, it will return None.
 
@@ -231,7 +250,7 @@ value = result.unwrap()
 assert value is None
 ```
 
-### Handle Result
+#### Handle Result
 
 This framework also allows a method for handling Result type
 
@@ -299,8 +318,12 @@ def handling_result(key: str) -> Result:
 If key is valid success value would be returned. Otherwise, an Error would be returned.
 
 
-### Assertions
+#### Test Assertions
 
 To help us on testing functions that returns Result, meiga provide us two functions: **assert_success** and **access_failure**.
 
 Check the following pytest-based test for more information: [tests/unit/test_result_assertions.py](https://github.com/alice-biometrics/meiga/blob/master/tests/unit/test_result_assertions.py)
+
+## Contact :mailbox_with_mail:
+
+support@alicebiometrics.com
