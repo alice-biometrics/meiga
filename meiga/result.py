@@ -8,6 +8,8 @@ TF = TypeVar("TF")  # Failure Type
 
 
 class Result(Generic[TS, TF]):
+    __id__ = "__meiga_result_identifier__"
+
     _is_success: bool = False
 
     def __init__(self, success: TS = NoGivenValue, failure: TF = NoGivenValue) -> None:
@@ -101,7 +103,11 @@ class Result(Generic[TS, TF]):
         if not self._is_success:
             if on_failure:
                 if failure_args:
-                    on_failure(*failure_args)
+                    failure_args = list(failure_args)
+                    if Result.__id__ in failure_args:
+                        index_meiga_result = failure_args.index(Result.__id__)
+                        failure_args[index_meiga_result] = self
+                    on_failure(*tuple(failure_args))
                 else:
                     if on_failure.__code__.co_argcount == 0:
                         on_failure()
@@ -115,7 +121,11 @@ class Result(Generic[TS, TF]):
         if self._is_success:
             if on_success:
                 if success_args:
-                    on_success(*success_args)
+                    success_args = list(success_args)
+                    if Result.__id__ in success_args:
+                        index_meiga_result = success_args.index(Result.__id__)
+                        success_args[index_meiga_result] = self
+                    on_success(*tuple(success_args))
                 else:
                     if on_success.__code__.co_argcount == 0:
                         on_success()
