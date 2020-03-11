@@ -89,7 +89,7 @@ def test_should_execute_success_handler_with_valid_parameters():
 
 @pytest.mark.unit
 @pytest.mark.parametrize("result", [isSuccess, isFailure])
-def test_should_execute_handler_with_additional_and_non_required_parameters(result):
+def test_should_execute_handler_with_additional_parameters(result):
     given_first_parameter = (1,)
 
     def on_success(param_1: int):
@@ -112,7 +112,6 @@ def test_should_execute_handler_with_additional_and_non_required_parameters(resu
 
 @pytest.mark.unit
 def test_should_execute_success_handler_without_any_argument():
-
     global called_on_success
     called_on_success = False
 
@@ -134,3 +133,89 @@ def test_should_execute_success_handler_without_any_argument():
 
     assert called_on_success is True
     assert called_on_failure is False
+
+
+@pytest.mark.parametrize("result", [isSuccess, isFailure])
+def test_should_execute_handler_with_additional_and_non_required_parameters_result_first(
+    result
+):
+    given_first_parameter = (Result.__id__, 1)
+
+    def on_success(result: Result, param_1: int):
+        assert isinstance(result, Result)
+        assert result.value is True
+        assert param_1 == 1
+
+    def on_failure(result: Result, param_1: int):
+        assert isinstance(result, Result)
+        assert result.value == Error()
+        assert param_1 == 1
+
+    @meiga
+    def run():
+        result.handle(
+            on_success=on_success,
+            on_failure=on_failure,
+            success_args=given_first_parameter,
+            failure_args=given_first_parameter,
+        )
+
+    run()
+
+
+@pytest.mark.parametrize("result", [isSuccess, isFailure])
+def test_should_execute_handler_with_additional_and_non_required_parameters_result_last(
+    result
+):
+    given_first_parameter = (1, Result.__id__)
+
+    def on_success(param_1: int, result: Result):
+        assert param_1 == 1
+        assert isinstance(result, Result)
+        assert result.value is True
+
+    def on_failure(param_1: int, result: Result):
+        assert param_1 == 1
+        assert isinstance(result, Result)
+        assert result.value == Error()
+
+    @meiga
+    def run():
+        result.handle(
+            on_success=on_success,
+            on_failure=on_failure,
+            success_args=given_first_parameter,
+            failure_args=given_first_parameter,
+        )
+
+    run()
+
+
+@pytest.mark.parametrize("result", [isSuccess, isFailure])
+def test_should_execute_handler_with_additional_and_non_required_parameters_result_middle(
+    result
+):
+    given_first_parameter = (1, Result.__id__, 2)
+
+    def on_success(param_1: int, result: Result, param_2: int):
+        assert param_1 == 1
+        assert isinstance(result, Result)
+        assert result.value is True
+        assert param_2 == 2
+
+    def on_failure(param_1: int, result: Result, param_2: int):
+        assert param_1 == 1
+        assert isinstance(result, Result)
+        assert result.value == Error()
+        assert param_2 == 2
+
+    @meiga
+    def run():
+        result.handle(
+            on_success=on_success,
+            on_failure=on_failure,
+            success_args=given_first_parameter,
+            failure_args=given_first_parameter,
+        )
+
+    run()
