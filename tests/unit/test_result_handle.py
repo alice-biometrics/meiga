@@ -219,3 +219,25 @@ def test_should_execute_handler_with_additional_and_non_required_parameters_resu
         )
 
     run()
+
+
+@pytest.mark.parametrize("result", [isSuccess, isFailure])
+def test_should_execute_handler_with_only_one_parameter(result):
+    given_first_parameter = 1
+
+    def on_success(param_1: int):
+        assert param_1 == 1
+
+    def on_failure(param_1: int):
+        assert param_1 == 1
+
+    @meiga
+    def run():
+        result.handle(
+            on_success=on_success,
+            on_failure=on_failure,
+            success_args=given_first_parameter,
+            failure_args=given_first_parameter,
+        )
+
+    run()

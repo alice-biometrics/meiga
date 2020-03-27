@@ -103,7 +103,11 @@ class Result(Generic[TS, TF]):
         if not self._is_success:
             if on_failure:
                 if failure_args:
-                    failure_args = list(failure_args)
+                    failure_args = (
+                        list(failure_args)
+                        if isinstance(failure_args, tuple)
+                        else [failure_args]
+                    )
                     if Result.__id__ in failure_args:
                         index_meiga_result = failure_args.index(Result.__id__)
                         failure_args[index_meiga_result] = self
@@ -121,7 +125,11 @@ class Result(Generic[TS, TF]):
         if self._is_success:
             if on_success:
                 if success_args:
-                    success_args = list(success_args)
+                    success_args = (
+                        list(success_args)
+                        if isinstance(success_args, tuple)
+                        else [success_args]
+                    )
                     if Result.__id__ in success_args:
                         index_meiga_result = success_args.index(Result.__id__)
                         success_args[index_meiga_result] = self
