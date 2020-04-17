@@ -89,7 +89,7 @@ def test_should_execute_success_handler_with_valid_parameters():
 
 @pytest.mark.unit
 @pytest.mark.parametrize("result", [isSuccess, isFailure])
-def test_should_execute_handler_with_additional_parameters(result):
+def test_should_execute_handler_with_one_int_additional_parameters(result):
     given_first_parameter = (1,)
 
     def on_success(param_1: int):
@@ -97,6 +97,29 @@ def test_should_execute_handler_with_additional_parameters(result):
 
     def on_failure(param_1: int):
         assert param_1 == 1
+
+    @meiga
+    def run():
+        result.handle(
+            on_success=on_success,
+            on_failure=on_failure,
+            success_args=given_first_parameter,
+            failure_args=given_first_parameter,
+        )
+
+    run()
+
+
+@pytest.mark.unit
+@pytest.mark.parametrize("result", [isSuccess, isFailure])
+def test_should_execute_handler_with_a_list_additional_parameters(result):
+    given_first_parameter = ([1],)
+
+    def on_success(param_1: list):
+        assert param_1 == [1]
+
+    def on_failure(param_1: list):
+        assert param_1 == [1]
 
     @meiga
     def run():
