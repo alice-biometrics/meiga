@@ -113,7 +113,7 @@ def test_should_execute_handler_with_one_int_additional_parameters(result):
 @pytest.mark.unit
 @pytest.mark.parametrize("result", [isSuccess, isFailure])
 def test_should_execute_handler_with_a_list_additional_parameters(result):
-    given_first_parameter = ([1],)
+    given_first_parameter = [1]
 
     def on_success(param_1: list):
         assert param_1 == [1]
