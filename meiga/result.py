@@ -103,7 +103,7 @@ class Result(Generic[TS, TF]):
     ):
         if not self._is_success:
             if on_failure:
-                if failure_args:
+                if failure_args is not None:
                     failure_args = get_args_list(failure_args)
                     if Result.__id__ in failure_args:
                         index_meiga_result = failure_args.index(Result.__id__)
@@ -121,7 +121,7 @@ class Result(Generic[TS, TF]):
     def unwrap_and(self, on_success: Callable, success_args=None):
         if self._is_success:
             if on_success:
-                if success_args:
+                if success_args is not None:
                     success_args = get_args_list(success_args)
                     if Result.__id__ in success_args:
                         index_meiga_result = success_args.index(Result.__id__)
