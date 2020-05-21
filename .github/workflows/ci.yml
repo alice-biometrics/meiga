@@ -16,7 +16,7 @@ on:
 
 
 jobs:
-  build:
+  ci:
 
     strategy:
       max-parallel: 4
@@ -69,3 +69,8 @@ jobs:
         pip install -e .
         pip install pytest
         pytest
+    - name: Check Installation (--no-binary)
+      run: |
+        pip install wheel
+        python setup.py sdist
+        pip wheel --no-binary lume -w /tmp/ext dist/meiga-*.tar.gz
