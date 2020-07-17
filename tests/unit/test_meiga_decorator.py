@@ -36,3 +36,18 @@ def test_should_return_a_failure_result_with_meiga_decorator_when_raise_an_error
     result = decorated_method()
 
     assert_failure(result, value_is_instance_of=Error)
+
+
+@pytest.mark.unit
+def test_should_return_a_failure_result_with_meiga_decorator_when_raise_an_error_subclass():
+    class MyError(Error):
+        def __init__(self, message):
+            self.message = message
+
+    @meiga
+    def decorated_method():
+        raise MyError("message")
+
+    result = decorated_method()
+
+    assert_failure(result, value_is_instance_of=MyError)
