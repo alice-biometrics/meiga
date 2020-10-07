@@ -15,3 +15,5 @@ class Failure(Result):
 isSuccess = Success()
 isFailure = Failure()
 NotImplementedMethodError = isFailure
+
+BoolResult = Result[bool, Error]
