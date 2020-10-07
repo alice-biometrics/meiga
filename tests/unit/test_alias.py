@@ -8,6 +8,7 @@ from meiga import (
     isSuccess,
     isFailure,
     NotImplementedMethodError,
+    BoolResult,
 )
 
 
@@ -39,3 +40,11 @@ def test_should_be_the_same_a_result_with_an_error_failure_with_a_failure_class(
 def test_should_be_the_same_a_failure_and_a_not_implemented_method_error():
 
     assert NotImplementedMethodError == isFailure
+
+
+@pytest.mark.unit
+def test_should_be_ok_use_bool_result_for_binary_return_eexpectation():
+    def handler() -> BoolResult:
+        return isSuccess
+
+    assert handler().is_success
