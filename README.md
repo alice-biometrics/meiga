@@ -271,10 +271,10 @@ def handling_result(key: str) -> Result:
 
 If key is valid success value would be returned. Otherwise, an Error would be returned.
 
-If you need to return an specific value if fails, you can do it with meiga:
+If you need to return a specific value if fails, you can do it with meiga:
 
 ```python
-first_name = string_from_key(dictionary=user_info, key=key).unwrap_or_return(isSuccess) 
+first_name = string_from_key(dictionary=user_info, key=key).unwrap_or_return(return_value_on_failure=isSuccess) 
 ```
 
 ### Handle Result
