@@ -10,7 +10,7 @@ env:
   PACKAGE_NAME: meiga
 
 jobs:
-  deploy:
+  publish:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
@@ -19,7 +19,7 @@ jobs:
       with:
         python-version: '3.x'
     - name: Set RELEASE_VERSION
-      run: echo ::set-env name=RELEASE_VERSION::$(echo ${GITHUB_REF:11})
+      run: echo "RELEASE_VERSION=$(echo ${GITHUB_REF:11})" >> $GITHUB_ENV
     - name: Update VERSION file
       run: echo ${RELEASE_VERSION} > ${PACKAGE_NAME}/VERSION
     - name: Install dependencies
