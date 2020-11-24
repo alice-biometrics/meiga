@@ -86,9 +86,12 @@ class Result(Generic[TS, TF]):
         else:
             return self.value
 
-    def unwrap_or_return(self):
+    def unwrap_or_return(self, return_value_on_failure: Any = None):
         if not self._is_success:
-            raise OnFailureException(self)
+            return_value = (
+                self if return_value_on_failure is None else return_value_on_failure
+            )
+            raise OnFailureException(return_value)
         else:
             return self.value
 

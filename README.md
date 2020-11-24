@@ -80,7 +80,7 @@ Rather than throw an exception, it returns a Result that either contains the Str
 | `throw()`                       | Throws the encapsulated failure value if this instance derive from Error or BaseException.    | 
 | `unwrap()`                      | Returns the encapsulated value if this instance represents success or None if it is failure. | 
 | `unwrap_or_throw()`             | Returns the encapsulated value if this instance represents success or throws the encapsulated exception if it is failure. |  
-| `unwrap_or_return()`            | Returns the encapsulated value if this instance represents success or return Result as long as `@meiga` decorator wraps the function |  
+| `unwrap_or_return()`            | Returns the encapsulated value if this instance represents success or return Result as long as `@meiga` decorator wraps the function.|  
 | `unwrap_or(failure_value)`      | Returns the encapsulated value if this instance represents success or the selected `failure_value` if it is failure. |  
 | `unwrap_or_else(on_failure)`    | Returns the encapsulated value if this instance represents success or execute the `on_failure` function when it is failure. |   
 | `unwrap_and(on_success)`        | Returns the encapsulated value if this instance represents success and execute the `on_success` function when it is success. |   
@@ -263,7 +263,7 @@ from meiga.decorators import meiga
 @meiga
 def handling_result(key: str) -> Result:
     user_info = {"first_name": "Rosalia", "last_name": "De Castro", "age": 60}
-    first_name = string_from_key(dictionary=user_info, key=key).handle() 
+    first_name = string_from_key(dictionary=user_info, key=key).unwrap_or_return() 
     # Do whatever with the name
     name = first_name.lower()
     return Result(success=name)
@@ -271,6 +271,11 @@ def handling_result(key: str) -> Result:
 
 If key is valid success value would be returned. Otherwise, an Error would be returned.
 
+If you need to return an specific value if fails, you can do it with meiga:
+
+```python
+first_name = string_from_key(dictionary=user_info, key=key).unwrap_or_return(isSuccess) 
+```
 
 ### Handle Result
 

@@ -1,6 +1,9 @@
+from typing import Any
+
 import pytest
 
-from meiga import Result, Error, Failure, Success
+from meiga import Result, Error, Failure, Success, isSuccess, isFailure
+from meiga.decorators import meiga
 
 
 @pytest.mark.unit
@@ -115,3 +118,42 @@ def test_should_call_on_success_when_unwrap_and_with_a_result_success_and_custom
     _ = result.unwrap_and(on_success, success_args=(param1, param2))
 
     assert called_on_success
+
+
+@pytest.mark.unit
+@pytest.mark.parametrize(
+    "input_result,expected_result",
+    [
+        (isSuccess, isSuccess),
+        (isFailure, isFailure),
+        (Success("Hi!"), Success("Hi!")),
+        (Failure(Error()), Failure(Error())),
+    ],
+)
+def test_should_unwrap_or_return_with_contained_result(input_result, expected_result):
+    @meiga
+    def method(result: Result) -> Result[Any, Error]:
+        value = result.unwrap_or_return()
+        return Success(value)
+
+    result = method(input_result)
+
+    assert result == expected_result
+
+
+@pytest.mark.unit
+@pytest.mark.parametrize(
+    "input_result,expected_result",
+    [(isFailure, isSuccess), (Failure(Error()), isSuccess), (isSuccess, isSuccess)],
+)
+def test_should_unwrap_or_return_with_external_result_is_success(
+    input_result, expected_result
+):
+    @meiga
+    def method(result: Result) -> Result[Any, Error]:
+        value = result.unwrap_or_return(isSuccess)
+        return Success(value)
+
+    result = method(input_result)
+
+    assert result == expected_result
