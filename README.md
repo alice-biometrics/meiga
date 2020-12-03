@@ -247,7 +247,7 @@ def create_user(user_id: UserId) -> BoolResult:
      return repository.save(user)
 ```     
 
-When decorate `staticmethod` and `classmethod` check the order, otherwise it will raise an error as this methods are not callable
+When decorate `staticmethod` and `classmethod` check the order, otherwise it will raise an error (UnexpectedDecorationOrderError) as these kind of methods are not callable
 
 ```python
 class UserCreatorFactory:
