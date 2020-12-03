@@ -14,6 +14,7 @@ A simple, typed and monad-based Result type for Python.
     - [Properties](#properties)
     - [Alias](#alias)
 - [Advance Usage :rocket:](#advance-usage-rocket)
+  * [Decorator](#decorator)
   * [Unwrap Result](#unwrap-result)
   * [Handle Result](#handle-result)
   * [Test Assertions](#test-assertions)
@@ -234,6 +235,34 @@ class AuthService:
 ```
 
 ## Advance Usage :rocket:
+
+### Decorator
+
+Use `@meiga` as a decorator to protect your results and prevent from unexpected exceptions. It allways returns a `Result` object.
+
+```python
+@meiga
+def create_user(user_id: UserId) -> BoolResult:
+     user = user_creator.execute(user_id).unwrap_or_return()
+     return repository.save(user)
+```     
+
+When decorate `staticmethod` and `classmethod` check the order, otherwise it will raise an error as this methods are not callable
+
+```python
+class UserCreatorFactory:
+
+    @staticmethod
+    @meiga
+    def from_version(version: str) -> Result[UserCreator, Error]:
+        if version == "migration_v1":
+            creator = UserCreator.build()
+        else:
+            creator = LegacyUserCreator.build()
+        return Success(creator)
+
+```
+
 
 ### Unwrap Result
 
