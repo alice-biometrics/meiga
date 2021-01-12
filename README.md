@@ -29,16 +29,16 @@ pip install meiga
 
 ## Getting Started :chart_with_upwards_trend:	
 
-**Meiga** give us a simpler and clearer way of handling errors in Python. Use it whenever a class method or a function has the possibility of failure. 
+`meiga 🧙` give us a simple and clear way of handling errors in Python without using the `Exceptions`. This package can help you to dry your code helping on modeling the output of your classes and method.
 
-This package provides a new type for your Python applications, the **Result[Type, Type]**.
+This package provides a new type class, the `Result[Type, Type]`
 This Result type allows to simplify a wide range of problems, like handling potential undefined values, or reduce complexity handling exceptions. Additionally, code can be simplified following a semantic pipeline reducing the visual noise of checking data types, controlling runtime flow and side-effects.
 
-This package is based in another solutions from another modern languages as the swift-based [Result](https://github.com/antitypical/Result) implementation.
+This package is based in another solutions from another modern languages as this swift-based [Result](https://github.com/antitypical/Result) implementation.
 
 ### Example
 
-The best way to illustrate how **meiga 🧙** can help you is with an example.
+The best way to illustrate how `meiga` can help you is with an example.
 
 Consider the following example of a function that tries to extract a String (str) for a given key from a Dict.
 
@@ -65,8 +65,7 @@ def string_from_key(dictionary: dict, key: str) -> Result[str, Error]:
     return Result(success=value)
 ```
 
-Result meiga type provides a robust wrapper around the functions.
-Rather than throw an exception, it returns a Result that either contains the String value for the given key, or an ErrorClass detailing what went wrong.
+Returned value `Result` type provides a robust wrapper around the functions and methods. Rather than throw an exception, it returns a `Result` that either contains the `str` value for the given key, or an typed `Error`  detailing what went wrong (`Result[str, Error]`).
 
 ### Features
 
@@ -386,8 +385,6 @@ Sometimes a handle function will need information about external parameters and 
 
     run()
 ```
-
-
 
 
 ### Test Assertions
