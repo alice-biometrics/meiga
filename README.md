@@ -29,7 +29,7 @@ pip install meiga
 
 ## Getting Started :chart_with_upwards_trend:	
 
-`meiga 🧙` give us a simple and clear way of handling errors in Python without using the `Exceptions`. This package can help you to dry your code helping on modeling the output of your classes and method.
+`meiga 🧙` provides a simple and clear way of handling errors in Python without using `Exceptions`. This package can help you to dry your code helping on modeling the output of your classes and method.
 
 This package provides a new type class, the `Result[Type, Type]`
 This Result type allows to simplify a wide range of problems, like handling potential undefined values, or reduce complexity handling exceptions. Additionally, code can be simplified following a semantic pipeline reducing the visual noise of checking data types, controlling runtime flow and side-effects.
