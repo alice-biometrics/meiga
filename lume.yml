@@ -1,0 +1,39 @@
+name: document-security-experiments
+
+show_exit_code: true
+
+install:
+  run:
+    - pip install -U -r requirements/dev-requirements.txt
+    - pip install -e .
+    - pre-commit install
+
+envs:
+  PACKAGE_NAME: meiga
+
+steps:
+  uninstall:
+    run: pip freeze | xargs pip uninstall -y
+  clean:
+    run:
+    - rm -rf *.egg-info
+    - rm -rf .*_cache
+    - find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
+  lint:
+    run:
+      - black --check .
+      - flake8 $PACKAGE_NAME
+      - isort .
+  check-requirements:
+    run: echo "Meiga does not need any requirements"
+  static-analysis:
+    run: mypy $PACKAGE_NAME
+  coverage:
+    run: pytest -c pytest.coverage.ini
+  test:
+    run: pytest -v
+  check-no-binary-installation:
+    run: |
+      pip install wheel
+      python setup.py sdist
+      pip wheel --no-binary $PACKAGE_NAME -w /tmp/ext dist/$PACKAGE_NAME-*.tar.gz
