@@ -2,8 +2,8 @@ import logging
 
 import pytest
 
-from meiga import Result, Error
-from meiga.decorators import log_on_start, log_on_end, log_on_error, meiga
+from meiga import Error, Result
+from meiga.decorators import log_on_end, log_on_error, log_on_start, meiga
 
 
 @pytest.mark.unit

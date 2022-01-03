@@ -2,7 +2,7 @@ from typing import Any
 
 import pytest
 
-from meiga import Result, Error, Failure, Success, isSuccess, isFailure
+from meiga import Error, Failure, Result, Success, isFailure, isSuccess
 from meiga.decorators import meiga
 
 

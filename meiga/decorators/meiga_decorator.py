@@ -1,9 +1,9 @@
+from meiga.alias import Failure
 from meiga.decorators.unexpected_decoration_order_error import (
     UnexpectedDecorationOrderError,
 )
-from meiga.on_failure_exception import OnFailureException
 from meiga.error import Error
-from meiga.alias import Failure
+from meiga.on_failure_exception import OnFailureException
 
 
 def meiga(func):

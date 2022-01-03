@@ -18,7 +18,7 @@ setup(
     long_description_content_type="text/markdown",
     keywords=["Result", "Monad", "Typed", "Typing"],
     url="https://github.com/alice-biometrics/meiga",
-    author="ALiCE Biometrics",
+    author="Alice Biometrics",
     author_email="support@alicebiometrics.com",
     license="MIT",
     classifiers=[

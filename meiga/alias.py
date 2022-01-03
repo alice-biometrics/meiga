@@ -1,5 +1,5 @@
-from meiga.result import Result
 from meiga.error import Error
+from meiga.result import Result
 
 
 class Success(Result):

@@ -1,33 +1,16 @@
 # meiga 🧙 [![version](https://img.shields.io/github/release/alice-biometrics/meiga/all.svg)](https://github.com/alice-biometrics/meiga/releases) [![ci](https://github.com/alice-biometrics/meiga/workflows/ci/badge.svg)](https://github.com/alice-biometrics/meiga/actions) [![pypi](https://img.shields.io/pypi/dm/meiga)](https://pypi.org/project/meiga/)
 
-<img src="https://github.com/alice-biometrics/custom-emojis/blob/master/images/alice_header.png" width=auto>
+<img src="https://github.com/alice-biometrics/custom-emojis/blob/master/images/alice_header.png?raw=true" width=auto>
 
 A simple, typed and monad-based Result type for Python. 
 
-## Table of Contents
-- [Installation :computer:](#installation-computer)
-- [Getting Started :chart_with_upwards_trend:](#getting-started-chart_with_upwards_trend)
-  * [Example](#example)
-  * [Features](#features)
-    - [Result](#result)
-    - [Functions](#functions)
-    - [Properties](#properties)
-    - [Alias](#alias)
-- [Advance Usage :rocket:](#advance-usage-rocket)
-  * [Decorator](#decorator)
-  * [Unwrap Result](#unwrap-result)
-  * [Handle Result](#handle-result)
-  * [Test Assertions](#test-assertions)
-- [Contact :mailbox_with_mail:](#contact-mailbox_with_mail)
-
-
-## Installation :computer:
+## Installation 💻
 
 ~~~
 pip install meiga
 ~~~
 
-## Getting Started :chart_with_upwards_trend:	
+## Getting Started 📈
 
 `meiga 🧙` provides a simple and clear way of handling errors in Python without using `Exceptions`. This package can help you to dry your code helping on modeling the output of your classes and method.
 
@@ -233,7 +216,7 @@ class AuthService:
         return NotImplementedMethodError
 ```
 
-## Advance Usage :rocket:
+## Advance Usage 🚀
 
 ### Decorator
 
@@ -387,12 +370,12 @@ Sometimes a handle function will need information about external parameters and 
 ```
 
 
-### Test Assertions
+### Test Assertions 
 
 To help us on testing functions that returns Result, meiga provide us two functions: **assert_success** and **access_failure**.
 
 Check the following pytest-based test for more information: [tests/unit/test_result_assertions.py](https://github.com/alice-biometrics/meiga/blob/master/tests/unit/test_result_assertions.py)
 
-## Contact :mailbox_with_mail:
+## Contact 📬
 
 support@alicebiometrics.com

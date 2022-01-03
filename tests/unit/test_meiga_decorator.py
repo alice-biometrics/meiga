@@ -1,8 +1,8 @@
 import pytest
 
-from meiga import isSuccess, isFailure, Error, BoolResult
-from meiga.assertions import assert_success, assert_failure
-from meiga.decorators import meiga, UnexpectedDecorationOrderError
+from meiga import BoolResult, Error, isFailure, isSuccess
+from meiga.assertions import assert_failure, assert_success
+from meiga.decorators import UnexpectedDecorationOrderError, meiga
 
 
 @pytest.mark.unit

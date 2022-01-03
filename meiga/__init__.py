@@ -1,7 +1,7 @@
 import os
 
-from meiga.public_api import *
 from meiga import public_api
+from meiga.public_api import *
 
 ROOT_PATH = os.path.abspath(os.path.dirname(__file__))
 
