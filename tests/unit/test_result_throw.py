@@ -1,6 +1,6 @@
 import pytest
 
-from meiga import Failure, Error, Success
+from meiga import Error, Failure, Success
 
 
 @pytest.mark.unit

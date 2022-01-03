@@ -1,3 +1,2 @@
 include meiga/VERSION
-include requirements/requirements.txt
 include LICENSE

@@ -1,14 +1,14 @@
 import pytest
 
 from meiga import (
+    BoolResult,
+    Error,
+    Failure,
+    NotImplementedMethodError,
     Result,
     Success,
-    Failure,
-    Error,
-    isSuccess,
     isFailure,
-    NotImplementedMethodError,
-    BoolResult,
+    isSuccess,
 )
 
 

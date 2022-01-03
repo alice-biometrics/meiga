@@ -1,18 +1,18 @@
 import pytest
 from hypothesis import given
 from hypothesis._strategies import (
+    booleans,
+    composite,
+    dictionaries,
+    floats,
+    integers,
+    lists,
+    none,
     one_of,
     text,
-    integers,
-    none,
-    floats,
-    booleans,
-    tuples,
-    lists,
-    dictionaries,
     times,
+    tuples,
     uuids,
-    composite,
 )
 
 from meiga import Result

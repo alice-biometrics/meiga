@@ -1,8 +1,8 @@
-from typing import TypeVar, Generic, Any, Callable
+from typing import Any, Callable, Generic, Optional, TypeVar
 
-from meiga.no_given_value import NoGivenValue, NoGivenValueClass
-from meiga.on_failure_exception import OnFailureException
 from meiga.misc import get_args_list
+from meiga.no_given_value import NoGivenValue
+from meiga.on_failure_exception import OnFailureException
 
 TS = TypeVar("TS")  # Success Type
 TF = TypeVar("TF")  # Failure Type
@@ -10,8 +10,6 @@ TF = TypeVar("TF")  # Failure Type
 
 class Result(Generic[TS, TF]):
     __id__ = "__meiga_result_identifier__"
-
-    _is_success: bool = False
 
     def __init__(self, success: TS = NoGivenValue, failure: TF = NoGivenValue) -> None:
         self._value_success = success
@@ -35,21 +33,22 @@ class Result(Generic[TS, TF]):
         return False
 
     def _assert_values(self):
-        if isinstance(self._value_success, NoGivenValueClass) and isinstance(
-            self._value_failure, NoGivenValueClass
+        self._is_success = False
+        if isinstance(self._value_success, type(NoGivenValue)) and isinstance(
+            self._value_failure, type(NoGivenValue)
         ):
             raise TypeError(
                 "Result is a monad, it must be a success or a failure. "
                 "Please model your result selecting only one type [success or failure]."
             )
-        elif not isinstance(self._value_success, NoGivenValueClass) and not isinstance(
-            self._value_failure, NoGivenValueClass
+        elif not isinstance(self._value_success, type(NoGivenValue)) and not isinstance(
+            self._value_failure, type(NoGivenValue)
         ):
             raise TypeError(
                 "Result is a monad, it cannot be success and failure at the same time. "
                 "Please model your result selecting only one type [success or failure]."
             )
-        elif not isinstance(self._value_success, NoGivenValueClass):
+        elif not isinstance(self._value_success, type(NoGivenValue)):
             self._is_success = True
 
     def get_value(self):
@@ -64,10 +63,10 @@ class Result(Generic[TS, TF]):
         else:
             self._value_failure = value
 
-    def is_success(self):
+    def is_success(self) -> bool:
         return self._is_success
 
-    def is_failure(self):
+    def is_failure(self) -> bool:
         return not self._is_success
 
     def throw(self):
@@ -102,7 +101,10 @@ class Result(Generic[TS, TF]):
             self.throw()
 
     def unwrap_or_else(
-        self, on_failure: Callable, failure_args=None, failure_value: Any = None
+        self,
+        on_failure: Optional[Callable],
+        failure_args: Optional[Any] = None,
+        failure_value: Optional[Any] = None,
     ):
         if not self._is_success:
             if on_failure:
@@ -121,7 +123,9 @@ class Result(Generic[TS, TF]):
         else:
             return self.value
 
-    def unwrap_and(self, on_success: Callable, success_args=None):
+    def unwrap_and(
+        self, on_success: Optional[Callable], success_args: Optional[Any] = None
+    ):
         if self._is_success:
             if on_success:
                 if success_args is not None:
@@ -141,10 +145,10 @@ class Result(Generic[TS, TF]):
 
     def handle(
         self,
-        on_success: Callable = None,
-        on_failure: Callable = None,
-        success_args=None,
-        failure_args=None,
+        on_success: Optional[Callable] = None,
+        on_failure: Optional[Callable] = None,
+        success_args: Optional[Any] = None,
+        failure_args: Optional[Any] = None,
     ):
         self.unwrap_or_else(on_failure, failure_args)
         self.unwrap_and(on_success, success_args)

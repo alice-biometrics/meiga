@@ -1,7 +1,7 @@
 import pytest
 
-from meiga import Result, Error
-from meiga.assertions import assert_success, assert_failure
+from meiga import Error, Result
+from meiga.assertions import assert_failure, assert_success
 
 
 @pytest.mark.unit

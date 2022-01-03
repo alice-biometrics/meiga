@@ -2,7 +2,7 @@ from typing import List
 
 import pytest
 
-from meiga import Result, Error, isFailure, isSuccess
+from meiga import Error, Result, isFailure, isSuccess
 from meiga.decorators import meiga
 
 
@@ -162,7 +162,7 @@ def test_should_execute_success_handler_without_any_argument():
 
 @pytest.mark.parametrize("result", [isSuccess, isFailure])
 def test_should_execute_handler_with_additional_and_non_required_parameters_result_first(
-    result
+    result,
 ):
     given_first_parameter = (Result.__id__, 1)
 
@@ -190,7 +190,7 @@ def test_should_execute_handler_with_additional_and_non_required_parameters_resu
 
 @pytest.mark.parametrize("result", [isSuccess, isFailure])
 def test_should_execute_handler_with_additional_and_non_required_parameters_result_last(
-    result
+    result,
 ):
     given_first_parameter = (1, Result.__id__)
 
@@ -218,7 +218,7 @@ def test_should_execute_handler_with_additional_and_non_required_parameters_resu
 
 @pytest.mark.parametrize("result", [isSuccess, isFailure])
 def test_should_execute_handler_with_additional_and_non_required_parameters_result_middle(
-    result
+    result,
 ):
     given_first_parameter = (1, Result.__id__, 2)
 

@@ -1,7 +1,7 @@
 # coding=utf-8
-# Copyright (C) 2019+ Alice, Vigo, Spain
+# Copyright (C) 2021+ Alice, Vigo, Spain
 
-"""Public API of ALiCE meiga package"""
+"""Public API of Alice meiga package"""
 
 # Modules
 from . import decorators
@@ -20,12 +20,12 @@ errors = ["Error"]
 
 # Alias
 from .alias import (
-    Success,
-    isSuccess,
-    Failure,
-    isFailure,
-    NotImplementedMethodError,
     BoolResult,
+    Failure,
+    NotImplementedMethodError,
+    Success,
+    isFailure,
+    isSuccess,
 )
 
 alias = [
