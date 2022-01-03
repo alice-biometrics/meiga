@@ -13,9 +13,9 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: Set up Python
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v2
       with:
         python-version: '3.x'
     - name: Set RELEASE_VERSION
@@ -33,7 +33,7 @@ jobs:
     - name: Git - Commit VERSION File
       run: |
         git config --global user.email "dev@alicebiometrics.com"
-        git config --global user.name "ALiCE Biometrics"
+        git config --global user.name "Alice Biometrics"
         git commit -m "Update version to ${RELEASE_VERSION}"
     - name: Push changes
       uses: alice-biometrics/github-push-action@master
