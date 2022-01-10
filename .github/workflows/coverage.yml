@@ -4,7 +4,7 @@ on:
   push:
     paths-ignore:
       - '*.md'
-      - 'VERSION'
+      - 'meiga/VERSION'
     branches:
       - main
 
