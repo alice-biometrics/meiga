@@ -1,12 +1,6 @@
-name: ci
+name: coverage
 
 on:
-  pull_request:
-    paths-ignore:
-      - '*.md'
-      - 'VERSION'
-    branches: 
-      - master
   push:
     paths-ignore:
       - '*.md'
@@ -16,18 +10,13 @@ on:
 
 jobs:
   ci:
-    strategy:
-      matrix:
-        os: [macOS-latest, ubuntu-latest]
-        python-version: [3.7, 3.8, 3.9]
-    runs-on: ${{matrix.os}}
-
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
-        python-version: ${{ matrix.python-version }}
+        python-version: 3.9
     - uses: actions/cache@v2
       with:
         path: ${{ env.pythonLocation }}
@@ -37,10 +26,9 @@ jobs:
         pip install lume
         lume -install
     - name: Lint
-      run: lume -lint
-    - name: Static Analysis
-      run: lume -static-analysis
-    - name: Tests
-      run: lume -test
-    - name: Check Installation (--no-binary)
-      run: lume -check-no-binary-installation
+      run: lume -coverage
+    - uses: codecov/codecov-action@v2
+      with:
+        files: output/coverage/cobertura_coverage.xml
+        name: meiga
+        fail_ci_if_error: true

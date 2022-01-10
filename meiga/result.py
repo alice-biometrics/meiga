@@ -1,4 +1,4 @@
-from typing import Any, Callable, Generic, Optional, TypeVar
+from typing import Any, Callable, Generic, Optional, Type, TypeVar, Union
 
 from meiga.misc import get_args_list
 from meiga.no_given_value import NoGivenValue
@@ -11,7 +11,11 @@ TF = TypeVar("TF")  # Failure Type
 class Result(Generic[TS, TF]):
     __id__ = "__meiga_result_identifier__"
 
-    def __init__(self, success: TS = NoGivenValue, failure: TF = NoGivenValue) -> None:
+    def __init__(
+        self,
+        success: Union[TS, Type[NoGivenValue]] = NoGivenValue,
+        failure: Union[TF, Type[NoGivenValue]] = NoGivenValue,
+    ) -> None:
         self._value_success = success
         self._value_failure = failure
         self._assert_values()
@@ -63,9 +67,11 @@ class Result(Generic[TS, TF]):
         else:
             self._value_failure = value
 
+    @property
     def is_success(self) -> bool:
         return self._is_success
 
+    @property
     def is_failure(self) -> bool:
         return not self._is_success
 
@@ -159,5 +165,3 @@ class Result(Generic[TS, TF]):
         self.set_value(new_value)
 
     value = property(get_value)
-    is_success = property(is_success)
-    is_failure = property(is_failure)

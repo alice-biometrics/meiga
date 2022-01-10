@@ -95,6 +95,14 @@ def test_should_eq_two_different_success_result():
 
 
 @pytest.mark.unit
+def test_should_eq_a_result_with_another_type():
+    result_1 = Result(success=2)
+    result_2 = "no_result_value"
+
+    assert result_1 != result_2
+
+
+@pytest.mark.unit
 def test_should_eq_two_equal_failure_result():
     result_1 = Result(failure=Error())
     result_2 = Result(failure=Error())
