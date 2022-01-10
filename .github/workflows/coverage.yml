@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  ci:
+  coverage:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -25,7 +25,7 @@ jobs:
       run: |
         pip install lume
         lume -install
-    - name: Lint
+    - name: Coverage
       run: lume -coverage
     - uses: codecov/codecov-action@v2
       with:
