@@ -1,4 +1,5 @@
-# meiga 🧙 [![version](https://img.shields.io/github/release/alice-biometrics/meiga/all.svg)](https://github.com/alice-biometrics/meiga/releases) [![ci](https://github.com/alice-biometrics/meiga/workflows/ci/badge.svg)](https://github.com/alice-biometrics/meiga/actions) [![pypi](https://img.shields.io/pypi/dm/meiga)](https://pypi.org/project/meiga/)
+# meiga 🧙 [![version](https://img.shields.io/github/release/alice-biometrics/meiga/all.svg)](https://github.com/alice-biometrics/meiga/releases) [![ci](https://github.com/alice-biometrics/meiga/workflows/ci/badge.svg)](https://github.com/alice-biometrics/meiga/actions) [![pypi](https://img.shields.io/pypi/dm/meiga)](https://pypi.org/project/meiga/) [![codecov](https://codecov.io/gh/alice-biometrics/meiga/branch/main/graph/badge.svg?token=BX1IZJZLJQ)](https://codecov.io/gh/alice-biometrics/meiga)
+
 
 <img src="https://github.com/alice-biometrics/custom-emojis/blob/master/images/alice_header.png?raw=true" width=auto>
 
