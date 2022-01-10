@@ -84,11 +84,27 @@ def test_should_return_a_success_result_with_meiga_decorator_and_static_function
 
 
 @pytest.mark.unit
-def test_should_return_a_unexpected_decorator_order_failure_result_with_meiga_decorator_and_static_function():
+def test_should_return_a_unexpected_decorator_order_failure_result_with_meiga_decorator_and_static_method():
     class MyClass:
         @meiga
         @staticmethod
         def decorated_method() -> BoolResult:
+            return isSuccess
+
+    result = MyClass.decorated_method()
+    assert_failure(result, value_is_instance_of=UnexpectedDecorationOrderError)
+    assert (
+        result.value.message
+        == "@meiga decorator must be declared after a @staticmethod, @classmethod"
+    )
+
+
+@pytest.mark.unit
+def test_should_return_a_unexpected_decorator_order_failure_result_with_meiga_decorator_and_class_method():
+    class MyClass:
+        @meiga
+        @classmethod
+        def decorated_method(cls) -> BoolResult:
             return isSuccess
 
     result = MyClass.decorated_method()
