@@ -6,12 +6,6 @@ on:
       - '*.md'
       - 'VERSION'
     branches: 
-      - master
-  push:
-    paths-ignore:
-      - '*.md'
-      - 'VERSION'
-    branches:
       - main
 
 jobs:
