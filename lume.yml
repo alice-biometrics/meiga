@@ -1,6 +1,7 @@
 name: document-security-experiments
 
-show_exit_code: true
+envs:
+  PACKAGE_NAME: meiga
 
 install:
   run:
@@ -8,12 +9,10 @@ install:
     - pip install -e .
     - pre-commit install
 
-envs:
-  PACKAGE_NAME: meiga
+uninstall:
+  run: pip freeze | xargs pip uninstall -y
 
 steps:
-  uninstall:
-    run: pip freeze | xargs pip uninstall -y
   clean:
     run:
     - rm -rf *.egg-info
