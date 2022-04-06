@@ -10,37 +10,40 @@ env:
   PACKAGE_NAME: meiga
 
 jobs:
+  get-version:
+    uses: alice-biometrics/actions/.github/workflows/get-version.yml@main
+    with:
+      type: release
   publish:
+    needs: get-version
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v1
-    - name: Set up Python
-      uses: actions/setup-python@v1
-      with:
-        python-version: '3.x'
-    - name: Set RELEASE_VERSION
-      run: echo "RELEASE_VERSION=$(echo ${GITHUB_REF:11})" >> $GITHUB_ENV
-    - name: Update VERSION file
-      run: echo ${RELEASE_VERSION} > ${PACKAGE_NAME}/VERSION
-    - name: Install dependencies
-      run: pip install setuptools wheel twine
-    - name: Build and publish
-      run: |
-        python setup.py sdist bdist_wheel
-        twine upload dist/*
-    - name: Git - Add VERSION File
-      run: git add ${PACKAGE_NAME}/VERSION
-    - name: Git - Commit VERSION File
-      run: |
-        git config --global user.email "dev@alicebiometrics.com"
-        git config --global user.name "Alice Biometrics"
-        git commit -m "Update version to ${RELEASE_VERSION}"
-    - name: Push changes
-      uses: alice-biometrics/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_ACCESS_TOKEN }}
-        branch: master
-    - name: Check pip installation
-      run: |
-        pip install meiga==${RELEASE_VERSION} || true
-        pip install meiga==${RELEASE_VERSION}
+      - uses: actions/checkout@v2
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+      - name: Update VERSION file
+        run: echo -ne ${{ needs.get-version.outputs.version }} > ${PACKAGE_NAME}/VERSION
+      - name: Install dependencies
+        run: pip install setuptools wheel twine
+      - name: Build and publish
+        run: |
+          python setup.py sdist bdist_wheel
+          twine upload dist/*
+      - name: Git - Add VERSION File
+        run: git add ${PACKAGE_NAME}/VERSION
+      - name: Git - Commit VERSION File
+        run: |
+          git config --global user.email "dev@alicebiometrics.com"
+          git config --global user.name "Alice Biometrics"
+          git commit -m "Update version to ${{ needs.get-version.outputs.version }}"
+      - name: Push changes
+        uses: alice-biometrics/github-push-action@master
+        with:
+          github_token: ${{ secrets.PUBLIC_GITHUB_ACCESS_TOKEN }}
+          branch: main
+      - name: Check pip installation
+        run: |
+          pip install ${PACKAGE_NAME}==${{ needs.get-version.outputs.version }} || true
+          pip install ${PACKAGE_NAME}==${{ needs.get-version.outputs.version }}
