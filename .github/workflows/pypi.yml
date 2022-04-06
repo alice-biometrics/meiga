@@ -5,8 +5,8 @@ on:
     types: [published]
 
 env:
-  TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-  TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+  TWINE_USERNAME: ${{ secrets.PYPI_TOKEN_USERNAME }}
+  TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN_PASSWORD_MEIGA }}
   PACKAGE_NAME: meiga
 
 jobs:
