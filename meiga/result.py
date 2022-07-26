@@ -85,9 +85,11 @@ class Result(Generic[TS, TF]):
     def is_failure(self) -> bool:
         return not self._is_success
 
-    def throw(self) -> NoReturn:  # type: ignore
+    def throw(self) -> Union[NoReturn, None]:
         if not self._is_success:
             raise self.value
+        else:
+            return None
 
     def unwrap(self) -> Union[TS, None]:
         if not self._is_success:
