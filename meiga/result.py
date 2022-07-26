@@ -112,11 +112,12 @@ class Result(Generic[TS, TF]):
         else:
             return self.value
 
-    def unwrap_or_throw(self) -> Optional[TS]:  # type: ignore
+    def unwrap_or_throw(self) -> Union[TS, None]:
         if self._is_success:
             return cast(TS, self.value)
         else:
             self.throw()
+            return None
 
     def unwrap_or_else(
         self,
