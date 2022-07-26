@@ -85,7 +85,7 @@ class Result(Generic[TS, TF]):
     def is_failure(self) -> bool:
         return not self._is_success
 
-    def throw(self) -> NoReturn:
+    def throw(self) -> NoReturn:  # type: ignore
         if not self._is_success:
             raise self.value
 
@@ -110,7 +110,7 @@ class Result(Generic[TS, TF]):
         else:
             return self.value
 
-    def unwrap_or_throw(self) -> Optional[TS]:
+    def unwrap_or_throw(self) -> Optional[TS]:  # type: ignore
         if self._is_success:
             return cast(TS, self.value)
         else:
