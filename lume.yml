@@ -10,9 +10,16 @@ install:
     - pre-commit install
 
 uninstall:
-  run: pip freeze | xargs pip uninstall -y
+  run:
+    - pip uninstall meiga -y
+    - pip freeze | xargs pip uninstall -y
+    - pip install lume
 
 steps:
+  reinstall:
+    run:
+      - lume -uninstall
+      - lume -install
   clean:
     run:
     - rm -rf *.egg-info

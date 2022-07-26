@@ -1,6 +1,6 @@
 import pytest
 from hypothesis import given
-from hypothesis._strategies import (
+from hypothesis.strategies import (
     booleans,
     composite,
     dictionaries,
