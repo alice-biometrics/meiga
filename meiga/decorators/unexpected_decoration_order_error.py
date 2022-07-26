@@ -2,7 +2,7 @@ from meiga.error import Error
 
 
 class UnexpectedDecorationOrderError(Error):
-    def __init__(self):
+    def __init__(self) -> None:
         self.message = (
             "@meiga decorator must be declared after a @staticmethod, @classmethod"
         )
