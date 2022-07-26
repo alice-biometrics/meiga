@@ -1,4 +1,14 @@
-from typing import Any, Callable, Generic, Optional, Type, TypeVar, Union
+from typing import (
+    Any,
+    Callable,
+    Generic,
+    NoReturn,
+    Optional,
+    Type,
+    TypeVar,
+    Union,
+    cast,
+)
 
 from meiga.misc import get_args_list
 from meiga.no_given_value import NoGivenValue
@@ -20,7 +30,7 @@ class Result(Generic[TS, TF]):
         self._value_failure = failure
         self._assert_values()
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         status = "failure"
         value = self.value.__repr__()
         if self._is_success:
@@ -28,7 +38,7 @@ class Result(Generic[TS, TF]):
             value = self.value
         return f"Result[status: {status} | value: {value}]"
 
-    def __eq__(self, other):
+    def __eq__(self, other) -> bool:
         if isinstance(other, Result):
             return (
                 self._value_success == other._value_success
@@ -36,7 +46,7 @@ class Result(Generic[TS, TF]):
             )
         return False
 
-    def _assert_values(self):
+    def _assert_values(self) -> Union[NoReturn, None]:
         self._is_success = False
         if isinstance(self._value_success, type(NoGivenValue)) and isinstance(
             self._value_failure, type(NoGivenValue)
@@ -54,14 +64,15 @@ class Result(Generic[TS, TF]):
             )
         elif not isinstance(self._value_success, type(NoGivenValue)):
             self._is_success = True
+        return None
 
-    def get_value(self):
+    def get_value(self) -> Union[TS, Union[TF, Type[NoGivenValue]]]:
         if self._is_success:
-            return self._value_success
+            return cast(TS, self._value_success)
         else:
             return self._value_failure
 
-    def set_value(self, value):
+    def set_value(self, value) -> None:
         if self._is_success:
             self._value_success = value
         else:
@@ -75,43 +86,42 @@ class Result(Generic[TS, TF]):
     def is_failure(self) -> bool:
         return not self._is_success
 
-    def throw(self):
+    def throw(self) -> Union[NoReturn, None]:
         if not self._is_success:
             raise self.value
+        return None
 
-    def unwrap(self):
+    def unwrap(self) -> Union[TS, None]:
         if not self._is_success:
             return None
-        else:
-            return self.value
+        return cast(TS, self.value)
 
-    def unwrap_or(self, failure_value: Any):
+    def unwrap_or(self, failure_value: Any) -> Union[TS, Any]:
         if not self._is_success:
             return failure_value
-        else:
-            return self.value
+        return cast(TS, self.value)
 
-    def unwrap_or_return(self, return_value_on_failure: Any = None):
+    def unwrap_or_return(
+        self, return_value_on_failure: Any = None
+    ) -> Union[TS, NoReturn]:
         if not self._is_success:
             return_value = (
                 self if return_value_on_failure is None else return_value_on_failure
             )
             raise OnFailureException(return_value)
-        else:
-            return self.value
+        return cast(TS, self.value)
 
-    def unwrap_or_throw(self):
-        if self._is_success:
-            return self.value
-        else:
-            self.throw()
+    def unwrap_or_throw(self) -> Union[TS, NoReturn, None]:
+        if not self._is_success:
+            return self.throw()
+        return cast(TS, self.value)
 
     def unwrap_or_else(
         self,
-        on_failure: Optional[Callable],
+        on_failure: Callable,
         failure_args: Optional[Any] = None,
         failure_value: Optional[Any] = None,
-    ):
+    ) -> Union[TS, Any]:
         if not self._is_success:
             if on_failure:
                 if failure_args is not None:
@@ -126,12 +136,11 @@ class Result(Generic[TS, TF]):
                     else:
                         on_failure(self.value)
             return failure_value
-        else:
-            return self.value
+        return cast(TS, self.value)
 
     def unwrap_and(
-        self, on_success: Optional[Callable], success_args: Optional[Any] = None
-    ):
+        self, on_success: Callable, success_args: Optional[Any] = None
+    ) -> Union[TS, None]:
         if self._is_success:
             if on_success:
                 if success_args is not None:
@@ -146,8 +155,7 @@ class Result(Generic[TS, TF]):
                     else:
                         on_success(self.value)
             return self.value
-        else:
-            return None
+        return None
 
     def handle(
         self,
@@ -155,12 +163,14 @@ class Result(Generic[TS, TF]):
         on_failure: Optional[Callable] = None,
         success_args: Optional[Any] = None,
         failure_args: Optional[Any] = None,
-    ):
-        self.unwrap_or_else(on_failure, failure_args)
-        self.unwrap_and(on_success, success_args)
+    ) -> "Result":
+        if on_failure:
+            self.unwrap_or_else(on_failure, failure_args)
+        if on_success:
+            self.unwrap_and(on_success, success_args)
         return self
 
-    def map(self, transform: Callable):
+    def map(self, transform: Callable) -> None:
         new_value = transform(self.value)
         self.set_value(new_value)
 
