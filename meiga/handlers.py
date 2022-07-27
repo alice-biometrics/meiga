@@ -3,7 +3,7 @@ from typing import Callable, Iterable
 from meiga.misc import get_args_list
 
 
-class DerivedAction:
+class Handler:
     def __init__(self, func: Callable[..., None], args: Iterable = None):
         self.func = func
         self.args = args
@@ -22,9 +22,9 @@ class DerivedAction:
                 self.func(result.value)
 
 
-class OnSuccessAction(DerivedAction):
+class OnSuccessHandler(Handler):
     ...
 
 
-class OnFailureAction(DerivedAction):
+class OnFailureHandler(Handler):
     ...

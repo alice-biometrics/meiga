@@ -4,7 +4,7 @@ from meiga.deprecation import (
     get_on_failure_handler_from_deprecated_args,
     get_on_success_handler_from_deprecated_args,
 )
-from meiga.derived_actions import OnFailureAction, OnSuccessAction
+from meiga.handlers import OnFailureHandler, OnSuccessHandler
 from meiga.no_given_value import NoGivenValue
 from meiga.on_failure_exception import OnFailureException
 
@@ -111,7 +111,7 @@ class Result(Generic[TS, TF]):
 
     def unwrap_or_else(
         self,
-        on_failure_handler: OnFailureAction = None,  # Default has to be None to be compatible with deprecated signature
+        on_failure_handler: OnFailureHandler = None,  # Default has to be None to be compatible with deprecated signature
         failure_value: Optional[TEF] = None,
         **kwargs,  # Deprecated parameter [on_failure, failure_args]
     ) -> Union[TS, TEF]:
@@ -127,7 +127,7 @@ class Result(Generic[TS, TF]):
 
     def unwrap_and(
         self,
-        on_success_handler: OnSuccessAction = None,  # Default has to be None to be compatible with deprecated signature
+        on_success_handler: OnSuccessHandler = None,  # Default has to be None to be compatible with deprecated signature
         **kwargs,  # Deprecated parameter [on_success, success_args]
     ) -> Union[TS, None]:
         if self._is_success:
@@ -142,19 +142,19 @@ class Result(Generic[TS, TF]):
 
     def handle(
         self,
-        on_success_action: OnSuccessAction = None,
-        on_failure_action: OnFailureAction = None,
+        on_success_handler: OnSuccessHandler = None,
+        on_failure_handler: OnFailureHandler = None,
         **kwargs,  # Deprecated parameter [on_success, on_failure, success_args, failure_args]
     ) -> "Result":
-        if on_failure_action:
-            self.unwrap_or_else(on_failure_action)
+        if on_failure_handler:
+            self.unwrap_or_else(on_failure_handler)
         else:  # Deal with deprecated parameters
             on_failure_handler = get_on_failure_handler_from_deprecated_args(kwargs)
             if on_failure_handler:
                 self.unwrap_or_else(on_failure_handler)
 
-        if on_success_action:
-            self.unwrap_and(on_success_action)
+        if on_success_handler:
+            self.unwrap_and(on_success_handler)
         else:  # Deal with deprecated parameters
             on_success_handler = get_on_success_handler_from_deprecated_args(kwargs)
             if on_success_handler:

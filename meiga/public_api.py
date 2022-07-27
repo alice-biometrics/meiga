@@ -12,8 +12,8 @@ from .alias import (
     isFailure,
     isSuccess,
 )
-from .derived_actions import OnFailureAction, OnSuccessAction
 from .error import Error
+from .handlers import OnFailureHandler, OnSuccessHandler
 from .result import Result
 
 __all__ = [
@@ -26,6 +26,6 @@ __all__ = [
     "isFailure",
     "NotImplementedMethodError",
     "BoolResult",
-    "OnSuccessAction",
-    "OnFailureAction",
+    "OnSuccessHandler",
+    "OnFailureHandler",
 ]

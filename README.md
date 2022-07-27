@@ -59,17 +59,17 @@ Returned value `Result` type provides a robust wrapper around the functions and 
 
 #### Functions
 
-| Functions                                     | Definition                                                                                                                              | 
-|-----------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------| 
-| `throw()`                                     | Throws the encapsulated failure value if this instance derive from Error or BaseException.                                              | 
-| `unwrap()`                                    | Returns the encapsulated value if this instance is a success or None if it is failure.                                            | 
-| `unwrap_or_throw()`                           | Returns the encapsulated value if this instance is a success or throws the encapsulated exception if it is failure.               |  
-| `unwrap_or_return()`                          | Returns the encapsulated value if this instance is a success or return Result as long as `@meiga` decorator wraps the function.   |  
-| `unwrap_or(failure_value)`                    | Returns the encapsulated value if this instance is a success or the selected `failure_value` if it is failure.                    |  
-| `unwrap_or_else(on_failure_action)`           | Returns the encapsulated value if this instance is a success or execute the `on_failure_action` when it is failure.               |   
-| `unwrap_and(on_success)`                      | Returns the encapsulated value if this instance is a success and execute the `on_success_action` when it is success.                    |   
-| `handle(on_success_action,on_failure_action)` | Returns itself and execute the `on_success_action` when the instance is a success and the `on_failure_action` when it is failure.       |  
-| `map(transform)`                              | Returns a transformed result applying `transform` function applied to encapsulated value if this instance represents success or failure | 
+| Functions                                       | Definition                                                                                                                              | 
+|-------------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------| 
+| `throw()`                                       | Throws the encapsulated failure value if this instance derive from Error or BaseException.                                              | 
+| `unwrap()`                                      | Returns the encapsulated value if this instance is a success or None if it is failure.                                                  | 
+| `unwrap_or_throw()`                             | Returns the encapsulated value if this instance is a success or throws the encapsulated exception if it is failure.                     |  
+| `unwrap_or_return()`                            | Returns the encapsulated value if this instance is a success or return Result as long as `@meiga` decorator wraps the function.         |  
+| `unwrap_or(failure_value)`                      | Returns the encapsulated value if this instance is a success or the selected `failure_value` if it is failure.                          |  
+| `unwrap_or_else(on_failure_handler)`            | Returns the encapsulated value if this instance is a success or execute the `on_failure_handler` when it is failure.                    |   
+| `unwrap_and(on_success_handler)`                | Returns the encapsulated value if this instance is a success and execute the `on_success_handler` when it is success.                   |   
+| `handle(on_success_handler,on_failure_handler)` | Returns itself and execute the `on_success_handler` when the instance is a success and the `on_failure_handler` when it is failure.     |  
+| `map(transform)`                                | Returns a transformed result applying `transform` function applied to encapsulated value if this instance represents success or failure | 
 
 
 #### Properties
@@ -317,8 +317,8 @@ def failure_handler():
 result = string_from_key(dictionary=user_info, key="first_name")
 
 result.handle(
-    on_success_action=OnSuccessAction(func=success_handler), 
-    on_failure_action=OnFailureAction(func=failure_handler)
+    on_success_handler=OnSuccessHandler(func=success_handler),
+    on_failure_handler=OnFailureHandler(func=failure_handler)
 )
 ```
 
@@ -339,8 +339,8 @@ def failure_handler(param_1, param_2):
 result = string_from_key(dictionary=user_info, key="first_name")
 
 result.handle(
-    on_success_action=OnSuccessAction(func=success_handler, args=(1,)), 
-    on_failure_action=OnFailureAction(func=failure_handler, args=(1, 2))
+    on_success_handler=OnSuccessHandler(func=success_handler, args=(1,)),
+    on_failure_handler=OnFailureHandler(func=failure_handler, args=(1, 2))
 )
 ```
 
@@ -369,9 +369,10 @@ def failure_handler(param_1: int, result: Result, param_2: int):
 @meiga
 def run():
     result.handle(
-        n_success_action=OnSuccessAction(func=success_handler, args=args), 
-        on_failure_action=OnFailureAction(func=failure_handler, args=args)
+        n_success_handler=OnSuccessHandler(func=success_handler, args=args),
+        on_failure_handler=OnFailureHandler(func=failure_handler, args=args)
     )
+
 
 run()
 ```

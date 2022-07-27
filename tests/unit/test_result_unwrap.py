@@ -5,8 +5,8 @@ import pytest
 from meiga import (
     Error,
     Failure,
-    OnFailureAction,
-    OnSuccessAction,
+    OnFailureHandler,
+    OnSuccessHandler,
     Result,
     Success,
     isFailure,
@@ -81,7 +81,7 @@ def test_should_call_on_failure_when_unwrap_or_else_with_a_result_failure():
 
     result = Failure(Error())
 
-    _ = result.unwrap_or_else(OnFailureAction(func=on_failure_func))
+    _ = result.unwrap_or_else(OnFailureHandler(func=on_failure_func))
 
     assert called_on_failure
 
@@ -98,7 +98,7 @@ def test_should_call_on_failure_when_unwrap_or_else_with_a_result_failure_withou
 
     result = Failure(Error())
 
-    _ = result.unwrap_or_else(OnFailureAction(func=on_failure_func))
+    _ = result.unwrap_or_else(OnFailureHandler(func=on_failure_func))
 
     assert called_on_failure
 
@@ -120,7 +120,7 @@ def test_should_call_on_failure_when_unwrap_or_else_with_failure_result_and_cust
     result = Failure(Error())
 
     _ = result.unwrap_or_else(
-        OnFailureAction(func=on_failure_func, args=(param1, param2))
+        OnFailureHandler(func=on_failure_func, args=(param1, param2))
     )
 
     assert called_on_failure
@@ -139,7 +139,7 @@ def test_should_call_on_success_when_unwrap_and_with_a_result_success():
 
     result = Success("Hi!")
 
-    _ = result.unwrap_and(OnSuccessAction(func=on_success_func))
+    _ = result.unwrap_and(OnSuccessHandler(func=on_success_func))
 
     assert called_on_success
 
@@ -156,7 +156,7 @@ def test_should_call_on_success_when_unwrap_and_with_a_result_success_without_pa
 
     result = Success("Hi!")
 
-    _ = result.unwrap_and(OnSuccessAction(func=on_success_func))
+    _ = result.unwrap_and(OnSuccessHandler(func=on_success_func))
 
     assert called_on_success
 
@@ -177,7 +177,7 @@ def test_should_call_on_success_when_unwrap_and_with_a_result_success_and_custom
 
     result = Success("Hi!")
 
-    _ = result.unwrap_and(OnSuccessAction(func=on_success_func, args=(param1, param2)))
+    _ = result.unwrap_and(OnSuccessHandler(func=on_success_func, args=(param1, param2)))
 
     assert called_on_success
 
