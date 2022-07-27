@@ -3,22 +3,7 @@
 
 """Public API of Alice meiga package"""
 
-# Modules
 from . import decorators
-
-modules = ["decorators"]
-
-# Classes
-from .result import Result
-
-classes = ["Result"]
-
-# Errors
-from .error import Error
-
-errors = ["Error"]
-
-# Alias
 from .alias import (
     BoolResult,
     Failure,
@@ -27,14 +12,20 @@ from .alias import (
     isFailure,
     isSuccess,
 )
+from .derived_actions import OnFailureAction, OnSuccessAction
+from .error import Error
+from .result import Result
 
-alias = [
+__all__ = [
+    "decorators",
+    "Result",
+    "Error",
     "Success",
     "isSuccess",
     "Failure",
     "isFailure",
     "NotImplementedMethodError",
     "BoolResult",
+    "OnSuccessAction",
+    "OnFailureAction",
 ]
-
-__all__ = modules + classes + errors + alias

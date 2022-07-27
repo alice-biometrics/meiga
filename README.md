@@ -59,17 +59,17 @@ Returned value `Result` type provides a robust wrapper around the functions and 
 
 #### Functions
 
-| Functions                       | Definition                                                                                   | 
-| --------------------------------|:-------------------------------------------------------------------------------------------- | 
-| `throw()`                       | Throws the encapsulated failure value if this instance derive from Error or BaseException.    | 
-| `unwrap()`                      | Returns the encapsulated value if this instance represents success or None if it is failure. | 
-| `unwrap_or_throw()`             | Returns the encapsulated value if this instance represents success or throws the encapsulated exception if it is failure. |  
-| `unwrap_or_return()`            | Returns the encapsulated value if this instance represents success or return Result as long as `@meiga` decorator wraps the function.|  
-| `unwrap_or(failure_value)`      | Returns the encapsulated value if this instance represents success or the selected `failure_value` if it is failure. |  
-| `unwrap_or_else(on_failure)`    | Returns the encapsulated value if this instance represents success or execute the `on_failure` function when it is failure. |   
-| `unwrap_and(on_success)`        | Returns the encapsulated value if this instance represents success and execute the `on_success` function when it is success. |   
-| `handle(on_success,on_failure)` | Returns itself and execute the `on_success`function when the instance represemts success and the `on_failure` function when it is failure. |  
-| `map(transform)`                | Returns a transformed result applying `transform` function applied to encapsulated value if this instance represents success or failure | 
+| Functions                                     | Definition                                                                                                                              | 
+|-----------------------------------------------|:----------------------------------------------------------------------------------------------------------------------------------------| 
+| `throw()`                                     | Throws the encapsulated failure value if this instance derive from Error or BaseException.                                              | 
+| `unwrap()`                                    | Returns the encapsulated value if this instance is a success or None if it is failure.                                            | 
+| `unwrap_or_throw()`                           | Returns the encapsulated value if this instance is a success or throws the encapsulated exception if it is failure.               |  
+| `unwrap_or_return()`                          | Returns the encapsulated value if this instance is a success or return Result as long as `@meiga` decorator wraps the function.   |  
+| `unwrap_or(failure_value)`                    | Returns the encapsulated value if this instance is a success or the selected `failure_value` if it is failure.                    |  
+| `unwrap_or_else(on_failure_action)`           | Returns the encapsulated value if this instance is a success or execute the `on_failure_action` when it is failure.               |   
+| `unwrap_and(on_success)`                      | Returns the encapsulated value if this instance is a success and execute the `on_success_action` when it is success.                    |   
+| `handle(on_success_action,on_failure_action)` | Returns itself and execute the `on_success_action` when the instance is a success and the `on_failure_action` when it is failure.       |  
+| `map(transform)`                              | Returns a transformed result applying `transform` function applied to encapsulated value if this instance represents success or failure | 
 
 
 #### Properties
@@ -309,13 +309,17 @@ In addition, you can call another function after evaluate the result. Use option
 def success_handler():
     print("Do my successful stuff here!")
 
+
 def failure_handler():
-     print("Do my failure stuff here!")
+    print("Do my failure stuff here!")
 
 
 result = string_from_key(dictionary=user_info, key="first_name")
 
-result.handle(on_success=success_handler, on_failure=failure_handler)
+result.handle(
+    on_success_action=OnSuccessAction(func=success_handler), 
+    on_failure_action=OnFailureAction(func=failure_handler)
+)
 ```
 
 ##### Additional parameters
@@ -326,6 +330,7 @@ If you need to add some arguments as a parameters, use **success_args** and **fa
 def success_handler(param_1):
     print(f"param_1: {param_1}")
 
+
 def failure_handler(param_1, param_2):
     print(f"param_1: {param_1}")
     print(f"param_2: {param_2}")
@@ -333,41 +338,42 @@ def failure_handler(param_1, param_2):
 
 result = string_from_key(dictionary=user_info, key="first_name")
 
-result.handle(on_success=success_handler, 
-              on_failure=failure_handler,
-              success_args=1,
-              failure_args=(1, 2))
+result.handle(
+    on_success_action=OnSuccessAction(func=success_handler, args=(1,)), 
+    on_failure_action=OnFailureAction(func=failure_handler, args=(1, 2))
+)
 ```
 
 ##### Additional parameters in combination with the Result itself
 
-Sometimes a handle function will need information about external parameters and also about the result itself. Now, is possible this combination thanks to `Result.__id__` identifier. 
+Sometimes a handle function will need information about external parameters and also about the result itself. Now, is possible this combination thanks to `Result.__id__` identifier.
 
 ```python
-    parameters = (1, Result.__id__, 2)
+args = (1, Result.__id__, 2)
 
-    def on_success(param_1: int, result: Result, param_2: int):
-        assert param_1 == 1
-        assert isinstance(result, Result)
-        assert result.value is True
-        assert param_2 == 2
 
-    def on_failure(param_1: int, result: Result, param_2: int):
-        assert param_1 == 1
-        assert isinstance(result, Result)
-        assert result.value == Error()
-        assert param_2 == 2
+def success_handler(param_1: int, result: Result, param_2: int):
+    assert param_1 == 1
+    assert isinstance(result, Result)
+    assert result.value is True
+    assert param_2 == 2
 
-    @meiga
-    def run():
-        result.handle(
-            on_success=on_success,
-            on_failure=on_failure,
-            success_args=parameters,
-            failure_args=parameters,
-        )
 
-    run()
+def failure_handler(param_1: int, result: Result, param_2: int):
+    assert param_1 == 1
+    assert isinstance(result, Result)
+    assert result.value == Error()
+    assert param_2 == 2
+
+
+@meiga
+def run():
+    result.handle(
+        n_success_action=OnSuccessAction(func=success_handler, args=args), 
+        on_failure_action=OnFailureAction(func=failure_handler, args=args)
+    )
+
+run()
 ```
 
 

@@ -1,6 +1,6 @@
 from typing import Any, Callable, Generic, Optional, Type, TypeVar, Union, cast
 
-from meiga.misc import get_args_list
+from meiga.derived_actions import OnFailureAction, OnSuccessAction
 from meiga.no_given_value import NoGivenValue
 from meiga.on_failure_exception import OnFailureException
 
@@ -89,8 +89,8 @@ class Result(Generic[TS, TF]):
 
     def unwrap_or(self, failure_value: TEF) -> Union[TS, TEF]:
         if not self._is_success:
-            return cast(TEF, failure_value)
-        return cast(TS, self.value)
+            return failure_value
+        return self.value
 
     def unwrap_or_return(self, return_value_on_failure: Any = None) -> TS:
         if not self._is_success:
@@ -107,56 +107,31 @@ class Result(Generic[TS, TF]):
 
     def unwrap_or_else(
         self,
-        on_failure: Callable[..., Any],
-        failure_args: Optional[Any] = None,
+        on_failure: OnFailureAction,
         failure_value: Optional[TEF] = None,
     ) -> Union[TS, TEF]:
         if not self._is_success:
             if on_failure:
-                if failure_args is not None:
-                    failure_args = get_args_list(failure_args)
-                    if Result.__id__ in failure_args:
-                        index_meiga_result = failure_args.index(Result.__id__)
-                        failure_args[index_meiga_result] = self
-                    on_failure(*tuple(failure_args))
-                else:
-                    if on_failure.__code__.co_argcount == 0:
-                        on_failure()
-                    else:
-                        on_failure(self.value)
+                on_failure.execute(self)
             return cast(TEF, failure_value)
         return cast(TS, self.value)
 
-    def unwrap_and(
-        self, on_success: Callable[..., None], success_args: Optional[Any] = None
-    ) -> Union[TS, None]:
+    def unwrap_and(self, on_success: OnSuccessAction) -> Union[TS, None]:
         if self._is_success:
             if on_success:
-                if success_args is not None:
-                    success_args = get_args_list(success_args)
-                    if Result.__id__ in success_args:
-                        index_meiga_result = success_args.index(Result.__id__)
-                        success_args[index_meiga_result] = self
-                    on_success(*tuple(success_args))
-                else:
-                    if on_success.__code__.co_argcount == 0:
-                        on_success()
-                    else:
-                        on_success(self.value)
+                on_success.execute(self)
             return self.value
         return None
 
     def handle(
         self,
-        on_success: Optional[Callable[..., None]] = None,
-        on_failure: Optional[Callable[..., None]] = None,
-        success_args: Optional[Any] = None,
-        failure_args: Optional[Any] = None,
+        on_success_action: OnSuccessAction = None,
+        on_failure_action: OnFailureAction = None,
     ) -> "Result":
-        if on_failure:
-            self.unwrap_or_else(on_failure, failure_args)
-        if on_success:
-            self.unwrap_and(on_success, success_args)
+        if on_failure_action:
+            self.unwrap_or_else(on_failure_action)
+        if on_success_action:
+            self.unwrap_and(on_success_action)
         return self
 
     def map(self, transform: Callable) -> None:
