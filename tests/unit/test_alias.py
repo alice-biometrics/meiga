@@ -22,6 +22,9 @@ def test_should_be_the_same_a_result_with_true_success_with_a_success_class():
     assert result == success
     assert result == success_with_true
     assert result == isSuccess
+    # assert isinstance(result, Result)
+    # assert isinstance(success, Success)
+    # assert isinstance(success_with_true, Success)
 
 
 @pytest.mark.unit
