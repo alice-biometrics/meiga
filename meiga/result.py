@@ -1,5 +1,9 @@
 from typing import Any, Callable, Generic, Optional, Type, TypeVar, Union, cast
 
+from meiga.deprecation import (
+    get_on_failure_handler_from_deprecated_args,
+    get_on_success_handler_from_deprecated_args,
+)
 from meiga.derived_actions import OnFailureAction, OnSuccessAction
 from meiga.no_given_value import NoGivenValue
 from meiga.on_failure_exception import OnFailureException
@@ -107,19 +111,32 @@ class Result(Generic[TS, TF]):
 
     def unwrap_or_else(
         self,
-        on_failure: OnFailureAction,
+        on_failure_handler: OnFailureAction = None,  # Default has to be None to be compatible with deprecated signature
         failure_value: Optional[TEF] = None,
+        **kwargs,  # Deprecated parameter [on_failure, failure_args]
     ) -> Union[TS, TEF]:
         if not self._is_success:
-            if on_failure:
-                on_failure.execute(self)
+            if on_failure_handler:
+                on_failure_handler.execute(self)
+            else:  # Deal with deprecated parameters
+                on_failure_handler = get_on_failure_handler_from_deprecated_args(kwargs)
+                if on_failure_handler:
+                    on_failure_handler.execute(self)
             return cast(TEF, failure_value)
         return cast(TS, self.value)
 
-    def unwrap_and(self, on_success: OnSuccessAction) -> Union[TS, None]:
+    def unwrap_and(
+        self,
+        on_success_handler: OnSuccessAction = None,  # Default has to be None to be compatible with deprecated signature
+        **kwargs,  # Deprecated parameter [on_success, success_args]
+    ) -> Union[TS, None]:
         if self._is_success:
-            if on_success:
-                on_success.execute(self)
+            if on_success_handler:
+                on_success_handler.execute(self)
+            else:  # Deal with deprecated parameters
+                on_success_handler = get_on_success_handler_from_deprecated_args(kwargs)
+                if on_success_handler:
+                    on_success_handler.execute(self)
             return self.value
         return None
 
@@ -127,11 +144,22 @@ class Result(Generic[TS, TF]):
         self,
         on_success_action: OnSuccessAction = None,
         on_failure_action: OnFailureAction = None,
+        **kwargs,  # Deprecated parameter [on_success, on_failure, success_args, failure_args]
     ) -> "Result":
         if on_failure_action:
             self.unwrap_or_else(on_failure_action)
+        else:  # Deal with deprecated parameters
+            on_failure_handler = get_on_failure_handler_from_deprecated_args(kwargs)
+            if on_failure_handler:
+                self.unwrap_or_else(on_failure_handler)
+
         if on_success_action:
             self.unwrap_and(on_success_action)
+        else:  # Deal with deprecated parameters
+            on_success_handler = get_on_success_handler_from_deprecated_args(kwargs)
+            if on_success_handler:
+                self.unwrap_and(on_success_handler)
+
         return self
 
     def map(self, transform: Callable) -> None:
