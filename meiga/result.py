@@ -1,14 +1,4 @@
-from typing import (
-    Any,
-    Callable,
-    Generic,
-    NoReturn,
-    Optional,
-    Type,
-    TypeVar,
-    Union,
-    cast,
-)
+from typing import Any, Callable, Generic, Optional, Type, TypeVar, Union, cast
 
 from meiga.misc import get_args_list
 from meiga.no_given_value import NoGivenValue
@@ -16,6 +6,7 @@ from meiga.on_failure_exception import OnFailureException
 
 TS = TypeVar("TS")  # Success Type
 TF = TypeVar("TF")  # Failure Type
+TEF = TypeVar("TEF")  # External Failure Type
 
 
 class Result(Generic[TS, TF]):
@@ -46,7 +37,7 @@ class Result(Generic[TS, TF]):
             )
         return False
 
-    def _assert_values(self) -> Union[NoReturn, None]:
+    def _assert_values(self) -> None:
         self._is_success = False
         if isinstance(self._value_success, type(NoGivenValue)) and isinstance(
             self._value_failure, type(NoGivenValue)
@@ -66,11 +57,11 @@ class Result(Generic[TS, TF]):
             self._is_success = True
         return None
 
-    def get_value(self) -> Union[TS, Union[TF, Type[NoGivenValue]]]:
+    def get_value(self) -> Union[TS, TF]:
         if self._is_success:
             return cast(TS, self._value_success)
         else:
-            return self._value_failure
+            return cast(TF, self._value_failure)
 
     def set_value(self, value) -> None:
         if self._is_success:
@@ -86,7 +77,7 @@ class Result(Generic[TS, TF]):
     def is_failure(self) -> bool:
         return not self._is_success
 
-    def throw(self) -> Union[NoReturn, None]:
+    def throw(self) -> None:
         if not self._is_success:
             raise self.value
         return None
@@ -96,14 +87,12 @@ class Result(Generic[TS, TF]):
             return None
         return cast(TS, self.value)
 
-    def unwrap_or(self, failure_value: Any) -> Union[TS, Any]:
+    def unwrap_or(self, failure_value: TEF) -> Union[TS, TEF]:
         if not self._is_success:
-            return failure_value
+            return cast(TEF, failure_value)
         return cast(TS, self.value)
 
-    def unwrap_or_return(
-        self, return_value_on_failure: Any = None
-    ) -> Union[TS, NoReturn]:
+    def unwrap_or_return(self, return_value_on_failure: Any = None) -> TS:
         if not self._is_success:
             return_value = (
                 self if return_value_on_failure is None else return_value_on_failure
@@ -111,17 +100,17 @@ class Result(Generic[TS, TF]):
             raise OnFailureException(return_value)
         return cast(TS, self.value)
 
-    def unwrap_or_throw(self) -> Union[TS, NoReturn, None]:
+    def unwrap_or_throw(self) -> TS:
         if not self._is_success:
-            return self.throw()
+            self.throw()
         return cast(TS, self.value)
 
     def unwrap_or_else(
         self,
-        on_failure: Callable,
+        on_failure: Callable[..., Any],
         failure_args: Optional[Any] = None,
-        failure_value: Optional[Any] = None,
-    ) -> Union[TS, Any]:
+        failure_value: Optional[TEF] = None,
+    ) -> Union[TS, TEF]:
         if not self._is_success:
             if on_failure:
                 if failure_args is not None:
@@ -135,11 +124,11 @@ class Result(Generic[TS, TF]):
                         on_failure()
                     else:
                         on_failure(self.value)
-            return failure_value
+            return cast(TEF, failure_value)
         return cast(TS, self.value)
 
     def unwrap_and(
-        self, on_success: Callable, success_args: Optional[Any] = None
+        self, on_success: Callable[..., None], success_args: Optional[Any] = None
     ) -> Union[TS, None]:
         if self._is_success:
             if on_success:
@@ -159,8 +148,8 @@ class Result(Generic[TS, TF]):
 
     def handle(
         self,
-        on_success: Optional[Callable] = None,
-        on_failure: Optional[Callable] = None,
+        on_success: Optional[Callable[..., None]] = None,
+        on_failure: Optional[Callable[..., None]] = None,
         success_args: Optional[Any] = None,
         failure_args: Optional[Any] = None,
     ) -> "Result":
