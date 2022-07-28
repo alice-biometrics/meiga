@@ -369,7 +369,7 @@ def failure_handler(param_1: int, result: Result, param_2: int):
 @meiga
 def run():
     result.handle(
-        n_success_handler=OnSuccessHandler(func=success_handler, args=args),
+        on_success_handler=OnSuccessHandler(func=success_handler, args=args),
         on_failure_handler=OnFailureHandler(func=failure_handler, args=args)
     )
 
