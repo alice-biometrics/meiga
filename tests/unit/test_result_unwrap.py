@@ -2,7 +2,16 @@ from typing import Any
 
 import pytest
 
-from meiga import Error, Failure, Result, Success, isFailure, isSuccess
+from meiga import (
+    Error,
+    Failure,
+    OnFailureHandler,
+    OnSuccessHandler,
+    Result,
+    Success,
+    isFailure,
+    isSuccess,
+)
 from meiga.decorators import meiga
 
 
@@ -65,14 +74,14 @@ def test_should_call_on_failure_when_unwrap_or_else_with_a_result_failure():
     global called_on_failure
     called_on_failure = False
 
-    def on_failure(failure_value):
+    def on_failure_func(failure_value):
         global called_on_failure
         called_on_failure = True
         assert isinstance(failure_value, Error)
 
     result = Failure(Error())
 
-    _ = result.unwrap_or_else(on_failure)
+    _ = result.unwrap_or_else(OnFailureHandler(func=on_failure_func))
 
     assert called_on_failure
 
@@ -83,13 +92,13 @@ def test_should_call_on_failure_when_unwrap_or_else_with_a_result_failure_withou
     global called_on_failure
     called_on_failure = False
 
-    def on_failure():
+    def on_failure_func():
         global called_on_failure
         called_on_failure = True
 
     result = Failure(Error())
 
-    _ = result.unwrap_or_else(on_failure)
+    _ = result.unwrap_or_else(OnFailureHandler(func=on_failure_func))
 
     assert called_on_failure
 
@@ -102,7 +111,7 @@ def test_should_call_on_failure_when_unwrap_or_else_with_failure_result_and_cust
     global called_on_failure
     called_on_failure = False
 
-    def on_failure(param1, param2):
+    def on_failure_func(param1, param2):
         global called_on_failure
         called_on_failure = True
         assert isinstance(param1, int)
@@ -110,7 +119,9 @@ def test_should_call_on_failure_when_unwrap_or_else_with_failure_result_and_cust
 
     result = Failure(Error())
 
-    _ = result.unwrap_or_else(on_failure, failure_args=(param1, param2))
+    _ = result.unwrap_or_else(
+        OnFailureHandler(func=on_failure_func, args=(param1, param2))
+    )
 
     assert called_on_failure
 
@@ -121,14 +132,14 @@ def test_should_call_on_success_when_unwrap_and_with_a_result_success():
     global called_on_success
     called_on_success = False
 
-    def on_success(success_value):
+    def on_success_func(success_value):
         global called_on_success
         called_on_success = True
         assert isinstance(success_value, str)
 
     result = Success("Hi!")
 
-    _ = result.unwrap_and(on_success)
+    _ = result.unwrap_and(OnSuccessHandler(func=on_success_func))
 
     assert called_on_success
 
@@ -139,13 +150,13 @@ def test_should_call_on_success_when_unwrap_and_with_a_result_success_without_pa
     global called_on_success
     called_on_success = False
 
-    def on_success():
+    def on_success_func():
         global called_on_success
         called_on_success = True
 
     result = Success("Hi!")
 
-    _ = result.unwrap_and(on_success)
+    _ = result.unwrap_and(OnSuccessHandler(func=on_success_func))
 
     assert called_on_success
 
@@ -158,7 +169,7 @@ def test_should_call_on_success_when_unwrap_and_with_a_result_success_and_custom
     global called_on_success
     called_on_success = False
 
-    def on_success(param1, param2):
+    def on_success_func(param1, param2):
         global called_on_success
         called_on_success = True
         assert isinstance(param1, int)
@@ -166,7 +177,7 @@ def test_should_call_on_success_when_unwrap_and_with_a_result_success_and_custom
 
     result = Success("Hi!")
 
-    _ = result.unwrap_and(on_success, success_args=(param1, param2))
+    _ = result.unwrap_and(OnSuccessHandler(func=on_success_func, args=(param1, param2)))
 
     assert called_on_success
 
