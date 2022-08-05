@@ -9,7 +9,7 @@ class Error(Exception):
 
     def __repr__(self) -> str:
         suffix = ""
-        if self.message:
+        if hasattr(self, "message") and self.message is not None:
             suffix = f": {self.message}"
 
         return f"{self.__class__.__name__}{suffix}"

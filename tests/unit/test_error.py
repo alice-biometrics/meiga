@@ -25,3 +25,14 @@ def test_should_repr_as_expected_an_error_with_message():
         f"Result[status: failure | value: ErrorWithMessage: {given_any_message}]"
         == result.__repr__()
     )
+
+
+@pytest.mark.unit
+def test_should_repr_as_expected_an_error_without_message_attribute():
+    class ErrorWithOutMessage(Error):
+        def __init__(self):
+            pass
+
+    result = Result(failure=ErrorWithOutMessage())
+
+    assert "Result[status: failure | value: ErrorWithOutMessage]" == result.__repr__()
