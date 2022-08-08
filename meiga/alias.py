@@ -1,28 +1,21 @@
-from typing import Any, cast
+from typing import Generic, cast
 
 from meiga.error import Error
-from meiga.result import Result
+from meiga.result import TF, TS, Result
 
 
-# TODO: exploring solutions
-class Success(Result):
-    def __new__(self, value: Any = True) -> "Success":
-        return cast(Success, Result[type(value), Error](success=value))
+class Success(Result, Generic[TS]):
+    def __init__(self, value: TS = cast(TS, True)) -> None:
+        Result.__init__(self, success=value)
 
 
-# TODO: exploring solutions
-# class Failure(Result):
-#     def __new__(self, error: Error = Error()) -> "Failure":
-#         return cast(Failure, Result[..., Error](failure=error))
-
-
-class Failure(Result):
-    def __init__(self, error=Error()) -> None:
+class Failure(Result, Generic[TF]):
+    def __init__(self, error: TF = cast(TF, Error())) -> None:
         Result.__init__(self, failure=error)
 
 
-isSuccess = Success()
-isFailure = Failure()
+isSuccess: Success = Success()
+isFailure: Failure = Failure()
 NotImplementedMethodError = isFailure
 
 BoolResult = Result[bool, Error]
