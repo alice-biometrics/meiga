@@ -12,42 +12,51 @@ from meiga import (
 )
 
 
-@pytest.mark.unit
-def test_should_be_the_same_a_result_with_true_success_with_a_success_class():
-
-    result = Result(success=True)
-    success = Success()
-    success_with_true = Success(True)
-
-    assert result == success
-    assert result == success_with_true
-    assert result == isSuccess
-    # assert isinstance(result, Result)
-    # assert isinstance(success, Success)
-    # assert isinstance(success_with_true, Success)
+class MyInnerClass:
+    pass
 
 
 @pytest.mark.unit
-def test_should_be_the_same_a_result_with_an_error_failure_with_a_failure_class():
+class TestAlias:
+    def should_be_the_same_a_result_with_true_success_with_a_success_class(self):
 
-    result = Result(failure=Error())
-    failure = Failure()
-    failure_with_error = Failure(Error())
+        result = Result(success=True)
+        success = Success()
+        success_with_true = Success(True)
 
-    assert result == failure
-    assert result == failure_with_error
-    assert result == isFailure
+        assert result == success
+        assert result == success_with_true
+        assert result == isSuccess
+        assert isinstance(result, Result)
+        assert isinstance(success, Success)
+        assert isinstance(success_with_true, Success)
 
+    def should_be_the_same_a_result_with_an_error_failure_with_a_failure_class(self):
 
-@pytest.mark.unit
-def test_should_be_the_same_a_failure_and_a_not_implemented_method_error():
+        result = Result(failure=Error())
+        failure = Failure()
+        failure_with_error = Failure(Error())
 
-    assert NotImplementedMethodError == isFailure
+        assert result == failure
+        assert result == failure_with_error
+        assert result == isFailure
+        assert isinstance(result, Result)
+        assert isinstance(failure, Failure)
+        assert isinstance(failure_with_error, Failure)
 
+    def should_be_the_same_a_failure_and_a_not_implemented_method_error(self):
+        assert NotImplementedMethodError == isFailure
 
-@pytest.mark.unit
-def test_should_be_ok_use_bool_result_for_binary_return_eexpectation():
-    def handler() -> BoolResult:
-        return isSuccess
+    def should_be_ok_use_bool_result_for_binary_return_eexpectation(self):
+        def handler() -> BoolResult:
+            return isSuccess
 
-    assert handler().is_success
+        assert handler().is_success
+
+    @pytest.mark.parametrize("value", ["my str", 1, 2.0, MyInnerClass()])
+    def should_unwrap_a_given_type_value(self, value):
+        result = Result(success=value)
+        success = Success(value)
+
+        assert type(result.unwrap()) is type(value)
+        assert type(success.unwrap()) is type(value)
