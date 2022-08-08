@@ -60,3 +60,9 @@ class TestAlias:
 
         assert type(result.unwrap()) is type(value)
         assert type(success.unwrap()) is type(value)
+
+    def should_check_bool_result_is_available_in_the_public_api(self):
+        from meiga import BoolResult  # noqa
+
+    def should_check_any_result_is_available_in_the_public_api(self):
+        from meiga import AnyResult  # noqa
