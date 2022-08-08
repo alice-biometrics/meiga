@@ -1,8 +1,8 @@
 black==22.3.0
-flake8==4.0.1
+flake8==5.0.3
 isort[colors]==5.10.1
-pre-commit==2.19.0
-mypy==0.961
+pre-commit==2.20.0
+mypy==0.971
 safety==1.10.3
 pytest==7.1.2
 pytest-cov==3.0.0
@@ -10,4 +10,4 @@ pytest-mock==3.7.0
 pytest-env==0.6.2
 pytest-variables[yaml]==2.0.0
 pytest-clarity==1.0.1
-hypothesis==6.53.0
+hypothesis==6.54.1

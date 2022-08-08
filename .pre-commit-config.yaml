@@ -1,22 +1,27 @@
 repos:
-
   - repo: local
     hooks:
-      # Linter
       - id: black
         name: black
         entry: black .
         language: system
         types: [ python ]
+        require_serial: true
+        fail_fast: true
 
       - id: flake8
         name: flake8
         entry: flake8 meiga tests
         language: system
         types: [ python ]
+        require_serial: true
+        fail_fast: true
 
       - id: isort
         name: isort
         entry: isort .
         language: system
         types: [ python ]
+        require_serial: true
+        fail_fast: true
+
