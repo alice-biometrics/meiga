@@ -5,6 +5,7 @@
 
 from . import decorators
 from .alias import (
+    AnyResult,
     BoolResult,
     Failure,
     NotImplementedMethodError,
@@ -26,6 +27,7 @@ __all__ = [
     "isFailure",
     "NotImplementedMethodError",
     "BoolResult",
+    "AnyResult",
     "OnSuccessHandler",
     "OnFailureHandler",
 ]
