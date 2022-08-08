@@ -1,4 +1,4 @@
-from typing import Generic, cast
+from typing import Any, Generic, cast
 
 from meiga.error import Error
 from meiga.result import TF, TS, Result
@@ -19,3 +19,4 @@ isFailure: Failure = Failure()
 NotImplementedMethodError = isFailure
 
 BoolResult = Result[bool, Error]
+AnyResult = Result[Any, Error]
