@@ -1,7 +1,11 @@
+import sys
 from functools import wraps
 from typing import Callable, TypeVar, cast
 
-from typing_extensions import ParamSpec
+if sys.version_info < (3, 10):
+    from typing_extensions import ParamSpec
+else:
+    from typing import ParamSpec
 
 from meiga.alias import Failure
 from meiga.decorators.unexpected_decoration_order_error import (
