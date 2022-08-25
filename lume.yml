@@ -5,7 +5,7 @@ envs:
 
 install:
   run:
-    - pip install -U -r requirements/dev-requirements.txt
+    - pip install -U -r requirements/requirements.txt -r requirements/dev-requirements.txt
     - pip install -e .
     - pre-commit install
 
