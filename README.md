@@ -3,7 +3,14 @@
 
 <img src="https://github.com/alice-biometrics/custom-emojis/blob/master/images/alice_header.png?raw=true" width=auto>
 
-🧙 meiga is a Python µframework that provides a simple, fully typed, monad-based result type ➡️ `Result[Value, Error]`.
+## What is meiga 🧙?
+
+`meiga 🧙` is a Python µframework that provides a simple, fully typed, monad-based result type ➡️ `Result[Value, Error]`.
+
+# How could meiga 🧙 help me?
+
+`meiga 🧙` provides a simple and clear way of handling errors in Python without using `Exceptions`. This package improves the Dev Experience as it allows to know all possible typed responses. With Meiga 🧙 your IDE will help you much more. 
+
 
 ## Installation 💻
 
@@ -12,8 +19,6 @@ pip install meiga
 ~~~
 
 ## Getting Started 📈
-
-`meiga 🧙` provides a simple and clear way of handling errors in Python without using `Exceptions`. This package can help you to dry your code helping on modeling the output of your classes and method.
 
 This package provides a new type class, the `Result[Type, Type]`
 This Result type allows to simplify a wide range of problems, like handling potential undefined values, or reduce complexity handling exceptions. Additionally, code can be simplified following a semantic pipeline reducing the visual noise of checking data types, controlling runtime flow and side-effects.
