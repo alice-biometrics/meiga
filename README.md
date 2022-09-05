@@ -7,7 +7,7 @@
 
 `meiga 🧙` is a Python µframework that provides a simple, fully typed, monad-based result type ➡️ `Result[Value, Error]`.
 
-# How could meiga 🧙 help me?
+## How could meiga 🧙 help me?
 
 `meiga 🧙` provides a simple and clear way of handling errors in Python without using `Exceptions`. This package improves the Dev Experience as it allows to know all possible typed responses. With Meiga 🧙 your IDE will help you much more. 
 
