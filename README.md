@@ -3,7 +3,7 @@
 
 <img src="https://github.com/alice-biometrics/custom-emojis/blob/master/images/alice_header.png?raw=true" width=auto>
 
-A simple, typed and monad-based Result type for Python. 
+🧙 meiga is a Python µframework that provides a simple, fully typed, monad-based result type ➡️ `Result[Value, Error]`.
 
 ## Installation 💻
 
