@@ -28,6 +28,6 @@ def string_from_key(dictionary: dict, key: str) -> Result[str, Error]:
 
 Returned `Result` type provides a robust wrapper around the functions and methods. Rather than throw an exception, it returns a `Result` that either contains the `str` value for the given key, or an typed `Error`  detailing what went wrong (`Result[str, Error]`).
 
-You can be more specific returning a type  `Result[str, NoSuchKey | TypeMismatch]` or before PEP 604 (Python 3.10) `Result[str, Union[NoSuchKey,TypeMismatch]]` 
+You can be more specific returning a type  `Result[str, NoSuchKey | TypeMismatch]` or before *PEP 604 (Python 3.10)*, `Result[str, Union[NoSuchKey,TypeMismatch]]` 
 
 Check out everything that can be done with the `Result` type in the next section (Result Type). 
