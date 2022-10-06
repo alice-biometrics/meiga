@@ -27,8 +27,4 @@ class TestResultAssertion:
 
     def test_should_assert_a_failure_result_checking_instance_and_value(self):
         result = Result(failure=5)
-
-        import pdb
-
-        pdb.set_trace()
         result.assert_failure(value_is_instance_of=int, value_is_equal_to=5)
