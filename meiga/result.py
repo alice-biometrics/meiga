@@ -1,5 +1,6 @@
 from typing import Any, Callable, Generic, Optional, Type, TypeVar, Union, cast
 
+from meiga.assertions import assert_failure, assert_success
 from meiga.deprecation import (
     get_on_failure_handler_from_deprecated_args,
     get_on_success_handler_from_deprecated_args,
@@ -165,5 +166,23 @@ class Result(Generic[TS, TF]):
     def map(self, transform: Callable) -> None:
         new_value = transform(self.value)
         self.set_value(new_value)
+
+    def assert_success(
+        self, value_is_instance_of: Type = None, value_is_equal_to: Any = None
+    ) -> None:
+        assert_success(
+            result=self,
+            value_is_instance_of=value_is_instance_of,
+            value_is_equal_to=value_is_equal_to,
+        )
+
+    def assert_failure(
+        self, value_is_instance_of: Type = None, value_is_equal_to: Any = None
+    ) -> None:
+        assert_failure(
+            result=self,
+            value_is_instance_of=value_is_instance_of,
+            value_is_equal_to=value_is_equal_to,
+        )
 
     value = property(get_value)
