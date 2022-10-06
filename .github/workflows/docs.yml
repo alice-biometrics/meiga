@@ -1,0 +1,24 @@
+name: docs
+
+on:
+  push:
+    paths:
+      - 'docs/'
+    branches:
+      - main
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+        python-version: 3.10
+        cache: pip
+    - name: Create Documentation
+      run: |
+        pip install lume
+        lume -docs
+    - name: Publish
+      run: mkdocs gh-deploy --force

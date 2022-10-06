@@ -1,0 +1,6 @@
+ansi2html
+markdown-include
+mdx-truly-sane-lists
+mkdocs
+mkdocs-exclude
+mkdocs-material
