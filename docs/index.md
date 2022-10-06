@@ -11,7 +11,7 @@
 
 ## What is meiga?
 
-`meiga` is a Python µframework that provides a simple, fully typed, monad-based result type ➡️ `Result[Value, Error]`.
+`meiga` is a Python **µframework** that provides a simple, fully typed, monad-based result type (`Result[Value, Error]`).
 
 ## How could meiga help me?
 
