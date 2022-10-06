@@ -38,6 +38,10 @@ steps:
     run: pytest -c pytest.coverage.ini
   test:
     run: pytest -v
+  docs:
+    run: | 
+      pip install -r requirements/docs-requirements.txt
+      mkdocs build
   check-no-binary-installation:
     run: |
       pip install wheel

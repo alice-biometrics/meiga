@@ -1,0 +1,69 @@
+site_name: meiga
+site_description: 🧙 meiga is a Python µframework that provides a simple, fully typed, monad-based result type ➡️ Result[Value, Error].
+strict: true
+site_url: https://github.com/alice-biometrics/meiga
+
+theme:
+  name: 'material'
+  custom_dir: 'docs/theme'
+  palette:
+  - media: "(prefers-color-scheme: light)"
+    scheme: default
+    primary: blue
+    accent: blue
+    toggle:
+      icon: material/lightbulb-outline
+      name: "Switch to dark mode"
+  - media: "(prefers-color-scheme: dark)"
+    scheme: slate
+    primary: blue
+    accent: blue
+    toggle:
+      icon: material/lightbulb
+      name: "Switch to light mode"
+  features:
+    - content.tabs.link
+  logo: 'logo-white.png'
+  favicon: 'favicon.png'
+
+repo_name: alice-biometrics/meiga
+repo_url: https://github.com/alice-biometrics/meiga
+edit_uri: edit/main/docs/
+
+extra_css:
+- 'extra/terminal.css'
+- 'extra/tweaks.css'
+extra_javascript:
+- 'extra/redirects.js'
+- 'extra/ad.js'
+
+nav:
+- Overview: index.md
+- install.md
+- Usage:
+  - usage/getting_started.md
+  - usage/result_type.md
+  - usage/alias.md
+  - usage/decorator.md
+  - usage/assertions.md
+- Contributing to meiga: contributing.md
+- changelog.md
+
+markdown_extensions:
+- tables
+- markdown_include.include:
+    base_path: docs
+- toc:
+    permalink: true
+- admonition
+- pymdownx.highlight
+- pymdownx.extra
+- mdx_truly_sane_lists
+
+plugins:
+- search
+- exclude:
+    glob:
+    - _build/*
+    - build/*
+    - requirements/*
