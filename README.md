@@ -23,12 +23,6 @@
 pip install meiga
 ```
 
-## Overview
-
-<div>
-<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:6973279084642480129?compact=1" height="399" width="710" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
-</div>
-
 ## Documentation
 
 Please, check out our [documentation](https://alice-biometrics.github.io/meiga/) 
