@@ -1,18 +1,19 @@
-from typing import Any
+from typing import TYPE_CHECKING, Any, Type
 
-from meiga.result import Result
+if TYPE_CHECKING:
+    from meiga.result import Result
 
 
 def assert_failure(
-    result: Result, value_is_instance_of: Any = None, value_is_equal_to: Any = None
-):
+    result: "Result", value_is_instance_of: Type = None, value_is_equal_to: Any = None
+) -> None:
     assert (
         result.is_failure
     ), f"result is not failure as expected. Given failure value is {result.value}"
     if value_is_instance_of:
         assert isinstance(result.value, value_is_instance_of), (
             f"Value is not instance of {value_is_instance_of}. "
-            f"Given value is {result.value}"
+            f"Given value is {result.value} of {type({result.value})}"
         )
     if value_is_equal_to:
         assert result.value == value_is_equal_to, (

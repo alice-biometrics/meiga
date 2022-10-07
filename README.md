@@ -19,28 +19,19 @@
 
 ## Installation 💻
 
-~~~
+```console
 pip install meiga
-~~~
-
-## Overview
-
-<iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:6973279084642480129?compact=1" height="399" width="710" frameborder="0" allowfullscreen="" title="Embedded post"></iframe>
+```
 
 ## Documentation
 
-Please, check out our [documentation]() TODO
-
-This package provides a new type class, the `Result[Type, Type]`
-This Result type allows to simplify a wide range of problems, like handling potential undefined values, or reduce complexity handling exceptions. Additionally, code can be simplified following a semantic pipeline reducing the visual noise of checking data types, controlling runtime flow and side-effects.
-
-This package is based in another solutions from another modern languages as this swift-based [Result](https://github.com/antitypical/Result) implementation.
+Please, check out our [documentation](https://alice-biometrics.github.io/meiga/) 
 
 ## Contribute 
 
 We'd love you to contribute to *meiga* 📜⚗️ 🙋🏾‍♀️🤷🏾‍♂️!
 
-For more information, check our [documentation]()
+For more information, check our [documentation](https://alice-biometrics.github.io/meiga/contributing/)
 
 ## Contact 📬
 
