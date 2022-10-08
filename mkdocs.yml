@@ -40,8 +40,8 @@ extra_javascript:
 nav:
 - Overview: index.md
 - install.md
+- getting_started.md
 - Usage:
-  - usage/getting_started.md
   - usage/result_type.md
   - usage/alias.md
   - usage/decorator.md
