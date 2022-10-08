@@ -35,7 +35,7 @@ Returned `Result` type provides a robust wrapper around the functions and method
     We can be more specific returning a type as `Result[str, NoSuchKey | TypeMismatch]` or before *PEP 604 (Python 3.10)*, `Result[str, Union[NoSuchKey,TypeMismatch]]`.
     With this type hints we know specifically all result options of our use case.
 
-## Code comparison of code with and without meiga 
+## Code comparison with and without meiga 
 
 ### Without meiga
 
@@ -92,7 +92,7 @@ str_value = string_from_key(dictionary=dictionary, key="key1").unwrap()
 # 😊 I'll get a Result (either Success or Failure) and I know possible errors
 ```
 
-## Code comparison of code with and without meiga 
+## Test comparison with and without meiga 
 
 ### Without meiga
 
