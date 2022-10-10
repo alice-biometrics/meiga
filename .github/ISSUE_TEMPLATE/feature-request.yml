@@ -65,9 +65,9 @@ body:
     attributes:
       label: Alternatives
       description: |
-        Tell me about alternatives you've considered.
+        Tell us about alternatives you've considered.
       placeholder: |
-        Define a whatever thats help on mapping...
+        Define a whatever that help on your feature request...
   - type: dropdown
     id: os
     attributes:
