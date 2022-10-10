@@ -1,13 +1,14 @@
 Use meiga aliases to improve the semantics of your code. Check out the meiga available alias:
 
-| Alias                       | Definition                                                                  | 
-|-----------------------------|:----------------------------------------------------------------------------| 
-| `Success(value)`            | Equivalent to `Result(success=value)`                                       | 
-| `Failure(value)`            | Equivalent to `Result(failure=error_instance)`                              | 
-| `isSuccess`                 | Equivalent to `Result(success=True)`                                        |
-| `isFailure`                 | Equivalent to `Result(failure=Error())`                                     |
-| `NotImplementedMethodError` | Useful to define abstract methods on interfaces given semantic to your code | 
-
+| Alias                        | Definition                                                                  | 
+|------------------------------|:----------------------------------------------------------------------------| 
+| `Success(value)`             | Equivalent to `Result(success=value)`                                       | 
+| `Failure(value)`             | Equivalent to `Result(failure=error_instance)`                              | 
+| `isSuccess`                  | Equivalent to `Result(success=True)`                                        |
+| `isFailure`                  | Equivalent to `Result(failure=Error())`                                     |
+| `NotImplementedMethodError`  | Useful to define abstract methods on interfaces given semantic to your code | 
+| `BoolResult`                 | Equivalent to `Result[bool, Error]`                                         |  
+| `AnyResult`                  | Equivalent to `Result[Any, Error]`                                          |  
 
 ## Success
 
