@@ -29,7 +29,7 @@ Please, check out our [documentation](https://alice-biometrics.github.io/meiga/)
 
 ## Contribute 
 
-We'd love you to contribute to *meiga* 📜⚗️ 🙋🏾‍♀️🤷🏾‍♂️!
+We'd love you to contribute to *meiga* 🥳🥳🥳🥳🥳🥳️️!
 
 For more information, check our [documentation](https://alice-biometrics.github.io/meiga/contributing/)
 
