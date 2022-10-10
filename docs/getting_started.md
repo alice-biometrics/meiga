@@ -35,7 +35,9 @@ Returned `Result` type provides a robust wrapper around the functions and method
     We can be more specific returning a type as `Result[str, NoSuchKey | TypeMismatch]` or before *PEP 604 (Python 3.10)*, `Result[str, Union[NoSuchKey,TypeMismatch]]`.
     With this type hints we know specifically all result options of our use case.
 
-## Code comparison with and without meiga 
+## Code comparison
+
+In the following examples we compare the same use case using and not using meiga to type the return value.
 
 ### Without meiga
 
@@ -92,7 +94,9 @@ str_value = string_from_key(dictionary=dictionary, key="key1").unwrap()
 # 😊 I'll get a Result (either Success or Failure) and I know possible errors
 ```
 
-## Test comparison with and without meiga 
+## Test comparison
+
+As we can check in the following examples, meiga simplifies our tests with some useful assertion methods.
 
 ### Without meiga
 
@@ -138,18 +142,16 @@ class TestExampleWithMeiga:
 
     def should_success(self):
         result = string_from_key(dictionary=self.dictionary, key="key1")
-        result.assert_success(result, value_is_instance_of=str)
+        result.assert_success(value_is_instance_of=str)
 
     def should_fail_when_key_does_not_exist(self):
         result = string_from_key(dictionary=self.dictionary, key="invalid_key")
-        result.assert_failure(result, value_is_instance_of=NoSuchKey)
+        result.assert_failure(value_is_instance_of=NoSuchKey)
 
     def should_fail_when_type_mismatch(self):
         result = string_from_key(dictionary=self.dictionary, key="key2")
-        result.assert_failure(result, value_is_instance_of=TypeMismatch)
-
+        result.assert_failure(value_is_instance_of=TypeMismatch)
 ```
-
 
 !!! note
     Check out everything that can be done with the `Result` type in the next section (Result Type). 

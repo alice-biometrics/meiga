@@ -1,4 +1,4 @@
-from typing import Union
+from __future__ import annotations
 
 from meiga import Error, Failure, Result, Success
 
@@ -13,7 +13,7 @@ class TypeMismatch(Error):
 
 def string_from_key(
     dictionary: dict, key: str
-) -> Result[str, Union[NoSuchKey, TypeMismatch]]:
+) -> Result[str, NoSuchKey | TypeMismatch]:
     if key not in dictionary.keys():
         return Failure(NoSuchKey())
 
@@ -25,5 +25,5 @@ def string_from_key(
 
 
 dictionary = {"key1": "value", "key2": 2}
-str_value = string_from_key(dictionary=dictionary, key="key1").unwrap()
+result = string_from_key(dictionary=dictionary, key="key1")
 # 😊 I'll get a Result (either Success or Failure) and I know possible errors

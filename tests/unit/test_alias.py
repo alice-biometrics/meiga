@@ -28,8 +28,8 @@ class TestAlias:
         assert result == success_with_true
         assert result == isSuccess
         assert isinstance(result, Result)
-        assert isinstance(success, Success)
-        assert isinstance(success_with_true, Success)
+        assert isinstance(success, Result)
+        assert isinstance(success_with_true, Result)
 
     def should_be_the_same_a_result_with_an_error_failure_with_a_failure_class(self):
 
@@ -41,8 +41,8 @@ class TestAlias:
         assert result == failure_with_error
         assert result == isFailure
         assert isinstance(result, Result)
-        assert isinstance(failure, Failure)
-        assert isinstance(failure_with_error, Failure)
+        assert isinstance(failure, Result)
+        assert isinstance(failure_with_error, Result)
 
     def should_be_the_same_a_failure_and_a_not_implemented_method_error(self):
         assert NotImplementedMethodError == isFailure
