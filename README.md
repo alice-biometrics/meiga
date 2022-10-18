@@ -9,6 +9,14 @@
 
 <img src="https://github.com/alice-biometrics/custom-emojis/blob/master/images/alice_header.png?raw=true" width=auto>
 
+---
+
+**Documentation**: <a href="https://alice-biometrics.github.io/meiga/" target="_blank">https://alice-biometrics.github.io/meiga/</a>
+
+**Source Code**: <a href="https://github.com/alice-biometrics/meiga" target="_blank">https://github.com/alice-biometrics/meiga</a>
+
+---
+
 ## What is meiga 🧙?
 
 `meiga 🧙` is a Python µframework that provides a simple, fully typed, monad-based result type ➡️ `Result[Value, Error]`.
@@ -22,10 +30,6 @@
 ```console
 pip install meiga
 ```
-
-## Documentation
-
-Please, check out our [documentation](https://alice-biometrics.github.io/meiga/) 
 
 ## Contribute 
 
