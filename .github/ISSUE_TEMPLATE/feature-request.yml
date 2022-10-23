@@ -26,27 +26,20 @@ body:
   - type: textarea
     id: description
     attributes:
-      label: Description
+      label: Description & Wanted Solution
       description: |
         What is your feature request?
 
         Write a short description telling me what you are trying to solve and what you are currently doing.
+      
+        Propose a solution.
       placeholder: |
         * Using `Result` class
         * I would like it to have an extra parameter to configure unions.
         * This could be useful to ... whatever
     validations:
       required: true
-  - type: textarea
-    id: wanted-solution
-    attributes:
-      label: Wanted Solution
-      description: |
-        Tell me what's the solution you would like.
-      placeholder: |
-        I want Result class to do whatever...
-    validations:
-      required: true
+
   - type: textarea
     id: wanted-code
     attributes:
@@ -68,52 +61,7 @@ body:
         Tell us about alternatives you've considered.
       placeholder: |
         Define a whatever that help on your feature request...
-  - type: dropdown
-    id: os
-    attributes:
-      label: Operating System
-      description: What operating system are you on?
-      multiple: true
-      options:
-        - Linux
-        - Windows
-        - macOS
-        - Other
-    validations:
-      required: true
-  - type: textarea
-    id: os-details
-    attributes:
-      label: Operating System Details
-      description: You can add more details about your operating system here, in particular if you chose "Other".
-  - type: input
-    id: meiga-version
-    attributes:
-      label: meiga Version
-      description: |
-        What meiga version are you using?
 
-        You can find the meiga version with:
-
-        ```bash
-        >> python -c "import meiga; print(meiga.__version__)"
-        ```
-    validations:
-      required: true
-  - type: input
-    id: python-version
-    attributes:
-      label: Python Version
-      description: |
-        What Python version are you using?
-
-        You can find the Python version with:
-
-        ```bash
-        python --version
-        ```
-    validations:
-      required: true
   - type: textarea
     id: context
     attributes:
