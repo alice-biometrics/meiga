@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Any, Type
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     from meiga.result import Result
 
 

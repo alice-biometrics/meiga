@@ -2,7 +2,7 @@ import sys
 from functools import wraps
 from typing import Callable, TypeVar, cast
 
-if sys.version_info < (3, 10):
+if sys.version_info < (3, 10):  # pragma: no cover
     from typing_extensions import ParamSpec
 else:
     from typing import ParamSpec
