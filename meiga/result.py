@@ -16,6 +16,7 @@ TEF = TypeVar("TEF")  # External Failure Type
 
 class Result(Generic[TS, TF]):
     __id__ = "__meiga_result_identifier__"
+    __slots__ = ("_value_success", "_value_failure", "_is_success")
 
     def __init__(
         self,
