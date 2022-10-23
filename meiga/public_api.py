@@ -13,6 +13,7 @@ from .alias import (
     isFailure,
     isSuccess,
 )
+from .decorators.early_return import early_return
 from .error import Error
 from .handlers import OnFailureHandler, OnSuccessHandler
 from .result import Result
@@ -30,4 +31,5 @@ __all__ = [
     "AnyResult",
     "OnSuccessHandler",
     "OnFailureHandler",
+    "early_return",
 ]
