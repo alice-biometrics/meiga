@@ -19,14 +19,6 @@ class Failure(Generic[TF], Result[Any, TF]):
         super().__init__(failure=error)
 
 
-# def Success(value: TS = cast(TS, True)) -> Result[TS, Any]:  # type: ignore
-#     return Result(success=value)
-#
-#
-# def Failure(error: TF = cast(TF, Error())) -> Result[Any, TF]:  # type: ignore
-#     return Result(failure=error)
-
-
 isSuccess: Result = Success()
 isFailure: Result = Failure()
 NotImplementedMethodError: Result = isFailure

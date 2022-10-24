@@ -29,6 +29,29 @@ def string_from_key(dictionary: dict, key: str) -> Result[str, Error]:
     return Result(success=value)
 ```
 
+!!! tip "Use alias (Success & Failure) to improve the expressivity of our code"
+
+    ```python
+    from meiga import Result, Error
+    
+    class NoSuchKey(Error): ...
+    class TypeMismatch(Error): ...
+    
+    def string_from_key(dictionary: dict, key: str) -> Result[str, Error]:
+        if key not in dictionary.keys():
+            return Failure(NoSuchKey())
+    
+        value = dictionary[key]
+        if not isinstance(value, str):
+            return Failure(TypeMismatch())
+    
+        return Success(value)
+    ```
+
+    See [Alias documentation](usage/alias.md).
+
+
+
 Returned `Result` type provides a robust wrapper around the functions and methods. Rather than throw an exception, it returns a `Result` that either contains the success `str` value for the given key, or a typed failure with a specific and detailed `Error` (`Result[str, Error]`).
 
 !!! note 
