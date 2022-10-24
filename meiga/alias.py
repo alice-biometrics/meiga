@@ -1,15 +1,30 @@
-from typing import Any, cast
+from typing import Any, Generic, cast
 
 from meiga.error import Error
 from meiga.result import TF, TS, Result
 
 
-def Success(value: TS = cast(TS, True)) -> Result[TS, Any]:  # type: ignore
-    return Result(success=value)
+class Success(Generic[TS], Result[TS, Any]):
+    __match_args__ = ("_value_success",)
+
+    def __init__(self, value: TS = cast(TS, True)) -> None:
+        super().__init__(success=value)
 
 
-def Failure(error: TF = cast(TF, Error())) -> Result[Any, TF]:  # type: ignore
-    return Result(failure=error)
+class Failure(Generic[TF], Result[Any, TF]):
+
+    __match_args__ = ("_value_failure",)
+
+    def __init__(self, error: TF = cast(TF, Error())) -> None:
+        super().__init__(failure=error)
+
+
+# def Success(value: TS = cast(TS, True)) -> Result[TS, Any]:  # type: ignore
+#     return Result(success=value)
+#
+#
+# def Failure(error: TF = cast(TF, Error())) -> Result[Any, TF]:  # type: ignore
+#     return Result(failure=error)
 
 
 isSuccess: Result = Success()
