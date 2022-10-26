@@ -13,3 +13,6 @@ class Error(Exception):
             suffix = f": {self.message}"
 
         return f"{self.__class__.__name__}{suffix}"
+
+    def __hash__(self):
+        return hash((self.message,))

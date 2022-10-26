@@ -19,9 +19,9 @@ P = ParamSpec("P")
 R = TypeVar("R", bound=Result)
 
 
-def meiga(func: Callable[P, R]) -> Callable[P, R]:
+def early_return(func: Callable[P, R]) -> Callable[P, R]:
     @wraps(func)
-    def _meiga(*args: P.args, **kwargs: P.kwargs) -> R:
+    def _early_return(*args: P.args, **kwargs: P.kwargs) -> R:
         try:
             if isinstance(func, staticmethod):
                 return Failure(UnexpectedDecorationOrderError())
@@ -34,4 +34,7 @@ def meiga(func: Callable[P, R]) -> Callable[P, R]:
         except Error as error:
             return cast(R, Failure(error))
 
-    return _meiga
+    return _early_return
+
+
+meiga = early_return  # To keep compatibility (Now this is deprecated)
