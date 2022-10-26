@@ -95,7 +95,7 @@ def test_should_return_a_unexpected_decorator_order_failure_result_with_meiga_de
     assert_failure(result, value_is_instance_of=UnexpectedDecorationOrderError)
     assert (
         result.value.message
-        == "@meiga decorator must be declared after a @staticmethod, @classmethod"
+        == "meiga decorators must be declared after a @staticmethod, @classmethod"
     )
 
 
@@ -111,5 +111,5 @@ def test_should_return_a_unexpected_decorator_order_failure_result_with_meiga_de
     assert_failure(result, value_is_instance_of=UnexpectedDecorationOrderError)
     assert (
         result.value.message
-        == "@meiga decorator must be declared after a @staticmethod, @classmethod"
+        == "meiga decorators must be declared after a @staticmethod, @classmethod"
     )
