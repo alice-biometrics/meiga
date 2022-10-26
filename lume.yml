@@ -31,7 +31,7 @@ steps:
       - flake8 $PACKAGE_NAME
       - isort .
   check-requirements:
-    run: echo "Meiga does not need any requirements"
+    run: safety check -r requirements/requirements.txt
   static-analysis:
     run: mypy $PACKAGE_NAME
   coverage:
