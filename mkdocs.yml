@@ -47,9 +47,10 @@ nav:
 - install.md
 - getting_started.md
 - Usage:
-  - usage/result_type.md
+  - usage/result.md
   - usage/alias.md
-  - usage/decorator.md
+  - usage/detail.md
+  - usage/decorators.md
   - usage/assertions.md
 - Contributing to meiga: contributing.md
 - changelog.md
@@ -63,6 +64,7 @@ markdown_extensions:
   - admonition
   - pymdownx.highlight:
       anchor_linenums: true
+  - pymdownx.details
   - pymdownx.inlinehilite
   - pymdownx.snippets
   - pymdownx.superfences

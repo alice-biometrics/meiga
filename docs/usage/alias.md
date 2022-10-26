@@ -52,27 +52,27 @@ result = Failure(Error())
 result = isFailure # Only valid for a failure result with non-specific Error() value
 ```
 
-## Example
+???+ Example
 
-If we review the previous example back. We were using already the alias to improve the expresivity of our code:
-
-```python
-from __future__ import annotations
-from meiga import Result, Error, Success, Failure
-
-class NoSuchKey(Error): ...
-class TypeMismatch(Error): ...
-
-def string_from_key(dictionary: dict, key: str) -> Result[str, NoSuchKey | TypeMismatch]:
-    if key not in dictionary.keys():
-        return Failure(NoSuchKey())
-
-    value = dictionary[key]
-    if not isinstance(value, str):
-        return Failure(TypeMismatch())
-
-    return Success(value)
-```
+    If we review the previous example back [Getting Started](../getting_started.md). We were using already the alias to improve the expressivity of our code:
+    
+    ```python
+    from __future__ import annotations
+    from meiga import Result, Error, Success, Failure
+    
+    class NoSuchKey(Error): ...
+    class TypeMismatch(Error): ...
+    
+    def string_from_key(dictionary: dict, key: str) -> Result[str, NoSuchKey | TypeMismatch]:
+        if key not in dictionary.keys():
+            return Failure(NoSuchKey())
+    
+        value = dictionary[key]
+        if not isinstance(value, str):
+            return Failure(TypeMismatch())
+    
+        return Success(value)
+    ```
 
 ## NotImplementedMethodError
 

@@ -1,7 +1,34 @@
-Use `@early_return` as a decorator to protect your results and prevent from unexpected exceptions. It always returns a `Result` object.
+Use decorators to protect your results and prevent from unexpected exceptions. They always return a `Result` object.
 
-**Use `@early_return` decoration in combination with `unwrap_or_return()`**.
+## `to_result`
 
+Use `@to_result` to wrap a function transforming returned value in a `Success` and raised Exceptions in a `Failure`.
+
+```python
+from meiga import to_result, Result, Error
+class NoSuchKey(Exception): ...
+class TypeMismatch(Exception): ...
+
+@to_result
+def string_from_key(dictionary: dict, key: str) -> str:
+    if key not in dictionary.keys():
+        raise NoSuchKey()
+
+    value = dictionary[key]
+    if not isinstance(value, str):
+        raise TypeMismatch()
+
+    return value
+
+dictionary = {"key1": "value", "key2": 2}
+key = "key1"
+
+result: Result[str, Error] = string_from_key(dictionary=dictionary, key=key)
+```   
+
+## `early_return`
+
+Use `@early_return` decoration in combination with `unwrap_or_return()`.
 The `unwrap_or_return` will unwrap the value of the `Result` monad only if it is a success. 
 Otherwise, this will return a Failure (Result with a failure) when using `@early_return` decorator.
 
@@ -26,15 +53,15 @@ On the other side, when retrieve function with not valid `UserId`, the repositor
     
     ```python
     def unwrap_or_return(self, return_value_on_failure: Any = None) -> TS:
-    if not self._is_success:
-        return_value = (
-            self if return_value_on_failure is None else return_value_on_failure
-        )
-        raise OnFailureException(return_value)
-    return cast(TS, self.value)
+        if not self._is_success:
+            return_value = (
+                self if return_value_on_failure is None else return_value_on_failure
+            )
+            raise OnFailureException(return_value)
+        return cast(TS, self.value)
     ```
 
-    And `@early_return` decorator catches the exception and covert it to a `Result`:
+    And `@early_return` decorator catches the exception and coverts it to a `Result`:
 
     ```python
     P = ParamSpec("P")
