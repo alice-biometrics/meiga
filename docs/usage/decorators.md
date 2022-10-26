@@ -1,14 +1,41 @@
-Use `@meiga` as a decorator to protect your results and prevent from unexpected exceptions. It always returns a `Result` object.
+Use decorators to protect your results and prevent from unexpected exceptions. They always return a `Result` object.
 
-**Use `@meiga` decoration in combination with `unwrap_or_return()`**.
+## `to_result`
 
-The `unwrap_or_return` will unwrap the value of the `Result` monad only if it is a success. 
-Otherwise, this will return a Failure (Result with a failure) when using `@meiga` decorator.
+Use `@to_result` to wrap a function transforming returned value in a `Success` and raised Exceptions in a `Failure`.
 
 ```python
-from meiga.decorators import meiga
+from meiga import to_result, Result, Error
+class NoSuchKey(Exception): ...
+class TypeMismatch(Exception): ...
 
-@meiga
+@to_result
+def string_from_key(dictionary: dict, key: str) -> str:
+    if key not in dictionary.keys():
+        raise NoSuchKey()
+
+    value = dictionary[key]
+    if not isinstance(value, str):
+        raise TypeMismatch()
+
+    return value
+
+dictionary = {"key1": "value", "key2": 2}
+key = "key1"
+
+result: Result[str, Error] = string_from_key(dictionary=dictionary, key=key)
+```   
+
+## `early_return`
+
+Use `@early_return` decoration in combination with `unwrap_or_return()`.
+The `unwrap_or_return` will unwrap the value of the `Result` monad only if it is a success. 
+Otherwise, this will return a Failure (Result with a failure) when using `@early_return` decorator.
+
+```python
+from meiga import early_return, BoolResult, isSuccess
+
+@early_return
 def update_user(user_id: UserId, new_name: str) -> BoolResult:
      user = repository.retrieve(user_id).unwrap_or_return()
      user.update_name(new_name)
@@ -26,24 +53,24 @@ On the other side, when retrieve function with not valid `UserId`, the repositor
     
     ```python
     def unwrap_or_return(self, return_value_on_failure: Any = None) -> TS:
-    if not self._is_success:
-        return_value = (
-            self if return_value_on_failure is None else return_value_on_failure
-        )
-        raise OnFailureException(return_value)
-    return cast(TS, self.value)
+        if not self._is_success:
+            return_value = (
+                self if return_value_on_failure is None else return_value_on_failure
+            )
+            raise OnFailureException(return_value)
+        return cast(TS, self.value)
     ```
 
-    And `@meiga` decorator catches the exception and covert it to a `Result`:
+    And `@early_return` decorator catches the exception and coverts it to a `Result`:
 
     ```python
     P = ParamSpec("P")
     R = TypeVar("R", bound=Result)
     
     
-    def meiga(func: Callable[P, R]) -> Callable[P, R]:
+    def early_return(func: Callable[P, R]) -> Callable[P, R]:
         @wraps(func)
-        def _meiga(*args: P.args, **kwargs: P.kwargs) -> R:
+        def _early_return(*args: P.args, **kwargs: P.kwargs) -> R:
             try:
                 if isinstance(func, staticmethod):
                     return Failure(UnexpectedDecorationOrderError())
@@ -56,7 +83,7 @@ On the other side, when retrieve function with not valid `UserId`, the repositor
             except Error as error:
                 return cast(R, Failure(error))
     
-        return _meiga
+        return _early_return
     ```
 
 
@@ -65,12 +92,12 @@ On the other side, when retrieve function with not valid `UserId`, the repositor
     When decorate `staticmethod` and `classmethod` check the order, otherwise it will raise an error (UnexpectedDecorationOrderError) as these kinds of methods are not callable.
     
     ```python
-    from meiga.decorators import meiga
+    from meiga import early_return
     
     class UserCreatorFactory:
     
         @staticmethod
-        @meiga
+        @early_return
         def from_version(version: str) -> Result[UserCreator, Error]:
             if version == "migration_v1":
                 creator = UserCreator.build()

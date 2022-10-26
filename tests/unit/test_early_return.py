@@ -1,13 +1,13 @@
 import pytest
 
-from meiga import BoolResult, Error, isFailure, isSuccess
+from meiga import BoolResult, Error, early_return, isFailure, isSuccess
 from meiga.assertions import assert_failure, assert_success
-from meiga.decorators import UnexpectedDecorationOrderError, meiga
+from meiga.decorators import UnexpectedDecorationOrderError
 
 
 @pytest.mark.unit
 def test_should_return_a_success_result_with_meiga_decorator():
-    @meiga
+    @early_return
     def decorated_method():
         return isSuccess
 
@@ -18,7 +18,7 @@ def test_should_return_a_success_result_with_meiga_decorator():
 
 @pytest.mark.unit
 def test_should_return_a_failure_result_with_meiga_decorator():
-    @meiga
+    @early_return
     def decorated_method():
         return isFailure
 
@@ -29,7 +29,7 @@ def test_should_return_a_failure_result_with_meiga_decorator():
 
 @pytest.mark.unit
 def test_should_return_a_failure_result_with_meiga_decorator_when_raise_an_error():
-    @meiga
+    @early_return
     def decorated_method():
         raise Error()
 
@@ -44,7 +44,7 @@ def test_should_return_a_failure_result_with_meiga_decorator_when_raise_an_error
         def __init__(self, message):
             self.message = message
 
-    @meiga
+    @early_return
     def decorated_method():
         raise MyError("message")
 
@@ -59,7 +59,7 @@ def test_should_return_a_failure_result_with_meiga_decorator_and_inner_function_
         def __init__(self, message):
             self.message = message
 
-    @meiga
+    @early_return
     def decorated_method():
         def inner():
             raise MyError("message")
@@ -75,7 +75,7 @@ def test_should_return_a_failure_result_with_meiga_decorator_and_inner_function_
 def test_should_return_a_success_result_with_meiga_decorator_and_static_function_right_order():
     class MyClass:
         @staticmethod
-        @meiga
+        @early_return
         def decorated_method() -> BoolResult:
             return isSuccess
 
@@ -86,7 +86,7 @@ def test_should_return_a_success_result_with_meiga_decorator_and_static_function
 @pytest.mark.unit
 def test_should_return_a_unexpected_decorator_order_failure_result_with_meiga_decorator_and_static_method():
     class MyClass:
-        @meiga
+        @early_return
         @staticmethod
         def decorated_method() -> BoolResult:
             return isSuccess
@@ -95,14 +95,14 @@ def test_should_return_a_unexpected_decorator_order_failure_result_with_meiga_de
     assert_failure(result, value_is_instance_of=UnexpectedDecorationOrderError)
     assert (
         result.value.message
-        == "@meiga decorator must be declared after a @staticmethod, @classmethod"
+        == "meiga decorators must be declared after a @staticmethod, @classmethod"
     )
 
 
 @pytest.mark.unit
 def test_should_return_a_unexpected_decorator_order_failure_result_with_meiga_decorator_and_class_method():
     class MyClass:
-        @meiga
+        @early_return
         @classmethod
         def decorated_method(cls) -> BoolResult:
             return isSuccess
@@ -111,5 +111,5 @@ def test_should_return_a_unexpected_decorator_order_failure_result_with_meiga_de
     assert_failure(result, value_is_instance_of=UnexpectedDecorationOrderError)
     assert (
         result.value.message
-        == "@meiga decorator must be declared after a @staticmethod, @classmethod"
+        == "meiga decorators must be declared after a @staticmethod, @classmethod"
     )

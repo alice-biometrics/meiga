@@ -50,7 +50,7 @@ nav:
   - usage/result.md
   - usage/alias.md
   - usage/detail.md
-  - usage/decorator.md
+  - usage/decorators.md
   - usage/assertions.md
 - Contributing to meiga: contributing.md
 - changelog.md

@@ -211,11 +211,9 @@ Returns itself and execute the on_success_handler when the instance is a success
     
     ```python
     from meiga import Result, Error, OnSuccessHandler, OnFailureHandler
-    from meiga.decorators import meiga
     
     args = (1, Result.__id__, 2)
-    
-    
+
     def success_handler(param_1: int, result: Result, param_2: int):
         assert param_1 == 1
         assert isinstance(result, Result)
@@ -228,9 +226,7 @@ Returns itself and execute the on_success_handler when the instance is a success
         assert isinstance(result, Result)
         assert result.value == Error()
         assert param_2 == 2
-    
-    
-    @meiga
+     
     def run(result: Result):
         result.handle(
             on_success_handler=OnSuccessHandler(func=success_handler, args=args),

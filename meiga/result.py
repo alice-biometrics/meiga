@@ -17,6 +17,7 @@ TEF = TypeVar("TEF")  # External Failure Type
 class Result(Generic[TS, TF]):
     __id__ = "__meiga_result_identifier__"
     __match_args__ = ("_value_success", "_value_failure")
+    __slots__ = ("_value_success", "_value_failure", "_is_success")
 
     def __init__(
         self,
@@ -35,13 +36,22 @@ class Result(Generic[TS, TF]):
             value = self.value
         return f"Result[status: {status} | value: {value}]"
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: Any) -> bool:
         if isinstance(other, Result):
             return (
                 self._value_success == other._value_success
                 and self.value == other.value
             )
         return False
+
+    def __ne__(self, other: Any) -> bool:
+        return not (self == other)
+
+    def __hash__(self) -> int:
+        if self._is_success:
+            return hash((self._is_success, self._value_success))
+        else:
+            return hash((self._is_success, self._value_failure))
 
     def _assert_values(self) -> None:
         self._is_success = False

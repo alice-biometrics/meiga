@@ -62,119 +62,117 @@ Returned `Result` type provides a robust wrapper around the functions and method
 
 In the following examples we compare the same use case using and not using meiga to type the return value.
 
-### Without meiga
+!!! warning "Without meiga"
 
-```python
-class NoSuchKey(Exception): ...
-class TypeMismatch(Exception): ...
+    ```python
+    class NoSuchKey(Exception): ...
+    class TypeMismatch(Exception): ...
+    
+    # This return value masks the behavior of the unhappy path (Exceptions). 🥲
+    # We need to inspect the code to determine what exception might be raised.
+    def string_from_key(dictionary: dict, key: str) -> str:
+        if key not in dictionary.keys():
+            raise NoSuchKey()
+    
+        value = dictionary[key]
+        if not isinstance(value, str):
+            raise TypeMismatch()
+    
+        return value
+    
+    dictionary = {"key1": "value", "key2": 2}
+    key = "key1"
+    
+    try:
+        str_value = string_from_key(dictionary=dictionary, key=key)
+    except NoSuchKey:
+        print(f"Key {key} does not exist")
+    except TypeMismatch:
+        print(f"Value of Key {key} is not a string")
+    ```
 
-# This return value masks the behavior of the unhappy path (Exceptions). 🥲
-# We need to inspect the code to determine what exception might be raised.
-def string_from_key(dictionary: dict, key: str) -> str:
-    if key not in dictionary.keys():
-        raise NoSuchKey()
+!!! tip "With meiga"
 
-    value = dictionary[key]
-    if not isinstance(value, str):
-        raise TypeMismatch()
-
-    return value
-
-dictionary = {"key1": "value", "key2": 2}
-key = "key1"
-
-try:
-    str_value = string_from_key(dictionary=dictionary, key=key)
-except NoSuchKey:
-    print(f"Key {key} does not exist")
-except TypeMismatch:
-    print(f"Value of Key {key} is not a string")
-```
-
-### With meiga
-
-```python
-from __future__ import annotations
-from meiga import Error, Failure, Result, Success
-
-class NoSuchKey(Error): ...
-class TypeMismatch(Error): ...
-
-# This return value is defined with all possible values 😊
-def string_from_key(dictionary: dict, key: str) -> Result[str, NoSuchKey | TypeMismatch]:
-    if key not in dictionary.keys():
-        return Failure(NoSuchKey())
-
-    value = dictionary[key]
-    if not isinstance(value, str):
-        return Failure(TypeMismatch())
-
-    return Success(value)
-
-
-dictionary = {"key1": "value", "key2": 2}
-str_value = string_from_key(dictionary=dictionary, key="key1").unwrap()
-# 😊 I'll get a Result (either Success or Failure) and I know possible errors
-```
+    ```python
+    from __future__ import annotations
+    from meiga import Error, Failure, Result, Success
+    
+    class NoSuchKey(Error): ...
+    class TypeMismatch(Error): ...
+    
+    # This return value is defined with all possible values 😊
+    def string_from_key(dictionary: dict, key: str) -> Result[str, NoSuchKey | TypeMismatch]:
+        if key not in dictionary.keys():
+            return Failure(NoSuchKey())
+    
+        value = dictionary[key]
+        if not isinstance(value, str):
+            return Failure(TypeMismatch())
+    
+        return Success(value)
+    
+    
+    dictionary = {"key1": "value", "key2": 2}
+    str_value = string_from_key(dictionary=dictionary, key="key1").unwrap()
+    # 😊 I'll get a Result (either Success or Failure) and I know possible errors
+    ```
 
 ## Test comparison
 
 As we can check in the following examples, meiga simplifies our tests with some useful assertion methods.
 
-### Without meiga
-
-```python
-import pytest
-
-from tests.unit.doc.example_without_meiga import (
-    NoSuchKey,
-    TypeMismatch,
-    string_from_key,
-)
-
-
-@pytest.mark.unit
-class TestExampleWithoutMeiga:
-    dictionary = {"key1": "value", "key2": 2}
-
-    def should_return_a_str(self):
-        value = string_from_key(dictionary=self.dictionary, key="key1")
-        assert isinstance(value, str)
-
-    def should_raises_non_such_key_exception(self):
-        with pytest.raises(NoSuchKey):
-            _ = string_from_key(dictionary=self.dictionary, key="invalid_key")
-
-    def should_raises_type_mismatch_exception(self):
-        with pytest.raises(TypeMismatch):
-            value = string_from_key(dictionary=self.dictionary, key="key2")
-            assert not isinstance(value, str)
-```
-
-### With meiga
-
-```python
-import pytest
-
-from tests.unit.doc.example_with_meiga import NoSuchKey, TypeMismatch, string_from_key
+!!! warning "Without meiga"
+    
+    ```python
+    import pytest
+    
+    from tests.unit.doc.example_without_meiga import (
+        NoSuchKey,
+        TypeMismatch,
+        string_from_key,
+    )
+    
+    
+    @pytest.mark.unit
+    class TestExampleWithoutMeiga:
+        dictionary = {"key1": "value", "key2": 2}
+    
+        def should_return_a_str(self):
+            value = string_from_key(dictionary=self.dictionary, key="key1")
+            assert isinstance(value, str)
+    
+        def should_raises_non_such_key_exception(self):
+            with pytest.raises(NoSuchKey):
+                _ = string_from_key(dictionary=self.dictionary, key="invalid_key")
+    
+        def should_raises_type_mismatch_exception(self):
+            with pytest.raises(TypeMismatch):
+                value = string_from_key(dictionary=self.dictionary, key="key2")
+                assert not isinstance(value, str)
+    ```
 
 
-@pytest.mark.unit
-class TestExampleWithMeiga:
-    dictionary = {"key1": "value", "key2": 2}
+!!! tip "With meiga"
 
-    def should_success(self):
-        result = string_from_key(dictionary=self.dictionary, key="key1")
-        result.assert_success(value_is_instance_of=str)
-
-    def should_fail_when_key_does_not_exist(self):
-        result = string_from_key(dictionary=self.dictionary, key="invalid_key")
-        result.assert_failure(value_is_instance_of=NoSuchKey)
-
-    def should_fail_when_type_mismatch(self):
-        result = string_from_key(dictionary=self.dictionary, key="key2")
-        result.assert_failure(value_is_instance_of=TypeMismatch)
-```
-
-!!! note
-    Check out everything that can be done with the `Result` type in the next section (Result Type). 
+    ```python
+    import pytest
+    
+    from tests.unit.doc.example_with_meiga import NoSuchKey, TypeMismatch, string_from_key
+    
+    
+    @pytest.mark.unit
+    class TestExampleWithMeiga:
+        dictionary = {"key1": "value", "key2": 2}
+    
+        def should_success(self):
+            result = string_from_key(dictionary=self.dictionary, key="key1")
+            result.assert_success(value_is_instance_of=str)
+    
+        def should_fail_when_key_does_not_exist(self):
+            result = string_from_key(dictionary=self.dictionary, key="invalid_key")
+            result.assert_failure(value_is_instance_of=NoSuchKey)
+    
+        def should_fail_when_type_mismatch(self):
+            result = string_from_key(dictionary=self.dictionary, key="key2")
+            result.assert_failure(value_is_instance_of=TypeMismatch)
+    ```
