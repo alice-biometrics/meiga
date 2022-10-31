@@ -25,3 +25,10 @@ repos:
         require_serial: true
         fail_fast: true
 
+      - id: pyupgrade
+        name: Pyupgrade
+        entry: pyupgrade --py37-plus
+        types: [ python ]
+        language: system
+        exclude: ^docs/.*$
+

@@ -1,8 +1,3 @@
-# coding=utf-8
-# Copyright (C) 2021+ Alice, Vigo, Spain
-
-"""Public API of Alice meiga package"""
-
 from . import decorators
 from .alias import (
     AnyResult,
