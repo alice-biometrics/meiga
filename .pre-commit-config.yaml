@@ -17,11 +17,20 @@ repos:
         require_serial: true
         fail_fast: true
 
+      - id: pyupgrade
+        name: Pyupgrade
+        entry: pyupgrade --py37-plus
+        types: [ python ]
+        language: system
+        exclude: ^docs/.*$
+        fail_fast: true
+
       - id: isort
         name: isort
-        entry: isort .
+        entry: isort meiga tests
         language: system
         types: [ python ]
         require_serial: true
         fail_fast: true
+
 

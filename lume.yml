@@ -27,9 +27,10 @@ steps:
     - find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
   lint:
     run:
-      - black --check .
-      - flake8 $PACKAGE_NAME
-      - isort .
+      - black --check $PACKAGE_NAME tests
+      - flake8 $PACKAGE_NAME tests
+      - pyupgrade --py37-plus `find $PACKAGE_NAME tests -name "*.py" -type f ! -name "*test_result_match.py"`
+      - isort $PACKAGE_NAME tests
   check-requirements:
     run: safety check -r requirements/requirements.txt
   static-analysis:
