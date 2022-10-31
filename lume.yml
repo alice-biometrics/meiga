@@ -29,7 +29,7 @@ steps:
     run:
       - black --check $PACKAGE_NAME tests
       - flake8 $PACKAGE_NAME tests
-      - pyupgrade --py37-plus --exit-zero-even-if-changed `find $PACKAGE_NAME tests -name "*.py" -type f`
+      - pyupgrade --py37-plus `find $PACKAGE_NAME tests -name "*.py" -type f ! -name "*test_result_match.py"`
       - isort $PACKAGE_NAME tests
   check-requirements:
     run: safety check -r requirements/requirements.txt
