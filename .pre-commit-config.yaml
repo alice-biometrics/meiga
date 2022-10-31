@@ -19,7 +19,7 @@ repos:
 
       - id: pyupgrade
         name: Pyupgrade
-        entry: pyupgrade --py37-plus --exit-zero-even-if-changed `find meiga tests -name "*.py" -type f`
+        entry: pyupgrade --py37-plus
         types: [ python ]
         language: system
         exclude: ^docs/.*$
