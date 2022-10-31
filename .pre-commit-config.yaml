@@ -19,7 +19,7 @@ repos:
 
       - id: pyupgrade
         name: Pyupgrade
-        entry: pyupgrade --py37-plus
+        entry: pyupgrade --py37-plus --exit-zero-even-if-changed `find meiga tests -name "*.py" -type f`
         types: [ python ]
         language: system
         exclude: ^docs/.*$
@@ -27,7 +27,7 @@ repos:
 
       - id: isort
         name: isort
-        entry: isort .
+        entry: isort meiga tests
         language: system
         types: [ python ]
         require_serial: true
