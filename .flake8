@@ -6,7 +6,8 @@ exclude =
     __pycache__,
     # Tricky imports
     meiga/__init__.py,
-    meiga/public_api.py
+    meiga/public_api.py,
+    tests/unit/test_result_match.py # only available in Python 3.10 and above
 
 max-line-length = 110
 
