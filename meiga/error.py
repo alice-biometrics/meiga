@@ -7,6 +7,9 @@ class Error(Exception):
             return True
         return False
 
+    def __str__(self) -> str:
+        return self.__repr__()
+
     def __repr__(self) -> str:
         suffix = ""
         if hasattr(self, "message") and self.message is not None:
