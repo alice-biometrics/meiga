@@ -5,8 +5,8 @@ envs:
 
 install:
   run:
-    - pip install -U -r requirements/requirements.txt -r requirements/dev-requirements.txt
-    - pip install -e .
+    #- pip install -U -r requirements/requirements.txt -r requirements/dev-requirements.txt
+    - pip install -e .[dev]
     - pre-commit install
 
 uninstall:
@@ -27,12 +27,12 @@ steps:
     - find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
   lint:
     run:
-      - black --check $PACKAGE_NAME tests
-      - flake8 $PACKAGE_NAME tests
+      - ruff $PACKAGE_NAME tests
+      - black $PACKAGE_NAME tests --check
+      - isort $PACKAGE_NAME tests --check-only
       - pyupgrade --py37-plus `find $PACKAGE_NAME tests -name "*.py" -type f ! -name "*test_result_match.py"`
-      - isort $PACKAGE_NAME tests
   check-requirements:
-    run: safety check -r requirements/requirements.txt
+    run: pip-audit
   static-analysis:
     run: mypy $PACKAGE_NAME
   coverage:
@@ -40,8 +40,8 @@ steps:
   test:
     run: pytest -v
   docs:
-    run: | 
-      pip install -r requirements/docs-requirements.txt
+    run: |
+      pip install -e .[doc]
       mkdocs build
   check-no-binary-installation:
     run: |

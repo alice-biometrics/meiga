@@ -5,7 +5,6 @@ from meiga import Error, Failure, Success
 
 @pytest.mark.unit
 def test_should_call_legacy_on_failure_when_unwrap_or_else_with_a_result_failure():
-
     global called_on_failure
     called_on_failure = False
 
@@ -23,7 +22,6 @@ def test_should_call_legacy_on_failure_when_unwrap_or_else_with_a_result_failure
 
 @pytest.mark.unit
 def test_should_call_legacy_on_failure_when_unwrap_or_else_with_a_result_failure_without_passing_arguments():
-
     global called_on_failure
     called_on_failure = False
 
@@ -61,7 +59,6 @@ def test_should_call_legacy_on_failure_when_unwrap_or_else_with_failure_result_a
 
 @pytest.mark.unit
 def test_should_legacy_call_on_success_when_unwrap_and_with_a_result_success():
-
     global called_on_success
     called_on_success = False
 
@@ -79,7 +76,6 @@ def test_should_legacy_call_on_success_when_unwrap_and_with_a_result_success():
 
 @pytest.mark.unit
 def test_should_call_legacy_on_success_when_unwrap_and_with_a_result_success_without_passing_arguments():
-
     global called_on_success
     called_on_success = False
 

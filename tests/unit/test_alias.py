@@ -19,7 +19,6 @@ class MyInnerClass:
 @pytest.mark.unit
 class TestAlias:
     def should_be_the_same_a_result_with_true_success_with_a_success_class(self):
-
         result = Result(success=True)
         success = Success()
         success_with_true = Success(True)
@@ -32,7 +31,6 @@ class TestAlias:
         assert isinstance(success_with_true, Result)
 
     def should_be_the_same_a_result_with_an_error_failure_with_a_failure_class(self):
-
         result = Result(failure=Error())
         failure = Failure()
         failure_with_error = Failure(Error())

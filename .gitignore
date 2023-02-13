@@ -24,7 +24,7 @@ docs/source/resources/
 env/
 build/
 develop-eggs/
-dist/
+dist_hatch/
 downloads/
 eggs/
 .eggs/
@@ -33,6 +33,7 @@ deps/
 lib64/
 parts/
 sdist/
+dist/
 var/
 *.egg-info/
 .installed.cfg
@@ -54,6 +55,8 @@ htmlcov/
 .coverage
 .coverage.*
 .cache
+.mypy_cache
+.ruff_cache
 nosetests.xml
 coverage.xml
 *,cover

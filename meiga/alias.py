@@ -12,7 +12,6 @@ class Success(Generic[TS], Result[TS, Any]):
 
 
 class Failure(Generic[TF], Result[Any, TF]):
-
     __match_args__ = ("_value_failure",)
 
     def __init__(self, error: TF = cast(TF, Error())) -> None:
