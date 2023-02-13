@@ -36,7 +36,7 @@ steps:
   static-analysis:
     run: mypy $PACKAGE_NAME
   coverage:
-    run: pytest -c pytest.coverage.ini
+    run: pytest -c tests/pytest.coverage.ini
   test:
     run: pytest -v
   docs:
