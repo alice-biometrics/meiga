@@ -63,6 +63,7 @@ dev = [
     "isort[colors] >=5.10.1,<6.0.0",
     "pre-commit >=2.20.0,<3.0.0",
     "pip-audit >=2.4.14,<3.0.0",
+    "pyupgrade>=3.2.0"
     #"coverage[toml] >= 6.5.0,< 8.0",
 ]
 doc = [
