@@ -45,6 +45,6 @@ steps:
       mkdocs build
   check-no-binary-installation:
     run: |
-      pip install wheel
-      python setup.py sdist
-      pip wheel --no-binary $PACKAGE_NAME -w /tmp/ext dist/$PACKAGE_NAME-*.tar.gz
+      pip install hatch
+      hatch build
+      pip wheel --no-cache-dir $PACKAGE_NAME -w /tmp/ext dist/$PACKAGE_NAME-*.tar.gz
