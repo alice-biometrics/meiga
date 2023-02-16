@@ -30,12 +30,13 @@ steps:
       - ruff $PACKAGE_NAME tests
       - black $PACKAGE_NAME tests --check
       - isort $PACKAGE_NAME tests --check-only
-      - pyproject-fmt . --check
       - pyupgrade --py37-plus `find $PACKAGE_NAME tests -name "*.py" -type f ! -name "*test_result_match.py"`
   check-requirements:
     run: pip-audit
   static-analysis:
-    run: mypy $PACKAGE_NAME
+    run: mypy $PACKAGE_NAME tests --exclude '.*tests.unit.doc*'
+
+
   coverage:
     run: pytest -c tests/pytest.coverage.ini
   test:

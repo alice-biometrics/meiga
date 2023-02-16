@@ -1,10 +1,10 @@
-from typing import Callable, Iterable
+from typing import Callable, Iterable, Optional
 
 from meiga.misc import get_args_list
 
 
 class Handler:
-    def __init__(self, func: Callable[..., None], args: Iterable = None):
+    def __init__(self, func: Callable[..., None], args: Optional[Iterable] = None):
         self.func = func
         self.args = args
 
