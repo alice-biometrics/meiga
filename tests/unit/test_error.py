@@ -5,7 +5,6 @@ from meiga import Error, Result
 
 @pytest.mark.unit
 def test_should_repr_as_expected_default_error():
-
     result = Result(failure=Error())
 
     assert "Result[status: failure | value: Error]" == result.__repr__()

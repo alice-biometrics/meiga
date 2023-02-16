@@ -1,4 +1,0 @@
-include meiga/VERSION
-include meiga/py.typed
-include requirements/requirements.txt
-include LICENSE

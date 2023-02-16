@@ -31,7 +31,6 @@ def test_should_sum_two_positive_values():
             return Result(failure=IsNegativeError())
 
     def sum_positive_values(first_value: int, second_value: int) -> Result[int, Error]:
-
         result_first_value = is_positive(first_value)
         if result_first_value.is_failure:
             return Result(failure=result_first_value.value)
@@ -65,7 +64,6 @@ def test_should_sum_two_positive_values_with_meiga_decorator_and_handle():
 
     @meiga
     def sum_positive_values(first_value: int, second_value: int) -> Result[int, Error]:
-
         is_positive(first_value).unwrap_or_return()
         is_positive(second_value).unwrap_or_return()
 

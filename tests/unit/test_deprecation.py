@@ -16,8 +16,8 @@ class TestDeprecation:
         def func(param_1: int):
             pass
 
-        self.success_deprecated_params = dict(on_success=func, arg=(1,))
-        self.failure_deprecated_params = dict(on_failure=func, arg=(1,))
+        self.success_deprecated_params = {"on_success": func, "arg": (1,)}
+        self.failure_deprecated_params = {"on_failure": func, "arg": (1,)}
 
     def should_get_on_success_handler_from_older_parameters(self):
         on_success_handler = get_on_success_handler_from_deprecated_args(
@@ -32,9 +32,9 @@ class TestDeprecation:
         assert isinstance(on_failure_handler, OnFailureHandler)
 
     def should_get_none_asking_for_on_success_handler_from_empty_parameters(self):
-        on_success_handler = get_on_success_handler_from_deprecated_args(dict())
+        on_success_handler = get_on_success_handler_from_deprecated_args({})
         assert on_success_handler is None
 
     def should_get_none_asking_for_on_failure_handler_from_empty_parameters(self):
-        on_failure_handler = get_on_failure_handler_from_deprecated_args(dict())
+        on_failure_handler = get_on_failure_handler_from_deprecated_args({})
         assert on_failure_handler is None

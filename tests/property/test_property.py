@@ -39,7 +39,6 @@ def all_types(draw):
 @pytest.mark.property
 @given(given_value=all_types())
 def test_property_should_works_with_any_type_on_success(given_value):
-
     result = Result(success=given_value)
 
     assert result.is_success
@@ -48,7 +47,6 @@ def test_property_should_works_with_any_type_on_success(given_value):
 @pytest.mark.property
 @given(given_value=all_types())
 def test_property_should_works_with_any_type_on_failure(given_value):
-
     result = Result(failure=given_value)
 
     assert result.is_failure
