@@ -42,11 +42,11 @@ def test_should_execute_failure_legacy_handler():
 
     def on_success(result: Result):
         global called_on_success
-        called_on_success = True
+        called_on_success = True  # type: ignore
 
     def on_failure(result: Result):
         global called_on_failure
-        called_on_failure = True
+        called_on_failure = True  # type: ignore
 
     result = Result(failure=Error())
 

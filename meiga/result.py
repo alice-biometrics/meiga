@@ -123,7 +123,9 @@ class Result(Generic[TS, TF]):
 
     def unwrap_or_else(
         self,
-        on_failure_handler: OnFailureHandler = None,  # Default has to be None to be compatible with deprecated signature
+        on_failure_handler: Optional[
+            OnFailureHandler
+        ] = None,  # Default has to be None to be compatible with deprecated signature
         failure_value: Optional[TEF] = None,
         **kwargs,  # Deprecated parameter [on_failure, failure_args]
     ) -> Union[TS, TEF]:
@@ -139,7 +141,9 @@ class Result(Generic[TS, TF]):
 
     def unwrap_and(
         self,
-        on_success_handler: OnSuccessHandler = None,  # Default has to be None to be compatible with deprecated signature
+        on_success_handler: Optional[
+            OnSuccessHandler
+        ] = None,  # Default has to be None to be compatible with deprecated signature
         **kwargs,  # Deprecated parameter [on_success, success_args]
     ) -> Union[TS, None]:
         if self._is_success:
@@ -154,8 +158,8 @@ class Result(Generic[TS, TF]):
 
     def handle(
         self,
-        on_success_handler: OnSuccessHandler = None,
-        on_failure_handler: OnFailureHandler = None,
+        on_success_handler: Optional[OnSuccessHandler] = None,
+        on_failure_handler: Optional[OnFailureHandler] = None,
         **kwargs,  # Deprecated parameter [on_success, on_failure, success_args, failure_args]
     ) -> "Result":
         if on_failure_handler:
@@ -179,7 +183,9 @@ class Result(Generic[TS, TF]):
         self.set_value(new_value)
 
     def assert_success(
-        self, value_is_instance_of: Type = None, value_is_equal_to: Any = None
+        self,
+        value_is_instance_of: Optional[Type] = None,
+        value_is_equal_to: Optional[Any] = None,
     ) -> None:
         assert_success(
             result=self,
@@ -188,7 +194,9 @@ class Result(Generic[TS, TF]):
         )
 
     def assert_failure(
-        self, value_is_instance_of: Type = None, value_is_equal_to: Any = None
+        self,
+        value_is_instance_of: Optional[Type] = None,
+        value_is_equal_to: Optional[Any] = None,
     ) -> None:
         assert_failure(
             result=self,

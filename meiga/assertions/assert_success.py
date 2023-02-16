@@ -1,11 +1,13 @@
-from typing import TYPE_CHECKING, Any, Type
+from typing import TYPE_CHECKING, Any, Optional, Type
 
 if TYPE_CHECKING:  # pragma: no cover
     from meiga.result import Result
 
 
 def assert_success(
-    result: "Result", value_is_instance_of: Type = None, value_is_equal_to: Any = None
+    result: "Result",
+    value_is_instance_of: Optional[Type] = None,
+    value_is_equal_to: Optional[Any] = None,
 ) -> None:
     assert (
         result.is_success

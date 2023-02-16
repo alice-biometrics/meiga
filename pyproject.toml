@@ -51,7 +51,7 @@ dev = [
   "black==23.1",
   "hypothesis<7.0.0,>=6.56.3",
   "isort[colors]<6.0.0,>=5.10.1",
-  "mypy==0.982",
+  "mypy>=1.0.0",
   "pip-audit<3.0.0,>=2.4.14",
   "pre-commit<3.0.0,>=2.20",
   "pyproject-fmt>=0.9.1",
