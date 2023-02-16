@@ -61,8 +61,8 @@ dev = [
   "pytest-mock<4.0.0,>=3.10",
   "pytest-variables[yaml]<3.0.0,>=2",
   "pyupgrade>=3.2",
-  "ruff>=0.0.239",
-  "pyproject-fmt>=0.9.1"
+  "ruff>=0.0.239",  "pyproject-fmt>=0.9.1",
+
 ]
 doc = [
   "ansi2html",
