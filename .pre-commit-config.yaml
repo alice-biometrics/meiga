@@ -13,6 +13,13 @@ repos:
       - id: trailing-whitespace
   - repo: local
     hooks:
+      - id: pyproject-fmt
+        name: pyproject-fmt
+        entry: pyproject-fmt .
+        types: [ python ]
+        language: system
+        fail_fast: true
+
       - id: ruff
         name: ruff
         entry: ruff meiga tests --fix
