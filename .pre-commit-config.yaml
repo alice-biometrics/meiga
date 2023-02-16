@@ -13,12 +13,6 @@ repos:
       - id: trailing-whitespace
   - repo: local
     hooks:
-      - id: pyproject-fmt
-        name: pyproject-fmt
-        entry: pyproject-fmt inputs pyproject.toml
-        language: system
-        types: [ python ]
-        fail_fast: true
 
       - id: ruff
         name: ruff
