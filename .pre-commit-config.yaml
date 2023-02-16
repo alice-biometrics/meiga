@@ -15,9 +15,9 @@ repos:
     hooks:
       - id: pyproject-fmt
         name: pyproject-fmt
-        entry: pyproject-fmt
-        types: [ python ]
+        entry: pyproject-fmt pyproject.toml
         language: system
+        types: [ python ]
         fail_fast: true
 
       - id: ruff
