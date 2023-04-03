@@ -94,6 +94,10 @@ class Result(Generic[TS, TF]):
         return not self._is_success
 
     def throw(self) -> None:
+        return self.reraise()
+
+    # cannot use raise as it is a reserved word
+    def reraise(self) -> None:
         if not self._is_success:
             raise self.value
         return None
@@ -117,8 +121,11 @@ class Result(Generic[TS, TF]):
         return cast(TS, self.value)
 
     def unwrap_or_throw(self) -> TS:
+        return self.unwrap_or_raise()
+
+    def unwrap_or_raise(self) -> TS:
         if not self._is_success:
-            self.throw()
+            self.reraise()
         return cast(TS, self.value)
 
     def unwrap_or_else(

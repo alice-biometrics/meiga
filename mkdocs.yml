@@ -23,6 +23,8 @@ theme:
       name: "Switch to light mode"
   features:
     - content.tabs.link
+    - content.code.annotate
+
   logo: 'logo-white.png'
   favicon: 'favicon.png'
 
@@ -67,8 +69,14 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.inlinehilite
   - pymdownx.snippets
-  - pymdownx.superfences
   - mdx_truly_sane_lists
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
 
 plugins:
   - search
