@@ -56,9 +56,25 @@ def test_should_raise_an_exception_when_unwrap_or_throw_with_a_failure_result():
 
 
 @pytest.mark.unit
-def test_should_return_valuue_when_unwrap_or_throw_with_a_success_result():
+def test_should_raise_an_exception_when_unwrap_or_raise_with_a_failure_result():
+    result = Failure(Error())
+
+    with pytest.raises(Error):
+        _ = result.unwrap_or_raise()
+
+
+@pytest.mark.unit
+def test_should_return_value_when_unwrap_or_throw_with_a_success_result():
     result = Success(value=True)
     value = result.unwrap_or_throw()
+
+    assert value is True
+
+
+@pytest.mark.unit
+def test_should_return_value_when_unwrap_or_raise_with_a_success_result():
+    result = Success(value=True)
+    value = result.unwrap_or_raise()
 
     assert value is True
 
