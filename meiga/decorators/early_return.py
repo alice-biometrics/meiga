@@ -30,7 +30,7 @@ def early_return(func: Callable[P, R]) -> Callable[P, R]:
             else:
                 return func(*args, **kwargs)
         except OnFailureException as exc:
-            return exc.result
+            return cast(R, exc.result)
         except Error as error:
             return cast(R, Failure(error))
 
