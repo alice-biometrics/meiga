@@ -294,8 +294,8 @@ for key in ["key1", "key2", "key3"]:
             print(f"Success")
         case Result(_, NoSuchKey()):
             print("Failure with NoSuchKey")
-        case Failure(_, TypeMismatch()):
-            Result("Failure with TypeMismatch")
+        case Result(_, TypeMismatch()):
+            print("Failure with TypeMismatch")
         case _:
             print("default")
     ```
