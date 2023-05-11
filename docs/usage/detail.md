@@ -283,8 +283,8 @@ for key in ["key1", "key2", "key3"]:
 
 !!! Warning
 
-    If are using `Result(success="my_success")` and `Result(failure=NoSuchKey())` syntaxis intead of recommended one
-    with `Success` and `Failure` alias, you have to use a different match pattern.
+    If are using `Result(success="my_success")` and `Result(failure=NoSuchKey())` syntax intead of recommended one
+    with `Success` and `Failure` aliases, you have to use a different match pattern.
 
     You would have to use something like:
 
