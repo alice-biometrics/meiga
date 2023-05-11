@@ -12,12 +12,18 @@ from meiga.on_failure_exception import OnFailureException
 TS = TypeVar("TS")  # Success Type
 TF = TypeVar("TF")  # Failure Type
 TEF = TypeVar("TEF")  # External Failure Type
+R = TypeVar("R")  # Recast expected type
 
 
 class Result(Generic[TS, TF]):
     __id__ = "__meiga_result_identifier__"
     __match_args__ = ("_value_success", "_value_failure")
-    __slots__ = ("_value_success", "_value_failure", "_is_success")
+    __slots__ = (
+        "_value_success",
+        "_value_failure",
+        "_is_success",
+        "_inner_recast_method",
+    )
 
     def __init__(
         self,
@@ -27,6 +33,7 @@ class Result(Generic[TS, TF]):
         self._value_success = success
         self._value_failure = failure
         self._assert_values()
+        self._inner_recast_method: Union[Callable[[Result], Any], None] = None
 
     def __repr__(self) -> str:
         status = "failure"
@@ -212,3 +219,15 @@ class Result(Generic[TS, TF]):
         )
 
     value = property(get_value)
+
+    def set_recast(self, recast_method: Callable[["Result"], Any]):
+        self._inner_recast_method = recast_method
+
+    def recast(self, expected_type: Union[Type[R], None] = None) -> R:
+        if not self._inner_recast_method:
+            raise RuntimeError(
+                "Result object cannot recast it as no recast method have been set yet. "
+                "Use result.set_recast(callable) to add your recast callable method"
+            )
+
+        return self._inner_recast_method(self)
