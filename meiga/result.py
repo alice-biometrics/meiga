@@ -26,7 +26,7 @@ class Result(Generic[TS, TF]):
         "_value_success",
         "_value_failure",
         "_is_success",
-        "_inner_recast_method",
+        "_inner_transformer",
     )
 
     def __init__(
@@ -37,7 +37,7 @@ class Result(Generic[TS, TF]):
         self._value_success = success
         self._value_failure = failure
         self._assert_values()
-        self._inner_recast_method: Union[Callable[[Result], Any], None] = None
+        self._inner_transformer: Union[Callable[[Result], Any], None] = None
 
     def __repr__(self) -> str:
         status = "failure"
@@ -226,11 +226,11 @@ class Result(Generic[TS, TF]):
 
         return self
 
-    def map(self, transform: Callable) -> None:
+    def map(self, mapper: Callable) -> None:
         """
         Returns a transformed result applying transform function applied to encapsulated value if this instance represents success or failure
         """
-        new_value = transform(self.value)
+        new_value = mapper(self.value)
         self.set_value(new_value)
 
     def assert_success(
@@ -263,14 +263,20 @@ class Result(Generic[TS, TF]):
 
     value = property(get_value)
 
-    def set_recast(self, recast_method: Callable[["Result"], Any]):
-        self._inner_recast_method = recast_method
+    def set_transformer(self, transformer: Callable[["Result"], Any]):
+        """
+        Set a Callable transformer to be used with the `transform` method
+        """
+        self._inner_transformer = transformer
 
-    def recast(self, expected_type: Union[Type[R], None] = None) -> R:
-        if not self._inner_recast_method:
+    def transform(self, expected_type: Union[Type[R], None] = None) -> R:  # noqa
+        """
+        Transform the result with set transformer (Use `set_transformer` function to define it)
+        """
+        if not self._inner_transformer:
             raise RuntimeError(
-                "Result object cannot recast it as no recast method have been set yet. "
-                "Use result.set_recast(callable) to add your recast callable method"
+                "Result object cannot be transformed as no transformer have been set yet. "
+                "Use result.set_transformer(callable) to add your transformer callable method"
             )
 
-        return self._inner_recast_method(self)
+        return self._inner_transformer(self)
