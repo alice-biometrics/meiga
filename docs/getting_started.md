@@ -12,48 +12,27 @@ The best way to illustrate how `meiga` can help you, is with some examples.
 
 Consider the following example of a function that tries to extract a string (`str`) for a given key from a `dict`.
 
-```python
+```python hl_lines="6 8 12 14"
 from meiga import Result, Error
 
 class NoSuchKey(Error): ...
 class TypeMismatch(Error): ...
 
-def string_from_key(dictionary: dict, key: str) -> Result[str, Error]:
+def string_from_key(dictionary: dict, key: str) -> Result[str, Error]: # (1)
     if key not in dictionary.keys():
-        return Result(failure=NoSuchKey())
+        return Failure(NoSuchKey()) # (2)
 
     value = dictionary[key]
     if not isinstance(value, str):
-        return Result(failure=TypeMismatch())
+        return Failure(TypeMismatch()) # (3)
 
-    return Result(success=value)
+    return Success(value) # (4)
 ```
 
-!!! tip "Use alias (Success & Failure) to improve the expressivity of our code"
-
-    ```python hl_lines="8 12 14"
-    from meiga import Result, Error
-
-    class NoSuchKey(Error): ...
-    class TypeMismatch(Error): ...
-
-    def string_from_key(dictionary: dict, key: str) -> Result[str, Error]:
-        if key not in dictionary.keys():
-            return Failure(NoSuchKey()) # (1)
-
-        value = dictionary[key]
-        if not isinstance(value, str):
-            return Failure(TypeMismatch()) # (2)
-
-        return Success(value) # (3)
-    ```
-
-    1. Equivalent to use `Result(failure=NoSuchKey())`
-    2. Equivalent to use `Result(failure=TypeMismatch())`
-    3. Equivalent to use `Result(success=value)`
-
-    See [Alias documentation](usage/alias.md).
-
+1. Result with str for success value and Error for failure.
+2. Equivalent to use `Result(failure=NoSuchKey())`.
+3. Equivalent to use `Result(failure=TypeMismatch())`.
+4. Equivalent to use `Result(success=value)`.
 
 
 Returned `Result` type provides a robust wrapper around the functions and methods. Rather than throw an exception, it returns a `Result` that either contains the success `str` value for the given key, or a typed failure with a specific and detailed `Error` (`Result[str, Error]`).
