@@ -16,6 +16,10 @@ R = TypeVar("R")  # Recast expected type
 
 
 class Result(Generic[TS, TF]):
+    """
+    A discriminated union that encapsulates successful outcome with a value of type T or a failure with an arbitrary Error exception.
+    """
+
     __id__ = "__meiga_result_identifier__"
     __match_args__ = ("_value_success", "_value_failure")
     __slots__ = (
@@ -101,25 +105,40 @@ class Result(Generic[TS, TF]):
         return not self._is_success
 
     def throw(self) -> None:
+        """
+        Deprecated. Use `reraise`
+        """
         return self.reraise()
 
     # cannot use raise as it is a reserved word
     def reraise(self) -> None:
+        """
+        Raise an exception with the failure value
+        """
         if not self._is_success:
             raise self.value
         return None
 
     def unwrap(self) -> Union[TS, None]:
+        """
+        Returns the encapsulated value if this instance is a success or None if it is failure.
+        """
         if not self._is_success:
             return None
         return cast(TS, self.value)
 
     def unwrap_or(self, failure_value: TEF) -> Union[TS, TEF]:
+        """
+        Returns the encapsulated value if this instance is a success or the selected failure_value if it is failure.
+        """
         if not self._is_success:
             return failure_value
         return self.value
 
     def unwrap_or_return(self, return_value_on_failure: Any = None) -> TS:
+        """
+        Returns the encapsulated value if this instance is a success or return Result as long as @early_return decorator wraps the function.
+        """
         if not self._is_success:
             return_value = (
                 self if return_value_on_failure is None else return_value_on_failure
@@ -128,9 +147,15 @@ class Result(Generic[TS, TF]):
         return cast(TS, self.value)
 
     def unwrap_or_throw(self) -> TS:
+        """
+        Deprecated. Use unwrap_or_raise instead.
+        """
         return self.unwrap_or_raise()
 
     def unwrap_or_raise(self) -> TS:
+        """
+        Returns the encapsulated value if this instance is a success or raise the encapsulated exception if it is failure.
+        """
         if not self._is_success:
             self.reraise()
         return cast(TS, self.value)
@@ -143,6 +168,9 @@ class Result(Generic[TS, TF]):
         failure_value: Optional[TEF] = None,
         **kwargs,  # Deprecated parameter [on_failure, failure_args]
     ) -> Union[TS, TEF]:
+        """
+        Returns the encapsulated value if this instance is a success or execute the `on_failure_handler` when it is failure.
+        """
         if not self._is_success:
             if on_failure_handler:
                 on_failure_handler.execute(self)
@@ -160,6 +188,9 @@ class Result(Generic[TS, TF]):
         ] = None,  # Default has to be None to be compatible with deprecated signature
         **kwargs,  # Deprecated parameter [on_success, success_args]
     ) -> Union[TS, None]:
+        """
+        Returns the encapsulated value if this instance is a success and execute the `on_success_handler` when it is success.
+        """
         if self._is_success:
             if on_success_handler:
                 on_success_handler.execute(self)
@@ -176,6 +207,9 @@ class Result(Generic[TS, TF]):
         on_failure_handler: Optional[OnFailureHandler] = None,
         **kwargs,  # Deprecated parameter [on_success, on_failure, success_args, failure_args]
     ) -> "Result":
+        """
+        Returns itself and execute the `on_success_handler` when the instance is a success and the `on_failure_handler` when it is failure.
+        """
         if on_failure_handler:
             self.unwrap_or_else(on_failure_handler)
         else:  # Deal with deprecated parameters
@@ -193,6 +227,9 @@ class Result(Generic[TS, TF]):
         return self
 
     def map(self, transform: Callable) -> None:
+        """
+        Returns a transformed result applying transform function applied to encapsulated value if this instance represents success or failure
+        """
         new_value = transform(self.value)
         self.set_value(new_value)
 
@@ -201,6 +238,9 @@ class Result(Generic[TS, TF]):
         value_is_instance_of: Optional[Type] = None,
         value_is_equal_to: Optional[Any] = None,
     ) -> None:
+        """
+        Assert if result is a Success
+        """
         assert_success(
             result=self,
             value_is_instance_of=value_is_instance_of,
@@ -212,6 +252,9 @@ class Result(Generic[TS, TF]):
         value_is_instance_of: Optional[Type] = None,
         value_is_equal_to: Optional[Any] = None,
     ) -> None:
+        """
+        Assert if result is a Failure
+        """
         assert_failure(
             result=self,
             value_is_instance_of=value_is_instance_of,
