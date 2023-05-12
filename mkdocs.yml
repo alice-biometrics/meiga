@@ -51,7 +51,6 @@ nav:
 - Usage:
   - usage/result.md
   - usage/alias.md
-  - usage/detail.md
   - usage/decorators.md
   - usage/assertions.md
 - Contributing to meiga: contributing.md
