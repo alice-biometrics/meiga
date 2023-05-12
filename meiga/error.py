@@ -1,8 +1,13 @@
+from typing import Any, Union
+
+
 class Error(Exception):
-    def __init__(self):
+    message: Union[str, None]
+
+    def __init__(self) -> None:
         self.message = None
 
-    def __eq__(self, other) -> bool:
+    def __eq__(self, other: Any) -> bool:
         if isinstance(other, self.__class__):
             return True
         return False
@@ -17,5 +22,5 @@ class Error(Exception):
 
         return f"{self.__class__.__name__}{suffix}"
 
-    def __hash__(self):
+    def __hash__(self) -> int:
         return hash((self.message,))

@@ -1,4 +1,4 @@
-from typing import Any, Callable, Generic, Optional, Type, TypeVar, Union, cast
+from typing import Any, Callable, Dict, Generic, Type, TypeVar, Union, cast
 
 from meiga.assertions import assert_failure, assert_success
 from meiga.deprecation import (
@@ -90,7 +90,7 @@ class Result(Generic[TS, TF]):
         else:
             return cast(TF, self._value_failure)
 
-    def set_value(self, value) -> None:
+    def set_value(self, value: Any) -> None:
         if self._is_success:
             self._value_success = value
         else:
@@ -133,7 +133,8 @@ class Result(Generic[TS, TF]):
         """
         if not self._is_success:
             return failure_value
-        return self.value
+
+        return cast(Union[TS, TEF], self.value)
 
     def unwrap_or_return(self, return_value_on_failure: Any = None) -> TS:
         """
@@ -162,11 +163,11 @@ class Result(Generic[TS, TF]):
 
     def unwrap_or_else(
         self,
-        on_failure_handler: Optional[
-            OnFailureHandler
+        on_failure_handler: Union[
+            OnFailureHandler, None
         ] = None,  # Default has to be None to be compatible with deprecated signature
-        failure_value: Optional[TEF] = None,
-        **kwargs,  # Deprecated parameter [on_failure, failure_args]
+        failure_value: Union[TEF, None] = None,
+        **kwargs: Dict[Any, Any],  # Deprecated parameter [on_failure, failure_args]
     ) -> Union[TS, TEF]:
         """
         Returns the encapsulated value if this instance is a success or execute the `on_failure_handler` when it is failure.
@@ -183,10 +184,10 @@ class Result(Generic[TS, TF]):
 
     def unwrap_and(
         self,
-        on_success_handler: Optional[
-            OnSuccessHandler
+        on_success_handler: Union[
+            OnSuccessHandler, None
         ] = None,  # Default has to be None to be compatible with deprecated signature
-        **kwargs,  # Deprecated parameter [on_success, success_args]
+        **kwargs: Dict[Any, Any],  # Deprecated parameter [on_success, success_args]
     ) -> Union[TS, None]:
         """
         Returns the encapsulated value if this instance is a success and execute the `on_success_handler` when it is success.
@@ -198,15 +199,17 @@ class Result(Generic[TS, TF]):
                 on_success_handler = get_on_success_handler_from_deprecated_args(kwargs)
                 if on_success_handler:
                     on_success_handler.execute(self)
-            return self.value
+            return cast(TS, self.value)
         return None
 
     def handle(
         self,
-        on_success_handler: Optional[OnSuccessHandler] = None,
-        on_failure_handler: Optional[OnFailureHandler] = None,
-        **kwargs,  # Deprecated parameter [on_success, on_failure, success_args, failure_args]
-    ) -> "Result":
+        on_success_handler: Union[OnSuccessHandler, None] = None,
+        on_failure_handler: Union[OnFailureHandler, None] = None,
+        **kwargs: Dict[
+            Any, Any
+        ],  # Deprecated parameter [on_success, on_failure, success_args, failure_args]
+    ) -> "Result[TS, TF]":
         """
         Returns itself and execute the `on_success_handler` when the instance is a success and the `on_failure_handler` when it is failure.
         """
@@ -235,8 +238,8 @@ class Result(Generic[TS, TF]):
 
     def assert_success(
         self,
-        value_is_instance_of: Optional[Type] = None,
-        value_is_equal_to: Optional[Any] = None,
+        value_is_instance_of: Union[Type[Any], None] = None,
+        value_is_equal_to: Union[Any, None] = None,
     ) -> None:
         """
         Assert if result is a Success
@@ -249,8 +252,8 @@ class Result(Generic[TS, TF]):
 
     def assert_failure(
         self,
-        value_is_instance_of: Optional[Type] = None,
-        value_is_equal_to: Optional[Any] = None,
+        value_is_instance_of: Union[Type[Any], None] = None,
+        value_is_equal_to: Union[Any, None] = None,
     ) -> None:
         """
         Assert if result is a Failure
@@ -263,7 +266,7 @@ class Result(Generic[TS, TF]):
 
     value = property(get_value)
 
-    def set_transformer(self, transformer: Callable[["Result[TS, TF]"], Any]):
+    def set_transformer(self, transformer: Callable[["Result[TS, TF]"], Any]) -> None:
         """
         Set a Callable transformer to be used with the `transform` method
         """
@@ -271,9 +274,9 @@ class Result(Generic[TS, TF]):
 
     def transform(
         self,
-        transformer: Union[Callable[["Result"], Any], None] = None,
-        expected_type: Union[Type[R], None] = None,
-    ) -> R:  # noqa
+        transformer: Union[Callable[["Result[TS, TF]"], Any], None] = None,
+        expected_type: Union[Type[R], None] = None,  # noqa
+    ) -> R:
         """
         Transform the result with a transformer function. You can give the transformer callable or use the set_transformer function to pre-set the callable to be used.
         """
@@ -285,4 +288,4 @@ class Result(Generic[TS, TF]):
                 )
             transformer = self._inner_transformer
 
-        return transformer(self)
+        return cast(R, transformer(self))

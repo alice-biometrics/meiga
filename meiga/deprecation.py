@@ -1,10 +1,10 @@
-from typing import Dict, Union
+from typing import Any, Dict, Union
 
 from meiga.handlers import OnFailureHandler, OnSuccessHandler
 
 
 def get_on_success_handler_from_deprecated_args(
-    kwargs: Dict,
+    kwargs: Dict[Any, Any],
 ) -> Union[OnSuccessHandler, None]:
     on_success = kwargs.get("on_success")
     if on_success:
@@ -13,7 +13,7 @@ def get_on_success_handler_from_deprecated_args(
 
 
 def get_on_failure_handler_from_deprecated_args(
-    kwargs: Dict,
+    kwargs: Dict[Any, Any],
 ) -> Union[OnFailureHandler, None]:
     on_failure = kwargs.get("on_failure")
     if on_failure:
