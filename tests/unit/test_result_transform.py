@@ -8,7 +8,16 @@ def transformer(result: Result):
 
 
 @pytest.mark.unit
-def test_should_set_transformer_an_return_transformed_value():
+def test_should_transform_and_return_transformed_value():
+    result = Success("Hi")
+
+    recast_result = result.transform(transformer)
+
+    assert recast_result == "Hi"
+
+
+@pytest.mark.unit
+def test_should_set_transformer_and_return_transformed_value():
     result = Success("Hi")
     result.set_transformer(transformer)
 
@@ -18,7 +27,7 @@ def test_should_set_transformer_an_return_transformed_value():
 
 
 @pytest.mark.unit
-def test_should_set_transformer_an_return_transformed_value_with_expected_type():
+def test_should_set_transformer_and_return_transformed_value_with_expected_type():
     result = Success("Hi")
     result.set_transformer(transformer)
 

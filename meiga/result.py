@@ -37,7 +37,7 @@ class Result(Generic[TS, TF]):
         self._value_success = success
         self._value_failure = failure
         self._assert_values()
-        self._inner_transformer: Union[Callable[[Result], Any], None] = None
+        self._inner_transformer: Union[Callable[[Result[TS, TF]], Any], None] = None
 
     def __repr__(self) -> str:
         status = "failure"
@@ -226,7 +226,7 @@ class Result(Generic[TS, TF]):
 
         return self
 
-    def map(self, mapper: Callable) -> None:
+    def map(self, mapper: Callable[[Union[TS, TF]], Any]) -> None:
         """
         Returns a transformed result applying transform function applied to encapsulated value if this instance represents success or failure
         """
@@ -263,20 +263,26 @@ class Result(Generic[TS, TF]):
 
     value = property(get_value)
 
-    def set_transformer(self, transformer: Callable[["Result"], Any]):
+    def set_transformer(self, transformer: Callable[["Result[TS, TF]"], Any]):
         """
         Set a Callable transformer to be used with the `transform` method
         """
         self._inner_transformer = transformer
 
-    def transform(self, expected_type: Union[Type[R], None] = None) -> R:  # noqa
+    def transform(
+        self,
+        transformer: Union[Callable[["Result"], Any], None] = None,
+        expected_type: Union[Type[R], None] = None,
+    ) -> R:  # noqa
         """
-        Transform the result with set transformer (Use `set_transformer` function to define it)
+        Transform the result with a transformer function. You can give the transformer callable or use the set_transformer function to pre-set the callable to be used.
         """
-        if not self._inner_transformer:
-            raise RuntimeError(
-                "Result object cannot be transformed as no transformer have been set yet. "
-                "Use result.set_transformer(callable) to add your transformer callable method"
-            )
+        if not transformer:
+            if not self._inner_transformer:
+                raise RuntimeError(
+                    "Result object cannot be transformed as no transformer have been given or set. "
+                    "Use result.set_transformer(callable) to add your transformer callable method"
+                )
+            transformer = self._inner_transformer
 
-        return self._inner_transformer(self)
+        return transformer(self)
