@@ -1,4 +1,6 @@
-from typing import Any, Callable, Dict, Generic, Type, TypeVar, Union, cast
+from __future__ import annotations
+
+from typing import Any, Callable, Generic, TypeVar, Union, cast
 
 from meiga.assertions import assert_failure, assert_success
 from meiga.deprecation import (
@@ -31,13 +33,13 @@ class Result(Generic[TS, TF]):
 
     def __init__(
         self,
-        success: Union[TS, Type[NoGivenValue]] = NoGivenValue,
-        failure: Union[TF, Type[NoGivenValue]] = NoGivenValue,
+        success: TS | type[NoGivenValue] = NoGivenValue,
+        failure: TF | type[NoGivenValue] = NoGivenValue,
     ) -> None:
         self._value_success = success
         self._value_failure = failure
         self._assert_values()
-        self._inner_transformer: Union[Callable[[Result[TS, TF]], Any], None] = None
+        self._inner_transformer: Callable[[Result[TS, TF]], Any] | None = None
 
     def __repr__(self) -> str:
         status = "failure"
@@ -84,7 +86,7 @@ class Result(Generic[TS, TF]):
             self._is_success = True
         return None
 
-    def get_value(self) -> Union[TS, TF]:
+    def get_value(self) -> TS | TF:
         if self._is_success:
             return cast(TS, self._value_success)
         else:
@@ -119,7 +121,7 @@ class Result(Generic[TS, TF]):
             raise self.value
         return None
 
-    def unwrap(self) -> Union[TS, None]:
+    def unwrap(self) -> TS | None:
         """
         Returns the encapsulated value if this instance is a success or None if it is failure.
         """
@@ -127,7 +129,7 @@ class Result(Generic[TS, TF]):
             return None
         return cast(TS, self.value)
 
-    def unwrap_or(self, failure_value: TEF) -> Union[TS, TEF]:
+    def unwrap_or(self, failure_value: TEF) -> TS | TEF:
         """
         Returns the encapsulated value if this instance is a success or the selected failure_value if it is failure.
         """
@@ -163,12 +165,12 @@ class Result(Generic[TS, TF]):
 
     def unwrap_or_else(
         self,
-        on_failure_handler: Union[
-            OnFailureHandler, None
-        ] = None,  # Default has to be None to be compatible with deprecated signature
-        failure_value: Union[TEF, None] = None,
-        **kwargs: Dict[Any, Any],  # Deprecated parameter [on_failure, failure_args]
-    ) -> Union[TS, TEF]:
+        on_failure_handler: (
+            OnFailureHandler | None
+        ) = None,  # Default has to be None to be compatible with deprecated signature
+        failure_value: TEF | None = None,
+        **kwargs: dict[Any, Any],  # Deprecated parameter [on_failure, failure_args]
+    ) -> TS | TEF:
         """
         Returns the encapsulated value if this instance is a success or execute the `on_failure_handler` when it is failure.
         """
@@ -184,11 +186,11 @@ class Result(Generic[TS, TF]):
 
     def unwrap_and(
         self,
-        on_success_handler: Union[
-            OnSuccessHandler, None
-        ] = None,  # Default has to be None to be compatible with deprecated signature
-        **kwargs: Dict[Any, Any],  # Deprecated parameter [on_success, success_args]
-    ) -> Union[TS, None]:
+        on_success_handler: (
+            OnSuccessHandler | None
+        ) = None,  # Default has to be None to be compatible with deprecated signature
+        **kwargs: dict[Any, Any],  # Deprecated parameter [on_success, success_args]
+    ) -> TS | None:
         """
         Returns the encapsulated value if this instance is a success and execute the `on_success_handler` when it is success.
         """
@@ -204,12 +206,12 @@ class Result(Generic[TS, TF]):
 
     def handle(
         self,
-        on_success_handler: Union[OnSuccessHandler, None] = None,
-        on_failure_handler: Union[OnFailureHandler, None] = None,
-        **kwargs: Dict[
+        on_success_handler: OnSuccessHandler | None = None,
+        on_failure_handler: OnFailureHandler | None = None,
+        **kwargs: dict[
             Any, Any
         ],  # Deprecated parameter [on_success, on_failure, success_args, failure_args]
-    ) -> "Result[TS, TF]":
+    ) -> Result[TS, TF]:
         """
         Returns itself and execute the `on_success_handler` when the instance is a success and the `on_failure_handler` when it is failure.
         """
@@ -229,7 +231,7 @@ class Result(Generic[TS, TF]):
 
         return self
 
-    def map(self, mapper: Callable[[Union[TS, TF]], Any]) -> None:
+    def map(self, mapper: Callable[[TS | TF], Any]) -> None:
         """
         Returns a transformed result applying transform function applied to encapsulated value if this instance represents success or failure
         """
@@ -238,8 +240,8 @@ class Result(Generic[TS, TF]):
 
     def assert_success(
         self,
-        value_is_instance_of: Union[Type[Any], None] = None,
-        value_is_equal_to: Union[Any, None] = None,
+        value_is_instance_of: type[Any] | None = None,
+        value_is_equal_to: Any | None = None,
     ) -> None:
         """
         Assert if result is a Success
@@ -252,8 +254,8 @@ class Result(Generic[TS, TF]):
 
     def assert_failure(
         self,
-        value_is_instance_of: Union[Type[Any], None] = None,
-        value_is_equal_to: Union[Any, None] = None,
+        value_is_instance_of: type[Any] | None = None,
+        value_is_equal_to: Any | None = None,
     ) -> None:
         """
         Assert if result is a Failure
@@ -266,7 +268,7 @@ class Result(Generic[TS, TF]):
 
     value = property(get_value)
 
-    def set_transformer(self, transformer: Callable[["Result[TS, TF]"], Any]) -> None:
+    def set_transformer(self, transformer: Callable[[Result[TS, TF]], Any]) -> None:
         """
         Set a Callable transformer to be used with the `transform` method
         """
@@ -274,8 +276,8 @@ class Result(Generic[TS, TF]):
 
     def transform(
         self,
-        transformer: Union[Callable[["Result[TS, TF]"], Any], None] = None,
-        expected_type: Union[Type[R], None] = None,  # noqa
+        transformer: Callable[[Result[TS, TF]], Any] | None = None,
+        expected_type: type[R] | None = None,  # noqa
     ) -> R:
         """
         Transform the result with a transformer function. You can give the transformer callable or use the set_transformer function to pre-set the callable to be used.
