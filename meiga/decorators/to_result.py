@@ -1,6 +1,6 @@
 import sys
 from functools import wraps
-from typing import Callable, TypeVar, cast
+from typing import Any, Callable, TypeVar, cast
 
 if sys.version_info < (3, 10):  # pragma: no cover
     from typing_extensions import ParamSpec
@@ -14,7 +14,7 @@ from meiga.decorators.unexpected_decoration_order_error import (
 from meiga.result import Result
 
 P = ParamSpec("P")
-R = TypeVar("R", bound=Result)
+R = TypeVar("R", bound=Result[Any, Any])
 
 
 def to_result(func: Callable[P, R]) -> Callable[P, R]:

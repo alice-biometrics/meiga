@@ -1,14 +1,19 @@
-from typing import Callable, Iterable, Optional
+from typing import TYPE_CHECKING, Any, Callable, Iterable, Union
 
 from meiga.misc import get_args_list
 
+if TYPE_CHECKING:  # pragma: no cover
+    from meiga.result import TF, TS, Result
+
 
 class Handler:
-    def __init__(self, func: Callable[..., None], args: Optional[Iterable] = None):
+    def __init__(
+        self, func: Callable[..., None], args: Union[Iterable[Any], None] = None
+    ) -> None:
         self.func = func
         self.args = args
 
-    def execute(self, result) -> None:
+    def execute(self, result: "Result[TS, TF]") -> None:
         if self.args is not None:
             failure_args = get_args_list(self.args)
             if result.__id__ in failure_args:

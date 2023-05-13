@@ -18,9 +18,8 @@ class Failure(Generic[TF], Result[Any, TF]):
         super().__init__(failure=error)
 
 
-isSuccess: Result = Success()
-isFailure: Result = Failure()
-NotImplementedMethodError: Result = isFailure
-
 BoolResult = Result[bool, Error]
 AnyResult = Result[Any, Error]
+isSuccess: BoolResult = Success()
+isFailure: BoolResult = Failure()
+NotImplementedMethodError: BoolResult = isFailure
