@@ -1,8 +1,10 @@
-from typing import Any, Union
+from __future__ import annotations
+
+from typing import Any
 
 
 class Error(Exception):
-    message: Union[str, None]
+    message: str | None
 
     def __init__(self) -> None:
         self.message = None
