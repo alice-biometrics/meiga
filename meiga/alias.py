@@ -19,7 +19,7 @@ class Failure(Generic[TF], Result[Any, TF]):
 
 
 BoolResult = Result[bool, Error]
-AnyResult = Result[Any, Error]
+AnyResult = Result[Any, Any]
 isSuccess: AnyResult = Success()
 isFailure: AnyResult = Failure()
 NotImplementedMethodError: AnyResult = isFailure
