@@ -358,8 +358,10 @@ def my_controller() -> Result[str, Error]
     result.set_transformer(transformer)
 
 result = my_controller()
-status_code, message = result.transform(transformer)
+status_code, message = result.transform() # (1)
 ```
+
+1. Use `trasformer` function set with `set_transformer`.
 
 ### `match`
 
