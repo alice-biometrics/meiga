@@ -68,23 +68,21 @@ class Result(Generic[TS, TF]):
 
     def _assert_values(self) -> None:
         self._is_success = False
-        if isinstance(self._value_success, type(NoGivenValue)) and isinstance(
-            self._value_failure, type(NoGivenValue)
-        ):
+        if self._value_success is NoGivenValue and self._value_failure is NoGivenValue:
             raise TypeError(
                 "Result is a monad, it must be a success or a failure. "
                 "Please model your result selecting only one type [success or failure]."
             )
-        elif not isinstance(self._value_success, type(NoGivenValue)) and not isinstance(
-            self._value_failure, type(NoGivenValue)
+        elif (
+            self._value_success is not NoGivenValue
+            and self._value_failure is not NoGivenValue
         ):
             raise TypeError(
                 "Result is a monad, it cannot be success and failure at the same time. "
                 "Please model your result selecting only one type [success or failure]."
             )
-        elif not isinstance(self._value_success, type(NoGivenValue)):
-            self._is_success = True
-        return None
+        else:
+            self._is_success = self._value_success is not NoGivenValue
 
     def get_value(self) -> TS | TF:
         if self._is_success:
