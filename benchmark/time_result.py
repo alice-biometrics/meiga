@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from timeit import timeit
+from timeit import default_number, timeit
 
 from meiga import Error, Failure, Result, Success
 
@@ -42,14 +42,18 @@ dictionary = {
 }
 
 time_success = timeit(lambda: string_from_key(dictionary=dictionary, key="key1"))
-print(f"time when success: {time_success}")
+print(f"time when success: {(time_success/default_number)*1000000000} ns")
 
 time_failure_no_such_key = timeit(
     lambda: string_from_key(dictionary=dictionary, key="invalid_key")
 )
-print(f"time when failure (no such key): {time_failure_no_such_key}")
+print(
+    f"time when failure (no such key): {(time_failure_no_such_key/default_number)*1000000000} ns"
+)
 
 time_failure_type_missmatch = timeit(
     lambda: string_from_key(dictionary=dictionary, key="key2")
 )
-print(f"time when failure (type missmatch): {time_failure_type_missmatch}")
+print(
+    f"time when failure (type missmatch): {(time_failure_type_missmatch/default_number)*1000000000} ns"
+)
