@@ -231,7 +231,7 @@ class Result(Generic[TS, TF]):
 
     def map(self, mapper: Callable[[TS | TF], Any]) -> None:
         """
-        Returns a transformed result applying transform function applied to encapsulated value if this instance represents success or failure
+        Modifies encapsulate value applying a mapper function.
         """
         new_value = mapper(self.value)
         self.set_value(new_value)

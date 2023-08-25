@@ -24,6 +24,7 @@ theme:
   features:
     - content.tabs.link
     - content.code.annotate
+    - content.code.copy
 
   logo: 'logo-white.png'
   favicon: 'favicon.png'
