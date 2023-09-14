@@ -4,25 +4,25 @@ from meiga import Error, Failure, Success
 
 
 @pytest.mark.unit
-def test_should_transform_a_success_result_encapsulated_value():
-    def transform(value):
+def test_should_map_a_success_result_encapsulated_value():
+    def mapper(value):
         return f"{value} Meiga"
 
     result = Success("Hi")
-    result.map(transform)
+    result.map(mapper)
 
     assert result.value == "Hi Meiga"
 
 
 @pytest.mark.unit
-def test_should_transform_a_failure_result_encapsulated_value():
-    def transform(domain_error):
+def test_should_map_a_failure_result_encapsulated_value():
+    def mapper(domain_error):
         if isinstance(domain_error, Error):
             return "Error"
         else:
             return domain_error
 
     result = Failure(Error())
-    result.map(transform)
+    result.map(mapper)
 
     assert result.value == "Error"

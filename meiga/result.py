@@ -229,6 +229,19 @@ class Result(Generic[TS, TF]):
 
         return self
 
+    def bind(self, func: Callable[..., None]) -> Result[TS, TF]:
+        """
+        Returns itself binding success value with input func
+        """
+        value = self.unwrap()
+        if value is None:
+            return self
+
+        new_value = func(value)
+        self.set_value(new_value)
+
+        return self
+
     def map(self, mapper: Callable[[TS | TF], Any]) -> None:
         """
         Modifies encapsulate value applying a mapper function.
