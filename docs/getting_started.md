@@ -115,7 +115,7 @@ As we can check in the following examples, meiga simplifies our tests with some 
     ```python
     import pytest
 
-       from tests.unit.doc.example_without_meiga import (
+    from tests.unit.doc.example_without_meiga import (
         NoSuchKey,
         TypeMismatch,
         string_from_key,
