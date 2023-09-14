@@ -1,6 +1,6 @@
 import pytest
 
-from tests.unit.doc.example_with_meiga import NoSuchKey, TypeMismatch, string_from_key
+from .example_with_meiga import NoSuchKey, TypeMismatch, string_from_key
 
 
 @pytest.mark.unit
