@@ -338,34 +338,27 @@ from typing import Any
 
 from meiga import Success
 
-user = {"first_name": "rosalia", "last_name": "de castro", "age": 186}
+user = {"name": "rosalia de castro", "age": 186}
 
 result = Success(user)
 
 
-def capitalize_first_name(value: Any) -> Any:
-    value.update({"first_name": value["first_name"].capitalize()})
+def upper_name(value: Any) -> Any:
+    value.update({"name": value["name"].upper()})
     return value
-
-
-def capitalize_last_name(value: Any) -> Any:
-    value.update({"last_name": value["last_name"].capitalize()})
-    return value
-
 
 def update_age(value: Any) -> Any:
     value.update({"age": value["age"] + 1})
     return value
 
-
 def add_location(value: Any) -> Any:
-    value.update({"location": "Galiza"})
+    value.update({"location": "GALIZA"})
     return value
 
 
 result = (
-    result.bind(capitalize_first_name)
-    .bind(capitalize_last_name)
+    result
+    .bind(upper_name)
     .bind(update_age)
     .bind(add_location)
 )
