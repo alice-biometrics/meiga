@@ -13,6 +13,7 @@
 | [`unwrap_or_else(on_failure_handler)`](#unwrap_or_else)    | Returns the encapsulated value if this instance is a success or execute the `on_failure_handler` when it is failure.                                                                                 |
 | [`unwrap_and(on_success_handler)`](#unwrap_and)            | Returns the encapsulated value if this instance is a success and execute the `on_success_handler` when it is success.                                                                                |
 | [`handle(on_success_handler,on_failure_handler)`](#handle) | Returns itself and execute the `on_success_handler` when the instance is a success and the `on_failure_handler` when it is failure.                                                                  |
+| [`bind(func)`](#bind)                                   | Returns itself binding success value with input func                                                                  |
 | [`transform()`](#transform)                                | Transform the result with a transformer function. You can give the transformer callable or use the set_transformer function to pre-set the callable to be used.                                      |
 
 
@@ -319,6 +320,50 @@ Returns itself and execute the on_success_handler when the instance is a success
 
     run(result)
     ```
+
+### bind
+
+Returns itself binding success value with input func
+
+!!! question
+
+    What's the difference with handle?
+
+    It's quite similar but simpler. Bind only be applied to success value and don't accept external arguments
+    This function is very convenient for chaining actions on a result.
+
+
+```python
+from typing import Any
+
+from meiga import Success
+
+user = {"name": "rosalia de castro", "age": 186}
+
+result = Success(user)
+
+
+def upper_name(value: Any) -> Any:
+    value.update({"name": value["name"].upper()})
+    return value
+
+def update_age(value: Any) -> Any:
+    value.update({"age": value["age"] + 1})
+    return value
+
+def add_location(value: Any) -> Any:
+    value.update({"location": "GALIZA"})
+    return value
+
+
+result = (
+    result
+    .bind(upper_name)
+    .bind(update_age)
+    .bind(add_location)
+)
+```
+
 
 ### `transform`
 
