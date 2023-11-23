@@ -128,7 +128,7 @@ Returns the encapsulated value if this instance is a success or return Result as
 ???+ example
 
     Use `unwrap_or_return` in combination with `@early_return` decorator.
-    If something wrong happens unwrapping your `Result`, the `unwrap_or_return` function will raise an controlled Exception (ReturnErrorOnFailure).
+    If something wrong happens unwrapping your `Result`, the `unwrap_or_return` function will raise an controlled Exception (`WaitingForEarlyReturn`).
     `@early_return` decorator will handle the exception and unwrap the value in case of success.
     The following example illustrate this:
 
