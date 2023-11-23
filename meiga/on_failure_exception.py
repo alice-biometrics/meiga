@@ -12,3 +12,9 @@ class OnFailureException(Error):
     def __init__(self, result: "AnyResult") -> None:
         self.result = result
         Exception.__init__(self)
+
+    def __str__(self) -> str:
+        return f"OnFailureException: {self.result}"
+
+    def __repr__(self) -> str:
+        return f"OnFailureException: {self.result}"
