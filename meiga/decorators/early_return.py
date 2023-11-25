@@ -12,7 +12,7 @@ from meiga.decorators.unexpected_decoration_order_error import (
     UnexpectedDecorationOrderError,
 )
 from meiga.error import Error
-from meiga.on_failure_exception import OnFailureException
+from meiga.failures import WaitingForEarlyReturn
 from meiga.result import Result
 
 P = ParamSpec("P")
@@ -29,7 +29,7 @@ def early_return(func: Callable[P, R]) -> Callable[P, R]:
                 return Failure(UnexpectedDecorationOrderError())
             else:
                 return func(*args, **kwargs)
-        except OnFailureException as exc:
+        except WaitingForEarlyReturn as exc:
             return cast(R, exc.result)
         except Error as error:
             return cast(R, Failure(error))

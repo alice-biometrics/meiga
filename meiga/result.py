@@ -7,9 +7,9 @@ from meiga.deprecation import (
     get_on_failure_handler_from_deprecated_args,
     get_on_success_handler_from_deprecated_args,
 )
+from meiga.failures import WaitingForEarlyReturn
 from meiga.handlers import OnFailureHandler, OnSuccessHandler
 from meiga.no_given_value import NoGivenValue
-from meiga.on_failure_exception import OnFailureException
 
 TS = TypeVar("TS")  # Success Type
 TF = TypeVar("TF")  # Failure Type
@@ -144,7 +144,7 @@ class Result(Generic[TS, TF]):
             return_value = (
                 self if return_value_on_failure is None else return_value_on_failure
             )
-            raise OnFailureException(return_value)
+            raise WaitingForEarlyReturn(return_value)
         return cast(TS, self.value)
 
     def unwrap_or_throw(self) -> TS:
