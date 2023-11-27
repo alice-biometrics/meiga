@@ -11,6 +11,7 @@ from .alias import (
 from .decorators.early_return import early_return
 from .decorators.to_result import to_result
 from .error import Error
+from .failures import WaitingForEarlyReturn
 from .handlers import OnFailureHandler, OnSuccessHandler
 from .result import Result
 
@@ -29,4 +30,5 @@ __all__ = [
     "OnFailureHandler",
     "to_result",
     "early_return",
+    "WaitingForEarlyReturn",
 ]
