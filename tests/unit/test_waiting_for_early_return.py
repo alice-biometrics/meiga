@@ -1,7 +1,7 @@
 import pytest
 
-from meiga import Error, Result
-from meiga.failures import WaitingForEarlyReturn
+from meiga import Error, Result, WaitingForEarlyReturn
+from meiga.on_failure_exception import OnFailureException
 
 
 def expected_error(value: str) -> str:
@@ -26,5 +26,15 @@ class TestWaitingForEarlyReturn:
         result = Result(failure=wrapped_exception)
 
         exception = WaitingForEarlyReturn(result)
+
+        assert expected_error(wrapped_exception.__repr__()) == str(exception)
+
+    def should_be_compatible_with_older_version_and_expect_st_as_expected_an_exception(
+        self,
+    ):
+        wrapped_exception = ValueError("Something went wrong")
+        result = Result(failure=wrapped_exception)
+
+        exception = OnFailureException(result)
 
         assert expected_error(wrapped_exception.__repr__()) == str(exception)
