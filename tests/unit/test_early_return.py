@@ -6,110 +6,107 @@ from meiga.decorators import UnexpectedDecorationOrderError
 
 
 @pytest.mark.unit
-def test_should_return_a_success_result_with_meiga_decorator():
-    @early_return
-    def decorated_method():
-        return isSuccess
+class TestEarlyReturn:
+    def should_return_a_success_result_with_meiga_decorator(self):
+        @early_return
+        def decorated_method():
+            return isSuccess
 
-    result = decorated_method()
+        result = decorated_method()
 
-    assert_success(result)
+        assert_success(result)
 
+    def should_return_a_failure_result_with_meiga_decorator(self):
+        @early_return
+        def decorated_method():
+            return isFailure
 
-@pytest.mark.unit
-def test_should_return_a_failure_result_with_meiga_decorator():
-    @early_return
-    def decorated_method():
-        return isFailure
+        result = decorated_method()
 
-    result = decorated_method()
+        assert_failure(result)
 
-    assert_failure(result)
+    def should_return_a_failure_result_with_meiga_decorator_when_raise_an_error(self):
+        @early_return
+        def decorated_method():
+            raise Error()
 
+        result = decorated_method()
 
-@pytest.mark.unit
-def test_should_return_a_failure_result_with_meiga_decorator_when_raise_an_error():
-    @early_return
-    def decorated_method():
-        raise Error()
+        assert_failure(result, value_is_instance_of=Error)
 
-    result = decorated_method()
+    def should_return_a_failure_result_with_meiga_decorator_when_raise_an_error_subclass(
+        self,
+    ):
+        class MyError(Error):
+            def __init__(self, message):
+                self.message = message
 
-    assert_failure(result, value_is_instance_of=Error)
-
-
-@pytest.mark.unit
-def test_should_return_a_failure_result_with_meiga_decorator_when_raise_an_error_subclass():
-    class MyError(Error):
-        def __init__(self, message):
-            self.message = message
-
-    @early_return
-    def decorated_method():
-        raise MyError("message")
-
-    result = decorated_method()
-
-    assert_failure(result, value_is_instance_of=MyError)
-
-
-@pytest.mark.unit
-def test_should_return_a_failure_result_with_meiga_decorator_and_inner_function_when_raise_an_error_subclass():
-    class MyError(Error):
-        def __init__(self, message):
-            self.message = message
-
-    @early_return
-    def decorated_method():
-        def inner():
+        @early_return
+        def decorated_method():
             raise MyError("message")
 
-        inner()
+        result = decorated_method()
 
-    result = decorated_method()
+        assert_failure(result, value_is_instance_of=MyError)
 
-    assert_failure(result, value_is_instance_of=MyError)
+    def should_return_a_failure_result_with_meiga_decorator_and_inner_function_when_raise_an_error_subclass(
+        self,
+    ):
+        class MyError(Error):
+            def __init__(self, message):
+                self.message = message
 
-
-@pytest.mark.unit
-def test_should_return_a_success_result_with_meiga_decorator_and_static_function_right_order():
-    class MyClass:
-        @staticmethod
         @early_return
-        def decorated_method() -> BoolResult:
-            return isSuccess
+        def decorated_method():
+            def inner():
+                raise MyError("message")
 
-    result = MyClass.decorated_method()
-    assert_success(result)
+            inner()
 
+        result = decorated_method()
 
-@pytest.mark.unit
-def test_should_return_a_unexpected_decorator_order_failure_result_with_meiga_decorator_and_static_method():
-    class MyClass:
-        @early_return
-        @staticmethod
-        def decorated_method() -> BoolResult:
-            return isSuccess
+        assert_failure(result, value_is_instance_of=MyError)
 
-    result = MyClass.decorated_method()
-    assert_failure(result, value_is_instance_of=UnexpectedDecorationOrderError)
-    assert (
-        result.value.message
-        == "meiga decorators must be declared after a @staticmethod, @classmethod"
-    )
+    def should_return_a_success_result_with_meiga_decorator_and_static_function_right_order(
+        self,
+    ):
+        class MyClass:
+            @staticmethod
+            @early_return
+            def decorated_method() -> BoolResult:
+                return isSuccess
 
+        result = MyClass.decorated_method()
+        assert_success(result)
 
-@pytest.mark.unit
-def test_should_return_a_unexpected_decorator_order_failure_result_with_meiga_decorator_and_class_method():
-    class MyClass:
-        @early_return
-        @classmethod
-        def decorated_method(cls) -> BoolResult:
-            return isSuccess
+    def should_return_a_unexpected_decorator_order_failure_result_with_meiga_decorator_and_static_method(
+        self,
+    ):
+        class MyClass:
+            @early_return
+            @staticmethod
+            def decorated_method() -> BoolResult:
+                return isSuccess
 
-    result = MyClass.decorated_method()
-    assert_failure(result, value_is_instance_of=UnexpectedDecorationOrderError)
-    assert (
-        result.value.message
-        == "meiga decorators must be declared after a @staticmethod, @classmethod"
-    )
+        result = MyClass.decorated_method()
+        assert_failure(result, value_is_instance_of=UnexpectedDecorationOrderError)
+        assert (
+            result.value.message
+            == "meiga decorators must be declared after a @staticmethod, @classmethod"
+        )
+
+    def should_return_a_unexpected_decorator_order_failure_result_with_meiga_decorator_and_class_method(
+        self,
+    ):
+        class MyClass:
+            @early_return
+            @classmethod
+            def decorated_method(cls) -> BoolResult:
+                return isSuccess
+
+        result = MyClass.decorated_method()
+        assert_failure(result, value_is_instance_of=UnexpectedDecorationOrderError)
+        assert (
+            result.value.message
+            == "meiga decorators must be declared after a @staticmethod, @classmethod"
+        )
