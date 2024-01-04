@@ -7,7 +7,7 @@ from meiga.on_failure_exception import OnFailureException
 def expected_error(value: str) -> str:
     return (
         f"This exception wraps the following result -> Result[status: failure | value: {value}]"
-        f"\nIf you want to handle this error and return a Failure, please use early_return decorator on your function."
+        f"\nIf you want to handle this error and return a Failure, please use early_return decorator on your function (pytest_pyfunc_call)."
         f"\nMore info about how to use unwrap_or_return in combination with @early_return decorator on https://alice-biometrics.github.io/meiga/usage/result/#unwrap_or_return"
     )
 
