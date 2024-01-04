@@ -8,7 +8,7 @@ from meiga.on_failure_exception import OnFailureException
 
 
 def expected_error(
-    value: str, called_from: Union[str | None] = None, escape: bool = False
+    value: str, called_from: Union[str, None] = None, escape: bool = False
 ) -> str:
     called_from = f" ({called_from})" if called_from else ""
 
