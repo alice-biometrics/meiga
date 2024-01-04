@@ -14,7 +14,9 @@ class WaitingForEarlyReturn(Error):
     def __init__(self, result: "AnyResult") -> None:
         self.result = result
         try:
-            self.called_from = inspect.stack()[2][3]
+            stack = inspect.stack()[2]
+            filename = stack.filename.split("/")[-1]
+            self.called_from = f"{stack[3]} on {filename}"
         except:  # noqa
             self.called_from = None
         Exception.__init__(self)
