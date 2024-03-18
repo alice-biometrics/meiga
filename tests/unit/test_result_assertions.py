@@ -37,6 +37,6 @@ class TestResultAssertion:
 
     @pytest.mark.parametrize("error", [Error(), MyError(), Exception()])
     def should_raise_an_assertion_error_when_instance_is_not_correct(self, error: Any):
-        result = Result(failure=error)
+        result = Result(failure=error)  # type:ignore
         with pytest.raises(AssertionError):
             result.assert_failure(value_is_instance_of=bool)
