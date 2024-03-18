@@ -13,9 +13,13 @@ def assert_failure(
         result.is_failure
     ), f"result is not failure as expected. Given failure value is {result.value}"
     if value_is_instance_of:
+        base = type(result.value)
+        if isinstance(base, type) and base == type:
+            base = result.value.__bases__
+
         assert isinstance(result.value, value_is_instance_of), (
             f"Value is not instance of {value_is_instance_of}. "
-            f"Given value is {result.value} of {type({result.value})}"
+            f"Given value is {result.value} of {base}"
         )
     if value_is_equal_to:
         assert result.value == value_is_equal_to, (
