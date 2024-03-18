@@ -6,12 +6,12 @@ on:
 
 jobs:
   get-version:
-    uses: alice-biometrics/actions/.github/workflows/get-version.yml@main
+    uses: alice-biometrics/actions-public/.github/workflows/get-version.yml@main
     with:
       type: release
   publish:
     needs: get-version
-    uses: alice-biometrics/actions/.github/workflows/publish-pypi.yml@main
+    uses: alice-biometrics/actions-public/.github/workflows/publish-pypi.yml@main
     with:
       package_name: meiga
       version: ${{ needs.get-version.outputs.version }}
