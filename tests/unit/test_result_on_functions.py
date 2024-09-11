@@ -52,7 +52,7 @@ def test_should_sum_two_positive_values():
 
 
 @pytest.mark.unit
-def test_should_sum_two_positive_values_with_meiga_decorator_and_handle():
+def test_should_sum_two_positive_values_with_early_return_and_handle():
     class IsNegativeError(Error):
         pass
 

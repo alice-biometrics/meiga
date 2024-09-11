@@ -16,7 +16,7 @@ repos:
 
       - id: ruff
         name: ruff
-        entry: ruff meiga tests --fix
+        entry: ruff check meiga tests --fix
         language: system
         types: [ python ]
         require_serial: true

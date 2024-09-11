@@ -6,7 +6,7 @@ from meiga.handlers import OnFailureHandler, OnSuccessHandler
 
 
 def get_on_success_handler_from_deprecated_args(
-    kwargs: dict[Any, Any]
+    kwargs: dict[Any, Any],
 ) -> OnSuccessHandler | None:
     on_success = kwargs.get("on_success")
     if on_success:

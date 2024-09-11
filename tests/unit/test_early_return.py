@@ -7,7 +7,7 @@ from meiga.decorators import UnexpectedDecorationOrderError
 
 @pytest.mark.unit
 class TestEarlyReturn:
-    def should_return_a_success_result_with_meiga_decorator(self):
+    def should_return_a_success_result_with_early_return(self):
         @early_return
         def decorated_method():
             return isSuccess
@@ -16,7 +16,7 @@ class TestEarlyReturn:
 
         assert_success(result)
 
-    def should_return_a_failure_result_with_meiga_decorator(self):
+    def should_return_a_failure_result_with_early_return(self):
         @early_return
         def decorated_method():
             return isFailure
@@ -25,7 +25,7 @@ class TestEarlyReturn:
 
         assert_failure(result)
 
-    def should_return_a_failure_result_with_meiga_decorator_when_raise_an_error(self):
+    def should_return_a_failure_result_with_early_return_when_raise_an_error(self):
         @early_return
         def decorated_method():
             raise Error()
@@ -34,7 +34,7 @@ class TestEarlyReturn:
 
         assert_failure(result, value_is_instance_of=Error)
 
-    def should_return_a_failure_result_with_meiga_decorator_when_raise_an_error_subclass(
+    def should_return_a_failure_result_with_early_return_when_raise_an_error_subclass(
         self,
     ):
         class MyError(Error):
@@ -49,7 +49,7 @@ class TestEarlyReturn:
 
         assert_failure(result, value_is_instance_of=MyError)
 
-    def should_return_a_failure_result_with_meiga_decorator_and_inner_function_when_raise_an_error_subclass(
+    def should_return_a_failure_result_with_early_return_and_inner_function_when_raise_an_error_subclass(
         self,
     ):
         class MyError(Error):
@@ -67,7 +67,7 @@ class TestEarlyReturn:
 
         assert_failure(result, value_is_instance_of=MyError)
 
-    def should_return_a_success_result_with_meiga_decorator_and_static_function_right_order(
+    def should_return_a_success_result_with_early_return_and_static_function_right_order(
         self,
     ):
         class MyClass:
@@ -79,7 +79,7 @@ class TestEarlyReturn:
         result = MyClass.decorated_method()
         assert_success(result)
 
-    def should_return_a_unexpected_decorator_order_failure_result_with_meiga_decorator_and_static_method(
+    def should_return_a_unexpected_decorator_order_failure_result_with_early_return_and_static_method(
         self,
     ):
         class MyClass:
@@ -95,7 +95,7 @@ class TestEarlyReturn:
             == "meiga decorators must be declared after a @staticmethod, @classmethod"
         )
 
-    def should_return_a_unexpected_decorator_order_failure_result_with_meiga_decorator_and_class_method(
+    def should_return_a_unexpected_decorator_order_failure_result_with_early_return_and_class_method(
         self,
     ):
         class MyClass:
