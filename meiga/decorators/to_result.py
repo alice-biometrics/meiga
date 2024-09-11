@@ -22,9 +22,9 @@ def to_result(func: Callable[P, R]) -> Callable[P, R]:
     def _to_result(*args: P.args, **kwargs: P.kwargs) -> R:
         try:
             if isinstance(func, staticmethod):
-                return Failure(UnexpectedDecorationOrderError())
+                return Failure(UnexpectedDecorationOrderError())  # type: ignore
             elif isinstance(func, classmethod):
-                return Failure(UnexpectedDecorationOrderError())
+                return Failure(UnexpectedDecorationOrderError())  # type: ignore
             else:
                 return func(*args, **kwargs)
         except Exception as exc:

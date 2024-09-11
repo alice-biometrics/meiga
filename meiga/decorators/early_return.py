@@ -24,9 +24,9 @@ def early_return(func: Callable[P, R]) -> Callable[P, R]:
     def _early_return(*args: P.args, **kwargs: P.kwargs) -> R:
         try:
             if isinstance(func, staticmethod):
-                return Failure(UnexpectedDecorationOrderError())
+                return Failure(UnexpectedDecorationOrderError())  # type: ignore
             elif isinstance(func, classmethod):
-                return Failure(UnexpectedDecorationOrderError())
+                return Failure(UnexpectedDecorationOrderError())  # type: ignore
             else:
                 return func(*args, **kwargs)
         except WaitingForEarlyReturn as exc:

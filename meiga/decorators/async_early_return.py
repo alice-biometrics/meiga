@@ -26,9 +26,9 @@ def async_early_return(
     async def _async_early_return(*args: P.args, **kwargs: P.kwargs) -> R:
         try:
             if isinstance(func, staticmethod):
-                return Failure(UnexpectedDecorationOrderError())
+                return Failure(UnexpectedDecorationOrderError())  # type: ignore
             elif isinstance(func, classmethod):
-                return Failure(UnexpectedDecorationOrderError())
+                return Failure(UnexpectedDecorationOrderError())  # type: ignore
             else:
                 return await func(*args, **kwargs)
         except WaitingForEarlyReturn as exc:
