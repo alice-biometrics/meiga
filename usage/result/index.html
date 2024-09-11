@@ -1,0 +1,1369 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="🧙 meiga is a Python µframework that provides a simple, fully typed, monad-based result type ➡️ Result[Value, Error].">
+      
+      
+      
+        <link rel="canonical" href="https://github.com/alice-biometrics/meiga/usage/result/">
+      
+      <link rel="icon" href="../../favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-8.5.10">
+    
+    
+      
+        <title>Result - meiga</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.975780f9.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.2505c338.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/terminal.css">
+    
+      <link rel="stylesheet" href="../../css/tweaks.css">
+    
+      <link rel="stylesheet" href="../../css/termynal.css">
+    
+      <link rel="stylesheet" href="../../css/custom.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#functions" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="meiga" class="md-header__button md-logo" aria-label="meiga" data-md-component="logo">
+      
+  <img src="../../logo-white.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            meiga
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Result
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
+            </label>
+          
+        
+          
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="blue" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/alice-biometrics/meiga" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    alice-biometrics/meiga
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="meiga" class="md-nav__button md-logo" aria-label="meiga" data-md-component="logo">
+      
+  <img src="../../logo-white.png" alt="logo">
+
+    </a>
+    meiga
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/alice-biometrics/meiga" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    alice-biometrics/meiga
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Overview
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../install/" class="md-nav__link">
+        Install
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting_started/" class="md-nav__link">
+        Getting started
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Usage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Usage" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Usage
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Result
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Result
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    Functions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#properties" class="md-nav__link">
+    Properties
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detail" class="md-nav__link">
+    Detail
+  </a>
+  
+    <nav class="md-nav" aria-label="Detail">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#unwrap" class="md-nav__link">
+    unwrap
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unwrap_or_raise" class="md-nav__link">
+    unwrap_or_raise
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unwrap_or_return" class="md-nav__link">
+    unwrap_or_return
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unwrap_or" class="md-nav__link">
+    unwrap_or
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reraise" class="md-nav__link">
+    reraise
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#map" class="md-nav__link">
+    map
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unwrap_or_else" class="md-nav__link">
+    unwrap_or_else
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unwrap_and" class="md-nav__link">
+    unwrap_and
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#handle" class="md-nav__link">
+    handle
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bind" class="md-nav__link">
+    bind
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#transform" class="md-nav__link">
+    transform
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#match" class="md-nav__link">
+    match
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deprecated" class="md-nav__link">
+    Deprecated ⚠️
+  </a>
+  
+    <nav class="md-nav" aria-label="Deprecated ⚠️">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#throw" class="md-nav__link">
+    throw
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unwrap_or_throw" class="md-nav__link">
+    unwrap_or_throw
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../alias/" class="md-nav__link">
+        Alias
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../decorators/" class="md-nav__link">
+        Decorators
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../assertions/" class="md-nav__link">
+        Assertions
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contributing/" class="md-nav__link">
+        Contributing to meiga
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changelog/" class="md-nav__link">
+        Changelog
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#functions" class="md-nav__link">
+    Functions
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#properties" class="md-nav__link">
+    Properties
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#introduction" class="md-nav__link">
+    Introduction
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#detail" class="md-nav__link">
+    Detail
+  </a>
+  
+    <nav class="md-nav" aria-label="Detail">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#unwrap" class="md-nav__link">
+    unwrap
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unwrap_or_raise" class="md-nav__link">
+    unwrap_or_raise
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unwrap_or_return" class="md-nav__link">
+    unwrap_or_return
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unwrap_or" class="md-nav__link">
+    unwrap_or
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reraise" class="md-nav__link">
+    reraise
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#map" class="md-nav__link">
+    map
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unwrap_or_else" class="md-nav__link">
+    unwrap_or_else
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unwrap_and" class="md-nav__link">
+    unwrap_and
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#handle" class="md-nav__link">
+    handle
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bind" class="md-nav__link">
+    bind
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#transform" class="md-nav__link">
+    transform
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#match" class="md-nav__link">
+    match
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deprecated" class="md-nav__link">
+    Deprecated ⚠️
+  </a>
+  
+    <nav class="md-nav" aria-label="Deprecated ⚠️">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#throw" class="md-nav__link">
+    throw
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unwrap_or_throw" class="md-nav__link">
+    unwrap_or_throw
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+  
+  
+<!--    <div id="bsa-cpc"></div>-->
+  
+  
+                  
+
+  <a href="https://github.com/alice-biometrics/meiga/edit/main/docs/usage/result.md" title="Edit this page" class="md-content__button md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+  <h1>Result</h1>
+
+<p><code>Result[T, Error]</code> 👉 A discriminated union that encapsulates successful outcome with a value of type T or a failure with an arbitrary Error exception.</p>
+<h2 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Functions</th>
+<th style="text-align: left;">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#unwrap"><code>unwrap()</code></a></td>
+<td style="text-align: left;">Returns the encapsulated value if this instance is a success or None if it is failure.</td>
+</tr>
+<tr>
+<td><a href="#unwrap_or_raise"><code>unwrap_or_raise()</code></a></td>
+<td style="text-align: left;">Returns the encapsulated value if this instance is a success or raise the encapsulated exception if it is failure.</td>
+</tr>
+<tr>
+<td><a href="#unwrap_or_return"><code>unwrap_or_return()</code></a></td>
+<td style="text-align: left;">Returns the encapsulated value if this instance is a success or return Result as long as <code>@early_return</code> decorator wraps the function.</td>
+</tr>
+<tr>
+<td><a href="#unwrap_or"><code>unwrap_or(failure_value)</code></a></td>
+<td style="text-align: left;">Returns the encapsulated value if this instance is a success or the selected <code>failure_value</code> if it is failure.</td>
+</tr>
+<tr>
+<td><a href="#reraise"><code>reraise()</code></a></td>
+<td style="text-align: left;">Raises the encapsulated failure value if this instance derive from Error or BaseException.</td>
+</tr>
+<tr>
+<td><a href="#map"><code>map()</code></a></td>
+<td style="text-align: left;">Modifies encapsulate value applying a mapper function.</td>
+</tr>
+<tr>
+<td><a href="#unwrap_or_else"><code>unwrap_or_else(on_failure_handler)</code></a></td>
+<td style="text-align: left;">Returns the encapsulated value if this instance is a success or execute the <code>on_failure_handler</code> when it is failure.</td>
+</tr>
+<tr>
+<td><a href="#unwrap_and"><code>unwrap_and(on_success_handler)</code></a></td>
+<td style="text-align: left;">Returns the encapsulated value if this instance is a success and execute the <code>on_success_handler</code> when it is success.</td>
+</tr>
+<tr>
+<td><a href="#handle"><code>handle(on_success_handler,on_failure_handler)</code></a></td>
+<td style="text-align: left;">Returns itself and execute the <code>on_success_handler</code> when the instance is a success and the <code>on_failure_handler</code> when it is failure.</td>
+</tr>
+<tr>
+<td><a href="#bind"><code>bind(func)</code></a></td>
+<td style="text-align: left;">Returns itself binding success value with input func</td>
+</tr>
+<tr>
+<td><a href="#transform"><code>transform()</code></a></td>
+<td style="text-align: left;">Transform the result with a transformer function. You can give the transformer callable or use the set_transformer function to pre-set the callable to be used.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="properties">Properties<a class="headerlink" href="#properties" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Properties</th>
+<th style="text-align: left;">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>value</code></td>
+<td style="text-align: left;">Returns the encapsulated value whether it's success or failure</td>
+</tr>
+<tr>
+<td><code>is_success</code></td>
+<td style="text-align: left;">Returns true if this instance represents successful outcome. In this case is_failure returns false.</td>
+</tr>
+<tr>
+<td><code>is_failure</code></td>
+<td style="text-align: left;">Returns true if this instance represents failed outcome. In this case is_success returns false</td>
+</tr>
+</tbody>
+</table>
+<h2 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h2>
+<p>Let's imagine we have a dictionary that represent a user info data and we use the <code>string_from_key</code> (presented in the <a href="../../getting_started/">Getting Started</a> section before) to retrieve the first name of the user.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">user_info</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;first_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Rosalia&quot;</span><span class="p">,</span> <span class="s2">&quot;last_name&quot;</span><span class="p">:</span> <span class="s2">&quot;De Castro&quot;</span><span class="p">,</span> <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">60</span><span class="p">}</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">result</span> <span class="o">=</span> <span class="n">string_from_key</span><span class="p">(</span><span class="n">dictionary</span><span class="o">=</span><span class="n">user_info</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;first_name&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># ➡ Result will be Result[status: success | value: Rosalia]</span>
+</code></pre></div>
+<p>You could also check the status of the result</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">is_success</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">is_success</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># ➡️ It will return True</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">is_failure</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">is_failure</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># ➡️ It will return False</span>
+</code></pre></div>
+<p>If the result is a success you can get the expected value accessing the property <code>value</code> or using the <code>unwrap</code> function (recommended).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">my_value</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">value</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># ➡️ It will return Rosalia</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">my_value</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">unwrap</span><span class="p">()</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># ➡️ It will return also Rosalia</span>
+</code></pre></div>
+<p>Otherwise, if we try to access an invalid key or a non string value, returned result will be a failure.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">result</span> <span class="o">=</span> <span class="n">string_from_key</span><span class="p">(</span><span class="n">dictionary</span><span class="o">=</span><span class="n">user_info</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;invalid_key&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="c1"># ➡ Result will be Result[status: failure | value: NoSuchKey]</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">is_success</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">is_success</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># ➡️ It will return False</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">is_failure</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">is_failure</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># ➡️ It will return True</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">my_value</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">value</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="c1"># ➡️ It will return NoSuchKey (Error)</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="n">my_value</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">unwrap</span><span class="p">()</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1"># ➡️ It will return also NoSuchKey (Error)</span>
+</code></pre></div>
+<p>Or</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">result</span> <span class="o">=</span> <span class="n">string_from_key</span><span class="p">(</span><span class="n">dictionary</span><span class="o">=</span><span class="n">user_info</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;age&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="c1"># ➡ Result will be Result[status: failure | value: TypeMismatch]</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">is_success</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">is_success</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># ➡️ It will return False</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">is_failure</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">is_failure</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1"># ➡️ It will return True</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="n">my_value</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">value</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="c1"># ➡️ It will return TypeMismatch (Error)</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="n">my_value</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">unwrap</span><span class="p">()</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1"># ➡️ It will return also TypeMismatch (Error)</span>
+</code></pre></div>
+<h2 id="detail">Detail<a class="headerlink" href="#detail" title="Permanent link">&para;</a></h2>
+<p>We will present some tips and examples to see in detail what meiga can offer us.</p>
+<h3 id="unwrap"><code>unwrap</code><a class="headerlink" href="#unwrap" title="Permanent link">&para;</a></h3>
+<p>Returns the encapsulated value if this instance is a success or None if it is failure.</p>
+<details class="example" open="open">
+<summary>Example</summary>
+<p>If you <code>unwrap</code> a Result object, it will return a valid value if it is success. Otherwise, it will return None.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">result</span> <span class="o">=</span> <span class="n">Result</span><span class="p">(</span><span class="n">success</span><span class="o">=</span><span class="s2">&quot;Hi!&quot;</span><span class="p">)</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">value</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">unwrap</span><span class="p">()</span> <span class="c1"># ➡️ It will return &quot;Hi!&quot;</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">result</span> <span class="o">=</span> <span class="n">Failure</span><span class="p">(</span><span class="n">Error</span><span class="p">())</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">value</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">unwrap</span><span class="p">()</span> <span class="c1"># ➡️ It will return None</span>
+</code></pre></div>
+<p>See <a href="https://github.com/alice-biometrics/meiga/blob/master/tests/unit/test_result_unwrap.py">tests/unit/test_result_unwrap.py</a> to see examples of usage.</p>
+</details>
+<h3 id="unwrap_or_raise"><code>unwrap_or_raise</code><a class="headerlink" href="#unwrap_or_raise" title="Permanent link">&para;</a></h3>
+<p>Returns the encapsulated value if this instance is a success or raises the encapsulated exception if it is failure.</p>
+<details class="example" open="open">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">result</span> <span class="o">=</span> <span class="n">Result</span><span class="p">(</span><span class="n">success</span><span class="o">=</span><span class="s2">&quot;Hi!&quot;</span><span class="p">)</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">value</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">unwrap_or_raise</span><span class="p">()</span> <span class="c1"># ➡️ It will return &quot;Hi!&quot;</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">result</span> <span class="o">=</span> <span class="n">Failure</span><span class="p">(</span><span class="n">Error</span><span class="p">())</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="n">value</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">unwrap_or_raise</span><span class="p">()</span> <span class="c1"># ➡️ It will raise an exception using given Error instance</span>
+</code></pre></div>
+</details>
+<h3 id="unwrap_or_return"><code>unwrap_or_return</code><a class="headerlink" href="#unwrap_or_return" title="Permanent link">&para;</a></h3>
+<p>Returns the encapsulated value if this instance is a success or return Result as long as <code>@early_return</code> decorator wraps the function.</p>
+<details class="example" open="open">
+<summary>Example</summary>
+<p>Use <code>unwrap_or_return</code> in combination with <code>@early_return</code> decorator.
+If something wrong happens unwrapping your <code>Result</code>, the <code>unwrap_or_return</code> function will raise an controlled Exception (<code>WaitingForEarlyReturn</code>).
+<code>@early_return</code> decorator will handle the exception and unwrap the value in case of success.
+The following example illustrate this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span> <span class="nn">meiga</span> <span class="kn">import</span> <span class="n">Result</span><span class="p">,</span> <span class="n">Error</span><span class="p">,</span> <span class="n">early_return</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="nd">@early_return</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="k">def</span> <span class="nf">handling_result</span><span class="p">(</span><span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">:</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="n">user_info</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;first_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Rosalia&quot;</span><span class="p">,</span> <span class="s2">&quot;last_name&quot;</span><span class="p">:</span> <span class="s2">&quot;De Castro&quot;</span><span class="p">,</span> <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">60</span><span class="p">}</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    <span class="n">first_name</span> <span class="o">=</span> <span class="n">string_from_key</span><span class="p">(</span><span class="n">dictionary</span><span class="o">=</span><span class="n">user_info</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span><span class="o">.</span><span class="n">unwrap_or_return</span><span class="p">()</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>    <span class="c1"># Do whatever with the name</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>    <span class="n">name</span> <span class="o">=</span> <span class="n">first_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>    <span class="k">return</span> <span class="n">Result</span><span class="p">(</span><span class="n">success</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div>
+<p>If key is valid success value would be returned. Otherwise, an Error would be returned.</p>
+<p>If you need to return a specific value if fails, you can do it with meiga:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">first_name</span> <span class="o">=</span> <span class="n">string_from_key</span><span class="p">(</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    <span class="n">dictionary</span><span class="o">=</span><span class="n">user_info</span><span class="p">,</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="n">key</span><span class="o">=</span><span class="n">key</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="p">)</span><span class="o">.</span><span class="n">unwrap_or_return</span><span class="p">(</span><span class="n">return_value_on_failure</span><span class="o">=</span><span class="n">MyError</span><span class="p">())</span>
+</code></pre></div>
+</details>
+<h3 id="unwrap_or">unwrap_or<a class="headerlink" href="#unwrap_or" title="Permanent link">&para;</a></h3>
+<p>Returns the encapsulated value if this instance is a success or the selected failure_value if it is failure.</p>
+<details class="example" open="open">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a> <span class="n">first_name</span> <span class="o">=</span> <span class="n">string_from_key</span><span class="p">(</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    <span class="n">dictionary</span><span class="o">=</span><span class="n">user_info</span><span class="p">,</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="n">key</span><span class="o">=</span><span class="n">key</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a> <span class="p">)</span><span class="o">.</span><span class="n">unwrap_or</span><span class="p">(</span><span class="n">failure_value</span><span class="o">=</span><span class="s2">&quot;UserWithoutName&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a> <span class="c1"># It will return the first name if success or &quot;UserWithoutName&quot; if failure</span>
+</code></pre></div>
+</details>
+<h3 id="reraise"><code>reraise</code><a class="headerlink" href="#reraise" title="Permanent link">&para;</a></h3>
+<p>Raises the encapsulated failure value if this instance inherits from Error or BaseException.</p>
+<details class="example" open="open">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">result</span> <span class="o">=</span> <span class="n">Success</span><span class="p">(</span><span class="s2">&quot;Hi!&quot;</span><span class="p">)</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">result</span><span class="o">.</span><span class="n">reraise</span><span class="p">()</span> <span class="c1"># ➡️ It won&#39;t raise an exception as is a success. So, this will return None</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">result</span> <span class="o">=</span> <span class="n">Failure</span><span class="p">(</span><span class="n">Error</span><span class="p">())</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="n">result</span><span class="o">.</span><span class="n">reraise</span><span class="p">()</span> <span class="c1"># ➡️ It will throw an exception using given Error instance</span>
+</code></pre></div>
+</details>
+<h3 id="map">map<a class="headerlink" href="#map" title="Permanent link">&para;</a></h3>
+<p>Modifies encapsulate value applying a mapper function.</p>
+<details class="example" open="open">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">def</span> <span class="nf">capitalize</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>    <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="n">first_name</span> <span class="o">=</span> <span class="n">string_from_key</span><span class="p">(</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    <span class="n">dictionary</span><span class="o">=</span><span class="n">user_info</span><span class="p">,</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="n">key</span><span class="o">=</span><span class="n">key</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="p">)</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="n">first_name</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">capitalize</span><span class="p">)</span>
+</code></pre></div>
+</details>
+<h3 id="unwrap_or_else">unwrap_or_else<a class="headerlink" href="#unwrap_or_else" title="Permanent link">&para;</a></h3>
+<p>Returns the encapsulated value if this instance is a success or execute the on_failure_handler when it is failure.</p>
+<details class="example" open="open">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kn">from</span> <span class="nn">meiga</span> <span class="kn">import</span> <span class="n">OnFailureHandler</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="k">def</span> <span class="nf">on_failure_func</span><span class="p">():</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Do your staff here to react to a failure&quot;</span><span class="p">)</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="n">first_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">string_from_key</span><span class="p">(</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>    <span class="n">dictionary</span><span class="o">=</span><span class="n">user_info</span><span class="p">,</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>    <span class="n">key</span><span class="o">=</span><span class="n">key</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="p">)</span><span class="o">.</span><span class="n">unwrap_or_else</span><span class="p">(</span><span class="n">on_failure_handler</span><span class="o">=</span><span class="n">OnFailureHandler</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">failure_handler</span><span class="p">))</span>
+</code></pre></div>
+</details>
+<h3 id="unwrap_and">unwrap_and<a class="headerlink" href="#unwrap_and" title="Permanent link">&para;</a></h3>
+<p>Returns the encapsulated value if this instance is a success and execute the on_success_handler when it is success.</p>
+<details class="example" open="open">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kn">from</span> <span class="nn">meiga</span> <span class="kn">import</span> <span class="n">OnSuccessHandler</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="k">def</span> <span class="nf">on_success_func</span><span class="p">():</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Do your staff here to react to a success&quot;</span><span class="p">)</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="n">first_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">string_from_key</span><span class="p">(</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>    <span class="n">dictionary</span><span class="o">=</span><span class="n">user_info</span><span class="p">,</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>    <span class="n">key</span><span class="o">=</span><span class="n">key</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="p">)</span><span class="o">.</span><span class="n">unwrap_and</span><span class="p">(</span><span class="n">on_success_handler</span><span class="o">=</span><span class="n">OnSuccessHandler</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">on_success_func</span><span class="p">))</span>
+</code></pre></div>
+</details>
+<h3 id="handle">handle<a class="headerlink" href="#handle" title="Permanent link">&para;</a></h3>
+<p>Returns itself and execute the on_success_handler when the instance is a success and the on_failure_handler when it is failure.</p>
+<details class="example" open="open">
+<summary>Example</summary>
+<p>You can call another function after evaluate the result.
+Use optional parameters <strong>success_handler</strong> and <strong>failure_handler</strong> (Callable functions).</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kn">from</span> <span class="nn">meiga</span> <span class="kn">import</span> <span class="n">OnSuccessHandler</span><span class="p">,</span> <span class="n">OnFailureHandler</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="k">def</span> <span class="nf">success_handler</span><span class="p">():</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Do my successful stuff here!&quot;</span><span class="p">)</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="k">def</span> <span class="nf">failure_handler</span><span class="p">():</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Do my failure stuff here!&quot;</span><span class="p">)</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="n">result</span> <span class="o">=</span> <span class="n">string_from_key</span><span class="p">(</span><span class="n">dictionary</span><span class="o">=</span><span class="n">user_info</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;first_name&quot;</span><span class="p">)</span>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="n">result</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span>
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>    <span class="n">on_success_handler</span><span class="o">=</span><span class="n">OnSuccessHandler</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">success_handler</span><span class="p">),</span>
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>    <span class="n">on_failure_handler</span><span class="o">=</span><span class="n">OnFailureHandler</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">failure_handler</span><span class="p">)</span>
+<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="p">)</span>
+</code></pre></div>
+</details>
+<details class="tip">
+<summary>Tip: Additional parameters</summary>
+<p>If you need to add some arguments as a parameters, use <strong>success_args</strong> and <strong>failure_args</strong>:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kn">from</span> <span class="nn">meiga</span> <span class="kn">import</span> <span class="n">OnSuccessHandler</span><span class="p">,</span> <span class="n">OnFailureHandler</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="k">def</span> <span class="nf">success_handler</span><span class="p">(</span><span class="n">param_1</span><span class="p">):</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;param_1: </span><span class="si">{</span><span class="n">param_1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="k">def</span> <span class="nf">failure_handler</span><span class="p">(</span><span class="n">param_1</span><span class="p">,</span> <span class="n">param_2</span><span class="p">):</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;param_1: </span><span class="si">{</span><span class="n">param_1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;param_2: </span><span class="si">{</span><span class="n">param_2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="n">result</span> <span class="o">=</span> <span class="n">string_from_key</span><span class="p">(</span><span class="n">dictionary</span><span class="o">=</span><span class="n">user_info</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="s2">&quot;first_name&quot;</span><span class="p">)</span>
+<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>
+<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="n">result</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span>
+<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a>    <span class="n">on_success_handler</span><span class="o">=</span><span class="n">OnSuccessHandler</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">success_handler</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,)),</span>
+<a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a>    <span class="n">on_failure_handler</span><span class="o">=</span><span class="n">OnFailureHandler</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">failure_handler</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="p">)</span>
+</code></pre></div>
+</details>
+<details class="tip">
+<summary>Tip: Additional parameters in combination with the Result itself</summary>
+<p>Sometimes a handle function will need information about external parameters and also about the result itself. Now, is possible this combination thanks to <code>Result.__id__</code> identifier.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kn">from</span> <span class="nn">meiga</span> <span class="kn">import</span> <span class="n">Result</span><span class="p">,</span> <span class="n">Error</span><span class="p">,</span> <span class="n">OnSuccessHandler</span><span class="p">,</span> <span class="n">OnFailureHandler</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">Result</span><span class="o">.</span><span class="n">__id__</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="k">def</span> <span class="nf">success_handler</span><span class="p">(</span><span class="n">param_1</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">Result</span><span class="p">,</span> <span class="n">param_2</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>    <span class="k">assert</span> <span class="n">param_1</span> <span class="o">==</span> <span class="mi">1</span>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">Result</span><span class="p">)</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>    <span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">True</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>    <span class="k">assert</span> <span class="n">param_2</span> <span class="o">==</span> <span class="mi">2</span>
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="k">def</span> <span class="nf">failure_handler</span><span class="p">(</span><span class="n">param_1</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">result</span><span class="p">:</span> <span class="n">Result</span><span class="p">,</span> <span class="n">param_2</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>    <span class="k">assert</span> <span class="n">param_1</span> <span class="o">==</span> <span class="mi">1</span>
+<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="n">Result</span><span class="p">)</span>
+<a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>    <span class="k">assert</span> <span class="n">result</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">Error</span><span class="p">()</span>
+<a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>    <span class="k">assert</span> <span class="n">param_2</span> <span class="o">==</span> <span class="mi">2</span>
+<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>
+<a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="n">Result</span><span class="p">):</span>
+<a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a>    <span class="n">result</span><span class="o">.</span><span class="n">handle</span><span class="p">(</span>
+<a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a>        <span class="n">on_success_handler</span><span class="o">=</span><span class="n">OnSuccessHandler</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">success_handler</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">),</span>
+<a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a>        <span class="n">on_failure_handler</span><span class="o">=</span><span class="n">OnFailureHandler</span><span class="p">(</span><span class="n">func</span><span class="o">=</span><span class="n">failure_handler</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="n">args</span><span class="p">)</span>
+<a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a>    <span class="p">)</span>
+<a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a>
+<a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a><span class="n">run</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</code></pre></div>
+</details>
+<h3 id="bind">bind<a class="headerlink" href="#bind" title="Permanent link">&para;</a></h3>
+<p>Returns itself binding success value with input func</p>
+<div class="admonition question">
+<p class="admonition-title">Question</p>
+<p>What's the difference with handle?</p>
+<p>It's quite similar but simpler. Bind only be applied to success value and don't accept external arguments
+This function is very convenient for chaining actions on a result.</p>
+</div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="kn">from</span> <span class="nn">meiga</span> <span class="kn">import</span> <span class="n">Success</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="n">user</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;rosalia de castro&quot;</span><span class="p">,</span> <span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="mi">186</span><span class="p">}</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="n">result</span> <span class="o">=</span> <span class="n">Success</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+<a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>
+<a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>
+<a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="k">def</span> <span class="nf">upper_name</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<a id="__codelineno-17-11" name="__codelineno-17-11" href="#__codelineno-17-11"></a>    <span class="n">value</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">value</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">upper</span><span class="p">()})</span>
+<a id="__codelineno-17-12" name="__codelineno-17-12" href="#__codelineno-17-12"></a>    <span class="k">return</span> <span class="n">value</span>
+<a id="__codelineno-17-13" name="__codelineno-17-13" href="#__codelineno-17-13"></a>
+<a id="__codelineno-17-14" name="__codelineno-17-14" href="#__codelineno-17-14"></a><span class="k">def</span> <span class="nf">update_age</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<a id="__codelineno-17-15" name="__codelineno-17-15" href="#__codelineno-17-15"></a>    <span class="n">value</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;age&quot;</span><span class="p">:</span> <span class="n">value</span><span class="p">[</span><span class="s2">&quot;age&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">})</span>
+<a id="__codelineno-17-16" name="__codelineno-17-16" href="#__codelineno-17-16"></a>    <span class="k">return</span> <span class="n">value</span>
+<a id="__codelineno-17-17" name="__codelineno-17-17" href="#__codelineno-17-17"></a>
+<a id="__codelineno-17-18" name="__codelineno-17-18" href="#__codelineno-17-18"></a><span class="k">def</span> <span class="nf">add_location</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<a id="__codelineno-17-19" name="__codelineno-17-19" href="#__codelineno-17-19"></a>    <span class="n">value</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;location&quot;</span><span class="p">:</span> <span class="s2">&quot;GALIZA&quot;</span><span class="p">})</span>
+<a id="__codelineno-17-20" name="__codelineno-17-20" href="#__codelineno-17-20"></a>    <span class="k">return</span> <span class="n">value</span>
+<a id="__codelineno-17-21" name="__codelineno-17-21" href="#__codelineno-17-21"></a>
+<a id="__codelineno-17-22" name="__codelineno-17-22" href="#__codelineno-17-22"></a>
+<a id="__codelineno-17-23" name="__codelineno-17-23" href="#__codelineno-17-23"></a><span class="n">result</span> <span class="o">=</span> <span class="p">(</span>
+<a id="__codelineno-17-24" name="__codelineno-17-24" href="#__codelineno-17-24"></a>    <span class="n">result</span>
+<a id="__codelineno-17-25" name="__codelineno-17-25" href="#__codelineno-17-25"></a>    <span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">upper_name</span><span class="p">)</span>
+<a id="__codelineno-17-26" name="__codelineno-17-26" href="#__codelineno-17-26"></a>    <span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">update_age</span><span class="p">)</span>
+<a id="__codelineno-17-27" name="__codelineno-17-27" href="#__codelineno-17-27"></a>    <span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="n">add_location</span><span class="p">)</span>
+<a id="__codelineno-17-28" name="__codelineno-17-28" href="#__codelineno-17-28"></a><span class="p">)</span>
+</code></pre></div>
+<h3 id="transform"><code>transform</code><a class="headerlink" href="#transform" title="Permanent link">&para;</a></h3>
+<p>Transform the result with a transformer function. You can give the transformer callable or use the <code>set_transformer</code>
+function to pre-set the callable to be used.</p>
+<p>You can define a transformer to capitalize the value in case of success and raise an</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kn">from</span> <span class="nn">meiga</span> <span class="kn">import</span> <span class="n">Result</span><span class="p">,</span> <span class="n">Success</span><span class="p">,</span> <span class="n">Failure</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="hll"><span class="k">def</span> <span class="nf">transformer</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="n">Result</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+</span><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="hll">    <span class="k">match</span> <span class="n">result</span><span class="p">:</span>
+</span><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="hll">        <span class="k">case</span> <span class="n">Success</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+</span><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="hll">            <span class="k">return</span> <span class="mi">200</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
+</span><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="hll">        <span class="k">case</span> <span class="n">Failure</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
+</span><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="hll">            <span class="k">raise</span> <span class="mi">500</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span>
+</span><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>
+<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a>
+<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="n">result</span> <span class="o">=</span> <span class="n">Success</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">)</span>
+<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a><span class="hll"><span class="n">status_code</span><span class="p">,</span> <span class="n">message</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">transformer</span><span class="p">)</span>
+</span></code></pre></div>
+<p>In addition, you can set a transformer in an inner function that will be used in the future to transform the <code>Result</code>.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kn">from</span> <span class="nn">meiga</span> <span class="kn">import</span> <span class="n">Result</span><span class="p">,</span> <span class="n">Error</span><span class="p">,</span> <span class="n">Success</span><span class="p">,</span> <span class="n">Failure</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="k">def</span> <span class="nf">my_controller</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Error</span><span class="p">]</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>    <span class="k">def</span> <span class="nf">transformer</span><span class="p">(</span><span class="n">result</span><span class="p">:</span> <span class="n">Result</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">str</span><span class="p">]:</span>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a>        <span class="k">match</span> <span class="n">result</span><span class="p">:</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>            <span class="k">case</span> <span class="n">Success</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+<a id="__codelineno-19-7" name="__codelineno-19-7" href="#__codelineno-19-7"></a>                <span class="k">return</span> <span class="mi">200</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span>
+<a id="__codelineno-19-8" name="__codelineno-19-8" href="#__codelineno-19-8"></a>            <span class="k">case</span> <span class="n">Failure</span><span class="p">(</span><span class="n">error</span><span class="p">):</span>
+<a id="__codelineno-19-9" name="__codelineno-19-9" href="#__codelineno-19-9"></a>                <span class="k">raise</span> <span class="mi">500</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span>
+<a id="__codelineno-19-10" name="__codelineno-19-10" href="#__codelineno-19-10"></a>
+<a id="__codelineno-19-11" name="__codelineno-19-11" href="#__codelineno-19-11"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">Success</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">)</span>
+<a id="__codelineno-19-12" name="__codelineno-19-12" href="#__codelineno-19-12"></a><span class="hll">    <span class="n">result</span><span class="o">.</span><span class="n">set_transformer</span><span class="p">(</span><span class="n">transformer</span><span class="p">)</span>
+</span><a id="__codelineno-19-13" name="__codelineno-19-13" href="#__codelineno-19-13"></a>
+<a id="__codelineno-19-14" name="__codelineno-19-14" href="#__codelineno-19-14"></a><span class="n">result</span> <span class="o">=</span> <span class="n">my_controller</span><span class="p">()</span>
+<a id="__codelineno-19-15" name="__codelineno-19-15" href="#__codelineno-19-15"></a><span class="hll"><span class="n">status_code</span><span class="p">,</span> <span class="n">message</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">transform</span><span class="p">()</span> <span class="c1"># (1)</span>
+</span></code></pre></div>
+<ol>
+<li>Use <code>trasformer</code> function set with <code>set_transformer</code>.</li>
+</ol>
+<h3 id="match"><code>match</code><a class="headerlink" href="#match" title="Permanent link">&para;</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Python &gt; 3.10</p>
+<p>If you are using <strong>Python 3.10 or above</strong>, you can take advantage of new syntax proposed in <a href="https://peps.python.org/pep-0636/">PEP 636 – Structural Pattern Matching</a>
+to handle the result.</p>
+</div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="kn">from</span> <span class="nn">meiga</span> <span class="kn">import</span> <span class="n">Error</span><span class="p">,</span> <span class="n">Failure</span><span class="p">,</span> <span class="n">Result</span><span class="p">,</span> <span class="n">Success</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="k">class</span> <span class="nc">NoSuchKey</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span> <span class="o">...</span>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="k">class</span> <span class="nc">TypeMismatch</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span> <span class="o">...</span>
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>
+<a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="k">def</span> <span class="nf">string_from_key</span><span class="p">(</span>
+<a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a>    <span class="n">dictionary</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span>
+<a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Result</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">NoSuchKey</span> <span class="o">|</span> <span class="n">TypeMismatch</span><span class="p">]:</span>
+<a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a>    <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+<a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a>        <span class="k">return</span> <span class="n">Failure</span><span class="p">(</span><span class="n">NoSuchKey</span><span class="p">())</span>
+<a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a>
+<a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a>    <span class="n">value</span> <span class="o">=</span> <span class="n">dictionary</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+<a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+<a id="__codelineno-20-18" name="__codelineno-20-18" href="#__codelineno-20-18"></a>        <span class="k">return</span> <span class="n">Failure</span><span class="p">(</span><span class="n">TypeMismatch</span><span class="p">())</span>
+<a id="__codelineno-20-19" name="__codelineno-20-19" href="#__codelineno-20-19"></a>
+<a id="__codelineno-20-20" name="__codelineno-20-20" href="#__codelineno-20-20"></a>    <span class="k">return</span> <span class="n">Success</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+<a id="__codelineno-20-21" name="__codelineno-20-21" href="#__codelineno-20-21"></a>
+<a id="__codelineno-20-22" name="__codelineno-20-22" href="#__codelineno-20-22"></a>
+<a id="__codelineno-20-23" name="__codelineno-20-23" href="#__codelineno-20-23"></a><span class="n">dictionary</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;key1&quot;</span><span class="p">:</span> <span class="s2">&quot;value&quot;</span><span class="p">,</span> <span class="s2">&quot;key2&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">}</span>
+<a id="__codelineno-20-24" name="__codelineno-20-24" href="#__codelineno-20-24"></a>
+<a id="__codelineno-20-25" name="__codelineno-20-25" href="#__codelineno-20-25"></a><span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;key1&quot;</span><span class="p">,</span> <span class="s2">&quot;key2&quot;</span><span class="p">,</span> <span class="s2">&quot;key3&quot;</span><span class="p">]:</span>
+<a id="__codelineno-20-26" name="__codelineno-20-26" href="#__codelineno-20-26"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">string_from_key</span><span class="p">(</span><span class="n">dictionary</span><span class="o">=</span><span class="n">dictionary</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
+<a id="__codelineno-20-27" name="__codelineno-20-27" href="#__codelineno-20-27"></a><span class="hll">    <span class="k">match</span> <span class="n">result</span><span class="p">:</span>
+</span><a id="__codelineno-20-28" name="__codelineno-20-28" href="#__codelineno-20-28"></a><span class="hll">        <span class="k">case</span><span class="w"> </span><span class="n">Success</span><span class="p">(</span><span class="k">_</span><span class="p">):</span>
+</span><a id="__codelineno-20-29" name="__codelineno-20-29" href="#__codelineno-20-29"></a><span class="hll">            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Success&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-20-30" name="__codelineno-20-30" href="#__codelineno-20-30"></a><span class="hll">        <span class="k">case</span> <span class="n">Failure</span><span class="p">(</span><span class="n">NoSuchKey</span><span class="p">()):</span>
+</span><a id="__codelineno-20-31" name="__codelineno-20-31" href="#__codelineno-20-31"></a><span class="hll">            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failure with NoSuchKey&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-20-32" name="__codelineno-20-32" href="#__codelineno-20-32"></a><span class="hll">        <span class="k">case</span> <span class="n">Failure</span><span class="p">(</span><span class="n">TypeMismatch</span><span class="p">()):</span>
+</span><a id="__codelineno-20-33" name="__codelineno-20-33" href="#__codelineno-20-33"></a><span class="hll">            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failure with TypeMismatch&quot;</span><span class="p">)</span>
+</span><a id="__codelineno-20-34" name="__codelineno-20-34" href="#__codelineno-20-34"></a><span class="hll">        <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+</span><a id="__codelineno-20-35" name="__codelineno-20-35" href="#__codelineno-20-35"></a><span class="hll">            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;default&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If are using <code>Result(success="my_success")</code> and <code>Result(failure=NoSuchKey())</code> syntax intead of recommended one
+with <code>Success</code> and <code>Failure</code> aliases, you have to use a different match pattern.</p>
+<p>You would have to use something like:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="k">match</span> <span class="n">result</span><span class="p">:</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>    <span class="k">case</span><span class="w"> </span><span class="n">Result</span><span class="p">(</span><span class="nb">str</span><span class="p">(),</span> <span class="k">_</span><span class="p">):</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Success&quot;</span><span class="p">)</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>    <span class="k">case</span><span class="w"> </span><span class="n">Result</span><span class="p">(</span><span class="k">_</span><span class="p">,</span> <span class="n">NoSuchKey</span><span class="p">()):</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failure with NoSuchKey&quot;</span><span class="p">)</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>    <span class="k">case</span><span class="w"> </span><span class="n">Result</span><span class="p">(</span><span class="k">_</span><span class="p">,</span> <span class="n">TypeMismatch</span><span class="p">()):</span>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failure with TypeMismatch&quot;</span><span class="p">)</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>    <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;default&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>Check this <a href="https://github.com/alice-biometrics/meiga/issues/56">closed issue</a> to learn more about the <code>PEP 636</code> and this usage in the meiga library.</p>
+</div>
+<h3 id="deprecated">Deprecated ⚠️<a class="headerlink" href="#deprecated" title="Permanent link">&para;</a></h3>
+<h4 id="throw"><code>throw</code><a class="headerlink" href="#throw" title="Permanent link">&para;</a></h4>
+<p>Throws the encapsulated failure value if this instance inherits from Error or BaseException.</p>
+<details class="example" open="open">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="n">result</span> <span class="o">=</span> <span class="n">Success</span><span class="p">(</span><span class="s2">&quot;Hi!&quot;</span><span class="p">)</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="n">result</span><span class="o">.</span><span class="n">throw</span><span class="p">()</span> <span class="c1"># ➡️ It won&#39;t throw an exception as is a success. So, this will return None</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="n">result</span> <span class="o">=</span> <span class="n">Failure</span><span class="p">(</span><span class="n">Error</span><span class="p">())</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="n">result</span><span class="o">.</span><span class="n">throw</span><span class="p">()</span> <span class="c1"># ➡️ It will throw an exception using given Error instance</span>
+</code></pre></div>
+</details>
+<h4 id="unwrap_or_throw">unwrap_or_throw<a class="headerlink" href="#unwrap_or_throw" title="Permanent link">&para;</a></h4>
+<p>Returns the encapsulated value if this instance is a success or throws the encapsulated exception if it is failure.</p>
+<details class="example" open="open">
+<summary>Example</summary>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="n">result</span> <span class="o">=</span> <span class="n">Result</span><span class="p">(</span><span class="n">success</span><span class="o">=</span><span class="s2">&quot;Hi!&quot;</span><span class="p">)</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="n">value</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">unwrap_or_throw</span><span class="p">()</span> <span class="c1"># ➡️ It will return &quot;Hi!&quot;</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="n">result</span> <span class="o">=</span> <span class="n">Failure</span><span class="p">(</span><span class="n">Error</span><span class="p">())</span>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="n">value</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">unwrap_or_throw</span><span class="p">()</span> <span class="c1"># ➡️ It will throw an exception using given Error instance</span>
+</code></pre></div>
+</details>
+
+
+
+
+
+                
+
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var tab,labels=set.querySelector(".tabbed-labels");for(tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../../getting_started/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Getting started" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Getting started
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../alias/" class="md-footer__link md-footer__link--next" aria-label="Next: Alias" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Alias
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+      
+      
+    
+    <a href="https://github.com/alice-biometrics/meiga" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://twitter.com/alicebiometrics" target="_blank" rel="noopener" title="twitter.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+    </a>
+  
+    
+    
+      
+      
+    
+    <a href="https://www.linkedin.com/company/alicebiometrics" target="_blank" rel="noopener" title="www.linkedin.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.tabs.link", "content.code.annotate", "content.code.copy"], "search": "../../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.5a2dcb6a.min.js"></script>
+      
+        <script src="../../js/redirects.js"></script>
+      
+        <script src="../../js/ad.js"></script>
+      
+        <script src="../../js/termynal.js"></script>
+      
+        <script src="../../js/custom.js"></script>
+      
+    
+    
+  </body>
+</html>
