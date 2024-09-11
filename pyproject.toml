@@ -49,9 +49,7 @@ dependencies = [
 ]
 [project.optional-dependencies]
 dev = [
-  "black==23.1",
   "hypothesis<7.0.0,>=6.56.3",
-  "isort[colors]<6.0.0,>=5.10.1",
   "mypy>=1.0.0",
   "pip-audit<3.0.0,>=2.4.14",
   "pre-commit<3.0.0,>=2.20",
@@ -63,7 +61,6 @@ dev = [
   "pytest-mock<4.0.0,>=3.10",
   "pytest-variables[yaml]<3.0.0,>=2",
   "pytest-asyncio>=0.20.1,<1",
-  "pyupgrade>=3.2",
   "ruff>=0.0.239",
 ]
 doc = [
