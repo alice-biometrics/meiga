@@ -18,6 +18,12 @@ jobs:
         cache: pip
         cache-dependency-path: pyproject.toml
     - uses: astral-sh/setup-uv@v2
+    - name: Setup venv
+      run: |
+        uv venv .venv
+        echo "VIRTUAL_ENV=.venv" >> $GITHUB_ENV
+        echo "$PWD/.venv/bin" >> $GITHUB_PATH
+        mkdir -p $(pip cache dir)
     - name: Create Documentation
       run: |
         uv pip install lume

@@ -23,6 +23,12 @@ jobs:
         cache: pip
         cache-dependency-path: pyproject.toml
     - uses: astral-sh/setup-uv@v2
+    - name: Setup venv
+      run: |
+         uv venv .venv
+         echo "VIRTUAL_ENV=.venv" >> $GITHUB_ENV
+         echo "$PWD/.venv/bin" >> $GITHUB_PATH
+         mkdir -p $(pip cache dir)
     - name: Install dependencies
       run: |
         uv pip install lume
@@ -47,6 +53,12 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - uses: astral-sh/setup-uv@v2
+      - name: Setup venv
+        run: |
+          uv venv .venv
+          echo "VIRTUAL_ENV=.venv" >> $GITHUB_ENV
+          echo "$PWD/.venv/bin" >> $GITHUB_PATH
+          mkdir -p $(pip cache dir)
       - name: Install latest version of meiga from code (without other dependencies as lume)
         run: uv pip install -e .
       - name: Check imports
