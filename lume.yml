@@ -27,14 +27,14 @@ steps:
     - find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
   lint:
     run:
-      - ruff $PACKAGE_NAME tests
+      - ruff check $PACKAGE_NAME tests
       - black $PACKAGE_NAME tests --check
       - isort $PACKAGE_NAME tests --check-only
       - pyupgrade --py37-plus `find $PACKAGE_NAME tests -name "*.py" -type f ! -name "*test_result_match.py"`
   check-requirements:
     run: pip-audit
   static-analysis:
-    run: mypy $PACKAGE_NAME tests --exclude '.*tests.unit.doc*' --exclude '.*tests.unit.test_result_match*'
+    run: mypy $PACKAGE_NAME tests --exclude '.*tests.unit.test_result_match*'
   coverage:
     run: pytest -c tests/pytest.coverage.ini
   test:

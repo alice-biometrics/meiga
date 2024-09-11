@@ -24,12 +24,12 @@ dictionary = {"key1": "value", "key2": 2}
 key = "key1"
 
 result: Result[str, Error] = string_from_key(dictionary=dictionary, key=key)
-```   
+```
 
 ## `early_return`
 
 Use `@early_return` decoration in combination with `unwrap_or_return()`.
-The `unwrap_or_return` will unwrap the value of the `Result` monad only if it is a success. 
+The `unwrap_or_return` will unwrap the value of the `Result` monad only if it is a success.
 Otherwise, this will return a Failure (Result with a failure) when using `@early_return` decorator.
 
 ```python
@@ -42,15 +42,15 @@ def update_user(user_id: UserId, new_name: str) -> BoolResult:
      repository.save(user).unwrap_or_return()
      event_bus.publish(user.pull_domain_events()).unwrap_or_return()
      return isSuccess
-```     
+```
 
-Given a user repository with a method retrieve which returns a typed `Result[User, UserNotFoundError]`, when we `unwrap_or_return`, we will unwrap the value of returned Result in case of Success. 
+Given a user repository with a method retrieve which returns a typed `Result[User, UserNotFoundError]`, when we `unwrap_or_return`, we will unwrap the value of returned Result in case of Success.
 On the other side, when retrieve function with not valid `UserId`, the repository automatically returns a result failure interrupting the execution of the following lines of code.
 
 !!! note
 
     This is possible because the `unwrap_or_return` function will raise an specific exception (`OnFailureException`) if the result is a failure an cannot be wrapped:
-    
+
     ```python
     def unwrap_or_return(self, return_value_on_failure: Any = None) -> TS:
         if not self._is_success:
@@ -66,8 +66,8 @@ On the other side, when retrieve function with not valid `UserId`, the repositor
     ```python
     P = ParamSpec("P")
     R = TypeVar("R", bound=Result)
-    
-    
+
+
     def early_return(func: Callable[P, R]) -> Callable[P, R]:
         @wraps(func)
         def _early_return(*args: P.args, **kwargs: P.kwargs) -> R:
@@ -82,20 +82,20 @@ On the other side, when retrieve function with not valid `UserId`, the repositor
                 return exc.result
             except Error as error:
                 return cast(R, Failure(error))
-    
+
         return _early_return
     ```
 
 
-!!! warning 
+!!! warning
 
     When decorate `staticmethod` and `classmethod` check the order, otherwise it will raise an error (UnexpectedDecorationOrderError) as these kinds of methods are not callable.
-    
+
     ```python
     from meiga import early_return
-    
+
     class UserCreatorFactory:
-    
+
         @staticmethod
         @early_return
         def from_version(version: str) -> Result[UserCreator, Error]:
@@ -105,3 +105,20 @@ On the other side, when retrieve function with not valid `UserId`, the repositor
                 creator = LegacyUserCreator.build()
             return Success(creator)
     ```
+
+## `async_early_return`
+
+Use `@async_early_return` decoration in combination with `unwrap_or_return()` when using async functions.
+
+
+```python
+from meiga import async_early_return, BoolResult, isSuccess
+
+@async_early_return
+async def update_user(user_id: UserId, new_name: str) -> BoolResult:
+     user = (await repository.retrieve(user_id)).unwrap_or_return()
+     user.update_name(new_name)
+     (await repository.save(user)).unwrap_or_return()
+     (await event_bus.publish(user.pull_domain_events())).unwrap_or_return()
+     return isSuccess
+```

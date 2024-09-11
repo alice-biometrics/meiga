@@ -237,7 +237,7 @@ class Result(Generic[TS, TF]):
         if value is None:
             return self
 
-        new_value = func(value)
+        new_value = func(value)  # type: ignore
         self.set_value(new_value)
 
         return self
