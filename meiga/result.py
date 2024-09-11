@@ -51,10 +51,7 @@ class Result(Generic[TS, TF]):
 
     def __eq__(self, other: Any) -> bool:
         if isinstance(other, Result):
-            return (
-                self._value_success == other._value_success
-                and self.value == other.value
-            )
+            return self._value_success == other._value_success and self.value == other.value
         return False
 
     def __ne__(self, other: Any) -> bool:
@@ -73,10 +70,7 @@ class Result(Generic[TS, TF]):
                 "Result is a monad, it must be a success or a failure. "
                 "Please model your result selecting only one type [success or failure]."
             )
-        elif (
-            self._value_success is not NoGivenValue
-            and self._value_failure is not NoGivenValue
-        ):
+        elif self._value_success is not NoGivenValue and self._value_failure is not NoGivenValue:
             raise TypeError(
                 "Result is a monad, it cannot be success and failure at the same time. "
                 "Please model your result selecting only one type [success or failure]."
@@ -141,9 +135,7 @@ class Result(Generic[TS, TF]):
         Returns the encapsulated value if this instance is a success or return Result as long as @early_return decorator wraps the function.
         """
         if not self._is_success:
-            return_value = (
-                self if return_value_on_failure is None else return_value_on_failure
-            )
+            return_value = self if return_value_on_failure is None else return_value_on_failure
             raise WaitingForEarlyReturn(return_value)
         return cast(TS, self.value)
 
@@ -206,9 +198,7 @@ class Result(Generic[TS, TF]):
         self,
         on_success_handler: OnSuccessHandler | None = None,
         on_failure_handler: OnFailureHandler | None = None,
-        **kwargs: dict[
-            Any, Any
-        ],  # Deprecated parameter [on_success, on_failure, success_args, failure_args]
+        **kwargs: dict[Any, Any],  # Deprecated parameter [on_success, on_failure, success_args, failure_args]
     ) -> Result[TS, TF]:
         """
         Returns itself and execute the `on_success_handler` when the instance is a success and the `on_failure_handler` when it is failure.

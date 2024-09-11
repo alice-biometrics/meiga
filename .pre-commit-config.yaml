@@ -1,47 +1,37 @@
-default_language_version:
-    python: python3.10
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.3.0
+    rev: v4.6.0
     hooks:
-      - id: check-added-large-files
-      - id: check-toml
-      - id: check-yaml
-        args:
-          - --unsafe
-      - id: end-of-file-fixer
       - id: trailing-whitespace
+      - id: check-json
+      - id: check-yaml
+      - id: check-toml
+      - id: end-of-file-fixer
+      - id: check-added-large-files
   - repo: local
     hooks:
+      - id: commitizen
+        name: My commitizen check
+        entry: cz
+        args: ['check', '--commit-msg-file', '.git/COMMIT_EDITMSG']
+        pass_filenames: false
+        language: system
+        stages: [commit-msg]
+        require_serial: true
+        fail_fast: true
 
       - id: ruff
         name: ruff
-        entry: ruff check meiga tests --fix
+        entry: ruff check --fix meiga tests
         language: system
         types: [ python ]
         require_serial: true
         fail_fast: true
 
-      - id: isort
-        name: isort
-        entry: isort meiga tests
+      - id: ruff-format
+        name: ruff-format
+        entry: ruff format meiga tests
         language: system
         types: [ python ]
         require_serial: true
-        fail_fast: true
-
-      - id: black
-        name: black
-        entry: black meiga tests
-        language: system
-        types: [ python ]
-        require_serial: true
-        fail_fast: true
-
-      - id: pyupgrade
-        name: Pyupgrade
-        entry: pyupgrade --py37-plus
-        types: [ python ]
-        language: system
-        exclude: ^docs/.*$
         fail_fast: true

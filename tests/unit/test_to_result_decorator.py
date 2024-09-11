@@ -85,10 +85,7 @@ class TestToResultDecorator:
 
         result = MyClass.decorated_method()
         result.assert_failure(value_is_instance_of=UnexpectedDecorationOrderError)
-        assert (
-            result.value.message
-            == "meiga decorators must be declared after a @staticmethod, @classmethod"
-        )
+        assert result.value.message == "meiga decorators must be declared after a @staticmethod, @classmethod"
 
     def should_return_a_unexpected_decorator_order_failure_result_and_class_method(
         self,
@@ -101,10 +98,7 @@ class TestToResultDecorator:
 
         result = MyClass.decorated_method()
         result.assert_failure(value_is_instance_of=UnexpectedDecorationOrderError)
-        assert (
-            result.value.message
-            == "meiga decorators must be declared after a @staticmethod, @classmethod"
-        )
+        assert result.value.message == "meiga decorators must be declared after a @staticmethod, @classmethod"
 
     def should_transform_a_function_with_one_liner_when_raise_an_error(self):
         def decorated_method():

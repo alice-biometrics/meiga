@@ -22,9 +22,7 @@ def test_should_bind_several_times_success_result():
     def func(value: int):
         return value + 1
 
-    result.bind(func).bind(func).bind(func).bind(func).bind(func).bind(func).bind(
-        func
-    ).bind(func).bind(func).bind(func)
+    result.bind(func).bind(func).bind(func).bind(func).bind(func).bind(func).bind(func).bind(func).bind(func).bind(func)
 
     assert result.value == 10
 

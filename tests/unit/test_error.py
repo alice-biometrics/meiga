@@ -20,10 +20,7 @@ def test_should_repr_as_expected_an_error_with_message():
 
     result = Result(failure=ErrorWithMessage(given_any_message))
 
-    assert (
-        f"Result[status: failure | value: ErrorWithMessage: {given_any_message}]"
-        == result.__repr__()
-    )
+    assert f"Result[status: failure | value: ErrorWithMessage: {given_any_message}]" == result.__repr__()
 
 
 @pytest.mark.unit

@@ -129,9 +129,7 @@ def test_should_call_on_failure_when_unwrap_or_else_with_failure_result_and_cust
 
     result = Failure(Error())
 
-    _ = result.unwrap_or_else(
-        OnFailureHandler(func=on_failure_func, args=(param1, param2))
-    )
+    _ = result.unwrap_or_else(OnFailureHandler(func=on_failure_func, args=(param1, param2)))
 
     assert called_on_failure
 
@@ -200,9 +198,7 @@ def test_should_call_on_success_when_unwrap_and_with_a_result_success_and_custom
         (Failure(Error()), Failure(Error())),
     ],
 )
-def test_should_unwrap_or_return_with_contained_result_with_early_return(
-    input_result, expected_result
-):
+def test_should_unwrap_or_return_with_contained_result_with_early_return(input_result, expected_result):
     @early_return
     def method(result: Result) -> Result[Any, Error]:
         value = result.unwrap_or_return()
@@ -218,9 +214,7 @@ def test_should_unwrap_or_return_with_contained_result_with_early_return(
     "input_result,expected_result",
     [(isFailure, isSuccess), (Failure(Error()), isSuccess), (isSuccess, isSuccess)],
 )
-def test_should_unwrap_or_return_with_external_result_is_success_with_early_return(
-    input_result, expected_result
-):
+def test_should_unwrap_or_return_with_external_result_is_success_with_early_return(input_result, expected_result):
     @early_return
     def method(result: Result) -> Result[Any, Error]:
         value = result.unwrap_or_return(isSuccess)
@@ -242,9 +236,7 @@ def test_should_unwrap_or_return_with_external_result_is_success_with_early_retu
         (Failure(Error()), Failure(Error())),
     ],
 )
-async def test_should_unwrap_or_return_with_contained_result_with_async_early_return(
-    input_result, expected_result
-):
+async def test_should_unwrap_or_return_with_contained_result_with_async_early_return(input_result, expected_result):
     @async_early_return
     async def method(result: Result) -> Result[Any, Error]:
         value = result.unwrap_or_return()

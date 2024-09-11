@@ -20,15 +20,11 @@ class TestDeprecation:
         self.failure_deprecated_params = {"on_failure": func, "arg": (1,)}
 
     def should_get_on_success_handler_from_older_parameters(self):
-        on_success_handler = get_on_success_handler_from_deprecated_args(
-            self.success_deprecated_params
-        )
+        on_success_handler = get_on_success_handler_from_deprecated_args(self.success_deprecated_params)
         assert isinstance(on_success_handler, OnSuccessHandler)
 
     def should_get_on_failure_handler_from_older_parameters(self):
-        on_failure_handler = get_on_failure_handler_from_deprecated_args(
-            self.failure_deprecated_params
-        )
+        on_failure_handler = get_on_failure_handler_from_deprecated_args(self.failure_deprecated_params)
         assert isinstance(on_failure_handler, OnFailureHandler)
 
     def should_get_none_asking_for_on_success_handler_from_empty_parameters(self):
