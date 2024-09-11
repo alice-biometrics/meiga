@@ -9,10 +9,11 @@ from meiga import (
     OnSuccessHandler,
     Result,
     Success,
+    async_early_return,
+    early_return,
     isFailure,
     isSuccess,
 )
-from meiga.decorators import meiga
 
 
 @pytest.mark.unit
@@ -199,8 +200,10 @@ def test_should_call_on_success_when_unwrap_and_with_a_result_success_and_custom
         (Failure(Error()), Failure(Error())),
     ],
 )
-def test_should_unwrap_or_return_with_contained_result(input_result, expected_result):
-    @meiga
+def test_should_unwrap_or_return_with_contained_result_with_early_return(
+    input_result, expected_result
+):
+    @early_return
     def method(result: Result) -> Result[Any, Error]:
         value = result.unwrap_or_return()
         return Success(value)
@@ -215,14 +218,57 @@ def test_should_unwrap_or_return_with_contained_result(input_result, expected_re
     "input_result,expected_result",
     [(isFailure, isSuccess), (Failure(Error()), isSuccess), (isSuccess, isSuccess)],
 )
-def test_should_unwrap_or_return_with_external_result_is_success(
+def test_should_unwrap_or_return_with_external_result_is_success_with_early_return(
     input_result, expected_result
 ):
-    @meiga
+    @early_return
     def method(result: Result) -> Result[Any, Error]:
         value = result.unwrap_or_return(isSuccess)
         return Success(value)
 
     result = method(input_result)
+
+    assert result == expected_result
+
+
+@pytest.mark.unit
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "input_result,expected_result",
+    [
+        (isSuccess, isSuccess),
+        (isFailure, isFailure),
+        (Success("Hi!"), Success("Hi!")),
+        (Failure(Error()), Failure(Error())),
+    ],
+)
+async def test_should_unwrap_or_return_with_contained_result_with_async_early_return(
+    input_result, expected_result
+):
+    @async_early_return
+    async def method(result: Result) -> Result[Any, Error]:
+        value = result.unwrap_or_return()
+        return Success(value)
+
+    result = await method(input_result)
+
+    assert result == expected_result
+
+
+@pytest.mark.unit
+@pytest.mark.asyncio
+@pytest.mark.parametrize(
+    "input_result,expected_result",
+    [(isFailure, isSuccess), (Failure(Error()), isSuccess), (isSuccess, isSuccess)],
+)
+async def test_should_unwrap_or_return_with_external_result_is_success_with_async_early_return(
+    input_result, expected_result
+):
+    @async_early_return
+    async def method(result: Result) -> Result[Any, Error]:
+        value = result.unwrap_or_return(isSuccess)
+        return Success(value)
+
+    result = await method(input_result)
 
     assert result == expected_result
