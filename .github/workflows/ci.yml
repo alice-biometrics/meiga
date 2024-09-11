@@ -48,4 +48,4 @@ jobs:
       - name: Install latest version of meiga from code (without other dependencies as lume)
         run: pip install -e .
       - name: Check imports
-        run: python -c "from meiga import Error, Success, Failure, Result; from meiga.decorators import meiga"
+        run: python -c "from meiga import Error, Success, Failure, Result, early_return, async_early_return"
