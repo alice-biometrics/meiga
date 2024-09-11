@@ -1,11 +1,10 @@
-# meiga 🧙 
+# meiga 🧙
 
-[![version](https://img.shields.io/github/release/alice-biometrics/meiga/all.svg)](https://github.com/alice-biometrics/meiga/releases) 
-[![ci](https://github.com/alice-biometrics/meiga/workflows/ci/badge.svg)](https://github.com/alice-biometrics/meiga/actions) 
-[![pypi](https://img.shields.io/pypi/dm/meiga)](https://pypi.org/project/meiga/) 
+[![version](https://img.shields.io/github/release/alice-biometrics/meiga/all.svg)](https://github.com/alice-biometrics/meiga/releases)
+[![ci](https://github.com/alice-biometrics/meiga/workflows/ci/badge.svg)](https://github.com/alice-biometrics/meiga/actions)
+[![pypi](https://img.shields.io/pypi/dm/meiga)](https://pypi.org/project/meiga/)
 [![codecov](https://codecov.io/gh/alice-biometrics/meiga/branch/main/graph/badge.svg?token=BX1IZJZLJQ)](https://codecov.io/gh/alice-biometrics/meiga)
-[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![Imports: isort](https://img.shields.io/badge/%20imports-isort-%231674b1?style=flat&labelColor=ef8336)](https://pycqa.github.io/isort/)
+[![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![license](https://img.shields.io/github/license/alice-biometrics/meiga.svg)](https://github.com/alice-biometrics/meiga/blob/main/LICENSE)
 [![versions](https://img.shields.io/pypi/pyversions/meiga.svg)](https://github.com/alice-biometrics/meiga)
 
@@ -25,7 +24,7 @@
 
 ## How could meiga 🧙 help me?
 
-`meiga 🧙` provides a simple and clear way of handling errors in Python without using `Exceptions`. This package improves the Dev Experience as it allows to know all possible typed responses. With Meiga 🧙 your IDE will help you much more. 
+`meiga 🧙` provides a simple and clear way of handling errors in Python without using `Exceptions`. This package improves the Dev Experience as it allows to know all possible typed responses. With Meiga 🧙 your IDE will help you much more.
 
 ## Installation 💻
 
@@ -33,7 +32,7 @@
 pip install meiga
 ```
 
-## Contribute 
+## Contribute
 
 We'd love you to contribute to *meiga* 🥳🥳🥳🥳🥳🥳️️!
 
