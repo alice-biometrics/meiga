@@ -1,6 +1,6 @@
 import sys
 from functools import wraps
-from typing import Any, Callable, TypeVar, cast
+from typing import Any, Callable, Coroutine, TypeVar, cast
 
 if sys.version_info < (3, 10):  # pragma: no cover
     from typing_extensions import ParamSpec
@@ -19,7 +19,9 @@ P = ParamSpec("P")
 R = TypeVar("R", bound=Result[Any, Any])
 
 
-def async_early_return(func: Callable[P, R]) -> Callable[P, R]:
+def async_early_return(
+    func: Callable[..., Coroutine[Any, Any, R]]
+) -> Callable[..., Coroutine[Any, Any, R]]:
     @wraps(func)
     async def _async_early_return(*args: P.args, **kwargs: P.kwargs) -> R:
         try:
