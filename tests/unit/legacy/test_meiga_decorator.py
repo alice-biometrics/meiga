@@ -93,10 +93,7 @@ def test_should_return_a_unexpected_decorator_order_failure_result_with_meiga_de
 
     result = MyClass.decorated_method()
     assert_failure(result, value_is_instance_of=UnexpectedDecorationOrderError)
-    assert (
-        result.value.message
-        == "meiga decorators must be declared after a @staticmethod, @classmethod"
-    )
+    assert result.value.message == "meiga decorators must be declared after a @staticmethod, @classmethod"
 
 
 @pytest.mark.unit
@@ -109,7 +106,4 @@ def test_should_return_a_unexpected_decorator_order_failure_result_with_meiga_de
 
     result = MyClass.decorated_method()
     assert_failure(result, value_is_instance_of=UnexpectedDecorationOrderError)
-    assert (
-        result.value.message
-        == "meiga decorators must be declared after a @staticmethod, @classmethod"
-    )
+    assert result.value.message == "meiga decorators must be declared after a @staticmethod, @classmethod"

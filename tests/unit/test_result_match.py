@@ -14,9 +14,7 @@ class TestMatch:
             (Failure(Error()), False, True),
         ],
     )
-    def should_match_simple(
-        self, result: Result, expected_success: bool, expected_failure: bool
-    ):
+    def should_match_simple(self, result: Result, expected_success: bool, expected_failure: bool):
         called_success = False
         called_failure = False
 

@@ -6,7 +6,6 @@ repos:
       - id: check-json
       - id: check-yaml
       - id: check-toml
-      - id: debug-statements
       - id: end-of-file-fixer
       - id: check-added-large-files
   - repo: local

@@ -20,7 +20,7 @@ R = TypeVar("R", bound=Result[Any, Any])
 
 
 def async_early_return(
-    func: Callable[..., Coroutine[Any, Any, R]]
+    func: Callable[..., Coroutine[Any, Any, R]],
 ) -> Callable[..., Coroutine[Any, Any, R]]:
     @wraps(func)
     async def _async_early_return(*args: P.args, **kwargs: P.kwargs) -> R:

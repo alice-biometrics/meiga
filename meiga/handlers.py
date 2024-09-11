@@ -9,9 +9,7 @@ if TYPE_CHECKING:  # pragma: no cover
 
 
 class Handler:
-    def __init__(
-        self, func: Callable[..., None], args: Iterable[Any] | None = None
-    ) -> None:
+    def __init__(self, func: Callable[..., None], args: Iterable[Any] | None = None) -> None:
         self.func = func
         self.args = args
 
@@ -29,9 +27,7 @@ class Handler:
                 self.func(result.value)
 
 
-class OnSuccessHandler(Handler):
-    ...
+class OnSuccessHandler(Handler): ...
 
 
-class OnFailureHandler(Handler):
-    ...
+class OnFailureHandler(Handler): ...

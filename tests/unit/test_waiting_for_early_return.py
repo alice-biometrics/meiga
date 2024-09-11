@@ -7,9 +7,7 @@ from meiga import AnyResult, Error, Failure, Result, WaitingForEarlyReturn, isSu
 from meiga.on_failure_exception import OnFailureException
 
 
-def expected_error(
-    value: str, called_from: Union[str, None] = None, escape: bool = False
-) -> str:
+def expected_error(value: str, called_from: Union[str, None] = None, escape: bool = False) -> str:
     called_from = f" ({called_from})" if called_from else ""
 
     text = (
@@ -30,9 +28,7 @@ class TestWaitingForEarlyReturn:
 
         exception = WaitingForEarlyReturn(result)
 
-        assert expected_error(
-            "Error", called_from="pytest_pyfunc_call on python.py"
-        ) == str(exception)
+        assert expected_error("Error", called_from="pytest_pyfunc_call on python.py") == str(exception)
 
     def should_str_as_expected_an_exception(self):
         wrapped_exception = ValueError("Something went wrong")
@@ -40,9 +36,9 @@ class TestWaitingForEarlyReturn:
 
         exception = WaitingForEarlyReturn(result)
 
-        assert expected_error(
-            wrapped_exception.__repr__(), called_from="pytest_pyfunc_call on python.py"
-        ) == str(exception)
+        assert expected_error(wrapped_exception.__repr__(), called_from="pytest_pyfunc_call on python.py") == str(
+            exception
+        )
 
     def should_be_compatible_with_older_version_and_expect_st_as_expected_an_exception(
         self,
@@ -52,9 +48,9 @@ class TestWaitingForEarlyReturn:
 
         exception = OnFailureException(result)
 
-        assert expected_error(
-            wrapped_exception.__repr__(), called_from="pytest_pyfunc_call on python.py"
-        ) == str(exception)
+        assert expected_error(wrapped_exception.__repr__(), called_from="pytest_pyfunc_call on python.py") == str(
+            exception
+        )
 
     def should_log_hint_when_called_from_function_and_not_early_return(self):
         def inner_function() -> AnyResult:

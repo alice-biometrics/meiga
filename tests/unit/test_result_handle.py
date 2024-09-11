@@ -93,9 +93,7 @@ def test_should_execute_success_handler_with_valid_parameters():
 
     result = Result(success="Hi!")
     result.handle(
-        on_success_handler=OnSuccessHandler(
-            func=on_success_func, args=(given_first_parameter, given_second_parameter)
-        ),
+        on_success_handler=OnSuccessHandler(func=on_success_func, args=(given_first_parameter, given_second_parameter)),
         on_failure_handler=OnFailureHandler(func=on_failure_func),
     )
 
@@ -117,12 +115,8 @@ def test_should_execute_handler_with_one_int_additional_parameters(result):
     @meiga
     def run():
         result.handle(
-            on_success_handler=OnSuccessHandler(
-                func=on_success_func, args=given_first_parameter
-            ),
-            on_failure_handler=OnFailureHandler(
-                func=on_failure_func, args=given_first_parameter
-            ),
+            on_success_handler=OnSuccessHandler(func=on_success_func, args=given_first_parameter),
+            on_failure_handler=OnFailureHandler(func=on_failure_func, args=given_first_parameter),
         )
 
     run()
@@ -142,12 +136,8 @@ def test_should_execute_handler_with_a_list_additional_parameters(result):
     @meiga
     def run():
         result.handle(
-            on_success_handler=OnSuccessHandler(
-                func=on_success_func, args=given_first_parameter
-            ),
-            on_failure_handler=OnFailureHandler(
-                func=on_failure_func, args=given_first_parameter
-            ),
+            on_success_handler=OnSuccessHandler(func=on_success_func, args=given_first_parameter),
+            on_failure_handler=OnFailureHandler(func=on_failure_func, args=given_first_parameter),
         )
 
     run()
@@ -198,12 +188,8 @@ def test_should_execute_handler_with_additional_and_non_required_parameters_resu
     @meiga
     def run():
         result.handle(
-            on_success_handler=OnSuccessHandler(
-                func=on_success_func, args=given_first_parameter
-            ),
-            on_failure_handler=OnFailureHandler(
-                func=on_failure_func, args=given_first_parameter
-            ),
+            on_success_handler=OnSuccessHandler(func=on_success_func, args=given_first_parameter),
+            on_failure_handler=OnFailureHandler(func=on_failure_func, args=given_first_parameter),
         )
 
     run()
@@ -228,12 +214,8 @@ def test_should_execute_handler_with_additional_and_non_required_parameters_resu
     @meiga
     def run():
         result.handle(
-            on_success_handler=OnSuccessHandler(
-                func=on_success_func, args=given_first_parameter
-            ),
-            on_failure_handler=OnFailureHandler(
-                func=on_failure_func, args=given_first_parameter
-            ),
+            on_success_handler=OnSuccessHandler(func=on_success_func, args=given_first_parameter),
+            on_failure_handler=OnFailureHandler(func=on_failure_func, args=given_first_parameter),
         )
 
     run()
@@ -260,12 +242,8 @@ def test_should_execute_handler_with_additional_and_non_required_parameters_resu
     @meiga
     def run():
         result.handle(
-            on_success_handler=OnSuccessHandler(
-                func=on_success_func, args=given_first_parameter
-            ),
-            on_failure_handler=OnFailureHandler(
-                func=on_failure_func, args=given_first_parameter
-            ),
+            on_success_handler=OnSuccessHandler(func=on_success_func, args=given_first_parameter),
+            on_failure_handler=OnFailureHandler(func=on_failure_func, args=given_first_parameter),
         )
 
     run()
@@ -287,12 +265,8 @@ def test_should_execute_handler_with_only_one_parameter(result):
     @meiga
     def run():
         result.handle(
-            on_success_handler=OnSuccessHandler(
-                func=on_success_func, args=given_first_parameter
-            ),
-            on_failure_handler=OnFailureHandler(
-                func=on_failure_func, args=given_first_parameter
-            ),
+            on_success_handler=OnSuccessHandler(func=on_success_func, args=given_first_parameter),
+            on_failure_handler=OnFailureHandler(func=on_failure_func, args=given_first_parameter),
         )
 
     run()
@@ -313,12 +287,8 @@ def test_should_execute_handler_with_an_empty_list(result):
     @meiga
     def run():
         result.handle(
-            on_success_handler=OnSuccessHandler(
-                func=on_success_func, args=given_first_parameter
-            ),
-            on_failure_handler=OnFailureHandler(
-                func=on_failure_func, args=given_first_parameter
-            ),
+            on_success_handler=OnSuccessHandler(func=on_success_func, args=given_first_parameter),
+            on_failure_handler=OnFailureHandler(func=on_failure_func, args=given_first_parameter),
         )
 
     run()

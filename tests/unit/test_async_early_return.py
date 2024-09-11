@@ -93,10 +93,7 @@ class TestAsyncEarlyReturn:
 
         result = await MyClass.decorated_method()
         assert_failure(result, value_is_instance_of=UnexpectedDecorationOrderError)
-        assert (
-            result.value.message
-            == "meiga decorators must be declared after a @staticmethod, @classmethod"
-        )
+        assert result.value.message == "meiga decorators must be declared after a @staticmethod, @classmethod"
 
     async def should_return_a_unexpected_decorator_order_failure_result_with_async_early_return_and_class_method(
         self,
@@ -109,7 +106,4 @@ class TestAsyncEarlyReturn:
 
         result = await MyClass.decorated_method()
         assert_failure(result, value_is_instance_of=UnexpectedDecorationOrderError)
-        assert (
-            result.value.message
-            == "meiga decorators must be declared after a @staticmethod, @classmethod"
-        )
+        assert result.value.message == "meiga decorators must be declared after a @staticmethod, @classmethod"

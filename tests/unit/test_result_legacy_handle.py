@@ -152,9 +152,7 @@ def test_should_execute_success_legacy_handler_without_any_argument():
         called_on_failure = True
 
     result = Result(success="Hi!")
-    result.handle(
-        on_success=on_success, on_failure=on_failure, success_args=(), failure_args=()
-    )
+    result.handle(on_success=on_success, on_failure=on_failure, success_args=(), failure_args=())
 
     assert called_on_success is True
     assert called_on_failure is False

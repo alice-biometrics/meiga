@@ -116,6 +116,9 @@ norecursedirs = [
 ]
 
 [tool.ruff]
+target-version = "py38" # keeping our older version supported
+line-length = 120
+indent-width = 4
 select = [
     "E",  # pycodestyle errors
     "W",  # pycodestyle warnings
@@ -130,6 +133,49 @@ ignore = [
     "C901",  # too complex
 ]
 
+fixable = ["ALL"]
+unfixable = []
+
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+    "tests/unit/test_result_match.py"
+]
+
 [tool.ruff.per-file-ignores]
 "meiga/__init__.py" = ["F403"]
 "tests/unit/test_result_match.py" = ["E999"]
+
+
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
