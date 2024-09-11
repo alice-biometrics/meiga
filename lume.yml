@@ -34,7 +34,7 @@ steps:
   check-requirements:
     run: pip-audit
   static-analysis:
-    run: mypy $PACKAGE_NAME tests --exclude '.*tests.unit.doc*' --exclude '.*tests.unit.test_result_match*'
+    run: mypy $PACKAGE_NAME tests --exclude '.*tests.unit.test_result_match*'
   coverage:
     run: pytest -c tests/pytest.coverage.ini
   test:
