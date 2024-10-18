@@ -29,7 +29,7 @@ def async_early_return(
     async def _async_early_return(*args: P.args, **kwargs: P.kwargs) -> R:
         try:
             if not inspect.iscoroutinefunction(func):
-                return Failure(AsyncDecorationError())
+                return Failure(AsyncDecorationError())  # type: ignore
             elif isinstance(func, staticmethod):
                 return Failure(UnexpectedDecorationOrderError())  # type: ignore
             elif isinstance(func, classmethod):
