@@ -3,6 +3,7 @@ import pytest
 from meiga import BoolResult, Error, async_early_return, isFailure, isSuccess
 from meiga.assertions import assert_failure, assert_success
 from meiga.decorators import UnexpectedDecorationOrderError
+from meiga.decorators.async_decoration_error import AsyncDecorationError
 
 
 @pytest.mark.unit
@@ -107,3 +108,15 @@ class TestAsyncEarlyReturn:
         result = await MyClass.decorated_method()
         assert_failure(result, value_is_instance_of=UnexpectedDecorationOrderError)
         assert result.value.message == "meiga decorators must be declared after a @staticmethod, @classmethod"
+
+    async def should_return_an_async_decorator_failure_result_with_async_early_return_on_normal_function(
+        self,
+    ):
+        class MyClass:
+            @async_early_return
+            def decorated_method(cls) -> BoolResult:
+                return isSuccess
+
+        result = await MyClass.decorated_method()
+        assert_failure(result, value_is_instance_of=AsyncDecorationError)
+        assert result.value.message == "meiga async decorators must be declared on async functions"
