@@ -1,6 +1,9 @@
+import inspect
 import sys
 from functools import wraps
 from typing import Any, Callable, Coroutine, TypeVar, cast
+
+from meiga.decorators.async_decoration_error import AsyncDecorationError
 
 if sys.version_info < (3, 10):  # pragma: no cover
     from typing_extensions import ParamSpec
@@ -29,6 +32,8 @@ def async_early_return(
                 return Failure(UnexpectedDecorationOrderError())  # type: ignore
             elif isinstance(func, classmethod):
                 return Failure(UnexpectedDecorationOrderError())  # type: ignore
+            elif not inspect.iscoroutinefunction(func):
+                return Failure(AsyncDecorationError())  # type: ignore
             else:
                 return await func(*args, **kwargs)
         except WaitingForEarlyReturn as exc:
