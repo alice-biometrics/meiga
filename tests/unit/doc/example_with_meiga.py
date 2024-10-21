@@ -3,12 +3,10 @@ from __future__ import annotations
 from meiga import Error, Failure, Result, Success
 
 
-class NoSuchKey(Error):
-    ...
+class NoSuchKey(Error): ...
 
 
-class TypeMismatch(Error):
-    ...
+class TypeMismatch(Error): ...
 
 
 def string_from_key(dictionary: dict, key: str) -> Result[str, NoSuchKey | TypeMismatch]:
