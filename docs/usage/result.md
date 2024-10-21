@@ -156,6 +156,21 @@ Returns the encapsulated value if this instance is a success or return Result as
     ).unwrap_or_return(return_value_on_failure=MyError())
     ```
 
+    If you are using an async function, use `@async_early_return`:
+
+    ```python
+    from meiga import Result, Error, async_early_return
+
+    @async_early_return
+    async def handling_result(key: str) -> Result:
+        user_info = {"first_name": "Rosalia", "last_name": "De Castro", "age": 60}
+        first_name = string_from_key(dictionary=user_info, key=key).unwrap_or_return()
+        # Do whatever with the name
+        name = first_name.lower()
+        return Result(success=name)
+    ```
+
+
 ### unwrap_or
 
 Returns the encapsulated value if this instance is a success or the selected failure_value if it is failure.

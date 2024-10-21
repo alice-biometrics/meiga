@@ -27,6 +27,7 @@ class WaitingForEarlyReturn(Error):
             f"This exception wraps the following result -> {self.result}"
             f"\nIf you want to handle this error and return a Failure, please use early_return decorator on your function{function}."
             f"\nMore info about how to use unwrap_or_return in combination with @early_return decorator on https://alice-biometrics.github.io/meiga/usage/result/#unwrap_or_return"
+            f"\nUse @async_early_return if your are calling from an async function."
         )
 
     def __repr__(self) -> str:
