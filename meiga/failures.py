@@ -10,13 +10,21 @@ if TYPE_CHECKING:
 class WaitingForEarlyReturn(Error):
     result: "AnyResult"
     called_from: Union[str, None]
+    called_from_coroutine: bool = False
 
     def __init__(self, result: "AnyResult") -> None:
         self.result = result
         try:
-            stack = inspect.stack()[2]
-            filename = stack.filename.split("/")[-1]
-            self.called_from = f"{stack[3]} on {filename}"
+            frame = inspect.stack()[2]
+            filename = frame.filename.split("/")[-1]
+            self.called_from = f"{frame[3]} on {filename}"
+            func = frame.function
+            self.called_from_coroutine = inspect.iscoroutinefunction(frame.frame.f_globals.get(func))
+            # Create a descriptive string for where this was called from
+            if self.called_from_coroutine:
+                self.called_from = f"{func} (async) on {filename}"
+            else:
+                self.called_from = f"{func} on {filename}"
         except:  # noqa
             self.called_from = None
         Exception.__init__(self)

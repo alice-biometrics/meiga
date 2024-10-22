@@ -90,7 +90,7 @@ include = [
 profile = "black"
 
 [tool.pytest.ini_options]
-markers=["unit", "property"]
+markers=["unit", "property", "asyncio"]
 addopts=["tests",
         "-v",
         "--color=yes",
