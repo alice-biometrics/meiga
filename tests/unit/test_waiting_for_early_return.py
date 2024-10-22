@@ -14,6 +14,7 @@ def expected_error(value: str, called_from: Union[str, None] = None, escape: boo
         f"This exception wraps the following result -> Result[status: failure | value: {value}]"
         f"\nIf you want to handle this error and return a Failure, please use early_return decorator on your function{called_from}."
         f"\nMore info about how to use unwrap_or_return in combination with @early_return decorator on https://alice-biometrics.github.io/meiga/usage/result/#unwrap_or_return"
+        f"\nUse @async_early_return if your are calling from an async function."
     )
     if escape:
         return re.escape(text)  # necessary to match on pytest.raises contextmanager
@@ -84,3 +85,38 @@ class TestWaitingForEarlyReturn:
             ),
         ):
             MyClass().execute()
+
+    @pytest.mark.asyncio
+    async def should_log_hint_when_called_async_from_class_function_and_not_early_return(self):
+        class MyClass:
+            async def execute(self) -> AnyResult:
+                result = Failure(Error())
+                result.unwrap_or_return()
+                return isSuccess
+
+        with pytest.raises(
+            WaitingForEarlyReturn,
+            match=expected_error(
+                "Error",
+                called_from="execute (async) on test_waiting_for_early_return.py",
+                escape=True,
+            ),
+        ):
+            await MyClass().execute()
+
+    @pytest.mark.asyncio
+    async def should_log_hint_when_called_async_from_function_and_not_early_return(self):
+        async def execute() -> AnyResult:
+            result = Failure(Error())
+            result.unwrap_or_return()
+            return isSuccess
+
+        with pytest.raises(
+            WaitingForEarlyReturn,
+            match=expected_error(
+                "Error",
+                called_from="execute (async) on test_waiting_for_early_return.py",
+                escape=True,
+            ),
+        ):
+            await execute()
