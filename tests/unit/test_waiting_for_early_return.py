@@ -98,8 +98,25 @@ class TestWaitingForEarlyReturn:
             WaitingForEarlyReturn,
             match=expected_error(
                 "Error",
-                called_from="execute on test_waiting_for_early_return.py",
+                called_from="execute (async) on test_waiting_for_early_return.py",
                 escape=True,
             ),
         ):
             await MyClass().execute()
+
+    @pytest.mark.asyncio
+    async def should_log_hint_when_called_async_from_function_and_not_early_return(self):
+        async def execute() -> AnyResult:
+            result = Failure(Error())
+            result.unwrap_or_return()
+            return isSuccess
+
+        with pytest.raises(
+            WaitingForEarlyReturn,
+            match=expected_error(
+                "Error",
+                called_from="execute (async) on test_waiting_for_early_return.py",
+                escape=True,
+            ),
+        ):
+            await execute()
